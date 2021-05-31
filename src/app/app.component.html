@@ -2,67 +2,7 @@
   <div class="p-4">
     <h1>PriceTrckr</h1>
   </div>
-  <div class="mx-2">
-    <div class="p-5 bg-green-100 box-border rounded shadow-sm">
-      <div class="flex flex-row justify-between">
-        <div>Show holdings in</div>
-        <div class="flex flex-row gap-x-1">
-          <div class="currency active">USD</div>
-          <div class="currency">EUR</div>
-          <div class="currency">BTC</div>
-          <div class="currency">ETH</div>
-        </div>
-      </div>
-      <div class="mt-2 text-3xl font-light">
-        $ 2345.2345674
-      </div>
-    </div>
-    <div class="mt-4 py-5">
-
-      <div class="grid grid-cols-5 px-5">
-        <div class="w-14"></div>
-        <div class="text-sm">Name</div>
-        <div class="text-sm text-right">Rate</div>
-        <div class="text-sm text-right">Quantity</div>
-        <div class="text-sm text-right">Value</div>
-      </div>
-      <div>
-        <asset name="Bitcoin"
-               shortName="BTC"
-               [quantity]="2"
-               [rate]="40000">
-        </asset>
-
-        <asset name="Ether"
-               shortName="ETH"
-               [quantity]="0.5"
-               [rate]="4000">
-        </asset>
-
-        <asset name="Cardano"
-               shortName="ADA"
-               [quantity]="100"
-               [rate]="1.6">
-        </asset>
-
-        <asset name="LiteCoin"
-               shortName="LTC"
-               [quantity]="5"
-               [rate]="200">
-        </asset>
-
-        <asset name="Doge"
-               shortName="DOGE"
-               [quantity]="5000"
-               [rate]="0.43">
-        </asset>
-
-
-      </div>
-
-    </div>
-
+  <div class="mt-2 p-2">
+    <tracker></tracker>
   </div>
-
 </div>
-

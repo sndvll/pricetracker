@@ -1,0 +1,6 @@
+.base-currency {
+  @apply bg-green-300 px-2 rounded text-white;
+  &.active {
+    @apply bg-green-500;
+  }
+}

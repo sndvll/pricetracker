@@ -11,8 +11,14 @@ import {
 import {Dialog, DialogBackdrop} from './dialog';
 import {DOCUMENT, Location} from '@angular/common';
 import {DialogRef} from './dialog.ref';
-import {DIALOG_DATA, DIALOG_REF, DialogConfig, DialogConfigBuilder, DialogType,} from './dialog.config';
-import {AttachedComponents, DialogUtils} from './utils';
+import {DIALOG_REF, DialogConfig, DialogConfigBuilder, DialogType,} from './dialog.config';
+import {DialogUtils} from './dialog.utils';
+
+export interface AttachedComponents {
+  backdrop?: ComponentRef<DialogBackdrop> | null;
+  container?: HTMLElement | null;
+  dialogs: ComponentRef<Dialog>[];
+}
 
 @Injectable({providedIn: 'root'})
 export class DialogService {
@@ -44,10 +50,7 @@ export class DialogService {
     config = {...DialogConfigBuilder.Default(), ...config};
 
     const dialogRef: DialogRef<T> = new DialogRef<T>(this.location, config);
-    const injector = DialogUtils.createInjector(this.injector,[
-      {provide: DIALOG_REF, useValue: dialogRef},
-      {provide: DIALOG_DATA, useValue: config.data},
-    ]);
+    const injector = DialogUtils.createInjector(this.injector,[{provide: DIALOG_REF, useValue: dialogRef}]);
 
     if (config.withBackdrop) {
       this.createBackdrop(injector);

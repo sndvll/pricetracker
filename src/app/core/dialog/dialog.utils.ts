@@ -7,14 +7,10 @@ import {
   Renderer2,
   Type
 } from '@angular/core';
-import {Dialog, DialogBackdrop} from './dialog';
 
-export interface AttachedComponents {
-  backdrop?: ComponentRef<DialogBackdrop> | null;
-  container?: HTMLElement | null;
-  dialogs: ComponentRef<Dialog>[];
-}
-
+/**
+ * Various utils for Dialog creation
+ */
 export class DialogUtils {
 
   public static detachHtmlElement(element: HTMLElement): void {
@@ -39,5 +35,4 @@ export class DialogUtils {
     applicationRef.attachView(componentRef.hostView);
     return componentRef;
   }
-
 }

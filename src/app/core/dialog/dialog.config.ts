@@ -41,8 +41,11 @@ export interface DialogConfig<D = any> {
 }
 
 export const DIALOG_REF = new InjectionToken<any>('DIALOG_REF');
-export const DIALOG_DATA = new InjectionToken<any>('DIALOG_DATA');
 
+/**
+ * Builds config for dialogs. Also includes some presets
+ * in form of static functions.
+ */
 export class DialogConfigBuilder<D> {
 
   private _config: Partial<DialogConfig<D>> = {};

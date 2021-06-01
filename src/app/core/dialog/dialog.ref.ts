@@ -3,7 +3,9 @@ import {Location} from '@angular/common';
 import {take} from 'rxjs/operators';
 import {DialogConfig} from './dialog.config';
 
-
+/**
+ * Dialog reference used to remotely close and dismiss a dialog
+ */
 export class DialogRef<T = any> {
 
   private _onClose = new Subject<any>()

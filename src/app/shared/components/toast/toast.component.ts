@@ -5,17 +5,16 @@ import {interval} from 'rxjs';
 import {filter, map, take} from 'rxjs/operators';
 
 @Component({
-  template : `
-   <icon [name]="icon"></icon>
-   <span class="ml-3">{{this.config.message}}</span>
-  `
+  templateUrl: './toast.component.html'
 })
 export class ToastComponent implements OnInit {
 
   public config: ToastConfig;
   public icon: string = 'info';
+  public progress = 0;
+  public total = 100;
 
-  @HostBinding('class') classes = 'flex p-5 rounded shadow-lg cursor-pointer';
+  @HostBinding('class') classes = 'flex flex-col rounded shadow-lg cursor-pointer';
   @HostBinding('class.bg-gray-200') info: boolean;
   @HostBinding('class.bg-green-400') success: boolean;
   @HostBinding('class.bg-yellow-400') warning: boolean;
@@ -25,7 +24,6 @@ export class ToastComponent implements OnInit {
   @HostBinding('class.text-white') textWhite: boolean;
 
   constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {
-    console.log(dialogRef.config.data);
     this.config = dialogRef.config.data;
     this.info = this.config.type === ToastType.Info;
     this.success = this.config.type === ToastType.Success;
@@ -45,16 +43,20 @@ export class ToastComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._setupTimer();
+    this._startTimer();
   }
 
-  private _setupTimer() {
+  private _startTimer() {
     if (this.dialogRef.config.closable && this.config.time > 0) {
-      interval(1000)
+      this.total = this.config.time * 10;
+      interval(100)
         .pipe(
-          take(this.config.time),
-          map(v => v + 1),
-          filter(v => v === this.config.time))
+          take(this.config.time * 10),
+          map(time => {
+            this.progress = time + 1;
+            return this.progress;
+          }),
+          filter(v => v === (this.total)))
         .subscribe(() => this.close())
     }
   }

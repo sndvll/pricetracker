@@ -1,20 +1,24 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DialogModule} from '../core/dialog';
 import {ToastModule} from './components/toast';
 import {IconsModule} from './icons.module';
+import {ModalModule} from './components/modal/modal.module';
+import {ProgressBarModule} from './components/progress-bar/progress-bar.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    DialogModule,
     ToastModule,
-    IconsModule
+    ModalModule,
+    IconsModule,
+    ProgressBarModule
   ],
   declarations: [],
   exports: [
     ToastModule,
-    IconsModule
+    ModalModule,
+    IconsModule,
+    ProgressBarModule
   ]
 })
 export class SharedModule {}

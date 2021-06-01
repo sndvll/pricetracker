@@ -33,12 +33,16 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._onDestroy))
       .subscribe(amount => this.totalAmount = amount);
 
-    this.toast.open('Detta är ett meddelande', ToastConfigBuilder.error({time: 0}));
+    this.openToast();
   }
 
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  openToast() {
+    this.toast.open('Detta är ett meddelande', ToastConfigBuilder.success({time: 10}));
   }
 
   openModal() {

@@ -1,25 +1,29 @@
-import {Component, Inject} from '@angular/core';
-import {DIALOG_DATA, DIALOG_REF, DialogRef} from '../../core/dialog';
+import {Component, HostBinding, Inject} from '@angular/core';
+import {DIALOG_REF, DialogRef} from '../../core/dialog';
+import {ToastConfigBuilder, ToastService} from '../../shared/components/toast';
 
 @Component({
   template: `
-    <div class="bg-white p-5"><h1>IT WORKS</h1>
-      <p>{{testValue}}</p>
+    <div>
+      <span>Hej test</span>
+      <button (click)="openToast()">Toast!</button>
       <button (click)="close()">Close</button>
     </div>
   `
 })
 export class TestComponent {
-  public testValue = 'hej';
 
+  @HostBinding('class') classList = 'bg-white p-5';
 
-  constructor(@Inject(DIALOG_DATA) private data: any,
-              @Inject(DIALOG_REF) public dialogRef: DialogRef) {
+  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef,
+              private toast: ToastService) {
   }
 
   close() {
     this.dialogRef.close();
   }
 
+  openToast() {
+    this.toast.open('Skitmeddelande', ToastConfigBuilder.info({time: 0}));
+  }
 }
-

@@ -7,6 +7,10 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
+    "paths": {
+      "@sndvll/icons": ["dist/sndvll-icons"],
+      "@sndvll/icons/*": ["dist/sndvll-icons/*"]
+    },
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,

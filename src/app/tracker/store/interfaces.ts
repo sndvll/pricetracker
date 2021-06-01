@@ -6,5 +6,9 @@ export interface Asset {
   change: number
 }
 
+export interface AssetState {
+  assets: Asset[];
+}
+
 
 

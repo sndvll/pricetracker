@@ -13,7 +13,7 @@ export class DialogRef<T = any> {
 
   constructor(
     private location: Location,
-    public config: DialogConfig
+    public config: Partial<DialogConfig>
   ) {
     if (this.config.closeOnNavChange) {
       this._locationChanges = this.location

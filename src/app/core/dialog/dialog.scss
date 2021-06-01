@@ -1,0 +1,56 @@
+.dialog {
+  @apply flex fixed h-full w-full top-0 left-0 z-20 pointer-events-none;
+
+  > .dialog-content {
+    @apply z-30 pointer-events-none flex flex-col flex-none;
+    > .dialog-component {
+      @apply pointer-events-auto;
+    }
+  }
+
+  &.full {
+    >.dialog-content {
+      @apply flex-grow top-0 left-0;
+      > .dialog-component {
+        @apply flex flex-grow;
+        > div {
+          @apply w-full;
+        }
+      }
+    }
+  }
+
+  &.x-center {
+    @apply justify-center;
+  }
+
+  &.y-middle {
+    >.dialog-content {
+      @apply justify-center;
+    }
+  }
+
+  &.left {
+    @apply justify-start;
+  }
+
+  &.right {
+    @apply justify-end;
+  }
+
+  &.bottom {
+    >.dialog-content {
+      @apply justify-end;
+    }
+  }
+
+  &.top {
+    >.dialog-content {
+      @apply justify-start;
+    }
+  }
+}
+
+.backdrop {
+  @apply fixed top-0 left-0 z-10 w-screen h-screen;
+}

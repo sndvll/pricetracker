@@ -1,38 +1,52 @@
-import {AfterViewInit, Component} from "@angular/core";
-import {Asset, FiatCurrencyService} from "../core";
-import {CryptoCurrencyService} from '../core/crypto';
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {CryptoCurrencyService, DialogConfigBuilder, DialogService, FiatCurrencyService} from "../core";
+import {Asset, AssetStore} from './store';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {ToastService, ToastConfigBuilder} from '../shared/components/toast';
 import {TestComponent} from './components/test.component';
-import {DialogService} from '../core/dialog';
 
 @Component({
   selector: 'tracker',
   templateUrl: './tracker-page.component.html',
   styleUrls: ['./tracker-page.component.scss']
 })
-export class TrackerPageComponent implements AfterViewInit {
+export class TrackerPageComponent implements OnInit, OnDestroy {
 
-  public assets: Asset[] = [
-    {name: 'Bitcoin', shortName: 'btc', quantity: 0.5674, rate: 40000, change: 2.13},
-    {name: 'Doge', shortName: 'doge', quantity: 200.4322, rate: 0.3456, change: -30},
-    {name: 'Nano', shortName: 'nano', quantity: 16, rate: 7.8, change: 10},
-    {name: 'Cardano', shortName: 'ada', quantity: 153, rate: 1.7, change: 10},
-  ];
+  public assets: Asset[] = [];
+  public totalAmount: number = 0;
+
+  private _onDestroy = new Subject<void>();
 
   constructor(
     private fiat: FiatCurrencyService,
     private crypto: CryptoCurrencyService,
+    private store: AssetStore,
+    private toast: ToastService,
     private dialog: DialogService) {}
 
-  ngAfterViewInit() {
-    this.openDialog();
+  ngOnInit() {
+    this.store.selectAssets
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(assets => this.assets = assets);
+    this.store.selectTotalAmount
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(amount => this.totalAmount = amount);
+
+    this.toast.open('Detta är ett meddelande', ToastConfigBuilder.error({time: 0}));
   }
 
-  openDialog(){
-    this.dialog.open(TestComponent, {});
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
-  get totalAssetAmount(): number {
-    return this.assets.reduce((value, current): number => current.rate * current.quantity + value, 0);
+  openModal() {
+    this.dialog.open(TestComponent, DialogConfigBuilder.Default());
+  }
+
+  add() {
+    this.store.add({name: 'Nano', shortName: 'nano', quantity: 16, rate: 7.8, change: 10});
   }
 
 }

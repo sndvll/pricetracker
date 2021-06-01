@@ -105,6 +105,37 @@
           }
         }
       }
+    },
+    "icons": {
+      "projectType": "library",
+      "root": "projects/sndvll-icons",
+      "sourceRoot": "projects/sndvll-icons/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/sndvll-icons/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/sndvll-icons/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/sndvll-icons/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/sndvll-icons/src/test.ts",
+            "tsConfig": "projects/sndvll-icons/tsconfig.spec.json",
+            "karmaConfig": "projects/sndvll-icons/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "pricetrckr-poc"

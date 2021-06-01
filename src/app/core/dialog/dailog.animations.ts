@@ -1,7 +1,7 @@
-import {animate, AnimationTriggerMetadata, state, style, transition, trigger} from '@angular/animations';
+import {animate, animation, AnimationTriggerMetadata, state, style, transition, trigger} from '@angular/animations';
 
 export enum DialogAnimationState {
-  Close= 'close',
+  Close = 'close',
   Void = 'void',
   Show = 'show'
 }
@@ -19,3 +19,5 @@ export function fadeIn(fadeIn: number = 200, opacity: number = 1): Animation {
     ])
   }
 }
+
+export const fadeIn2 = animation([])

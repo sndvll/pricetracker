@@ -1,15 +1,20 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DialogModule} from '../core/dialog';
+import {ToastModule} from './components/toast';
+import {IconsModule} from './icons.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    DialogModule
+    DialogModule,
+    ToastModule,
+    IconsModule
   ],
   declarations: [],
   exports: [
-    DialogModule
+    ToastModule,
+    IconsModule
   ]
 })
 export class SharedModule {}

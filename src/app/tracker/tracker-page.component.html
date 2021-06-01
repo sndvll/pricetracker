@@ -1,4 +1,5 @@
-<button (click)="openDialog()">Open</button>
+<button (click)="add()">Add</button>
+<button (click)="openModal()">Modal</button>
 <div class="p-5 bg-green-100 box-border rounded shadow-sm">
   <div class="flex flex-row justify-between">
     <div>Show holdings in</div>
@@ -10,11 +11,11 @@
     </div>
   </div>
   <div class="mt-2 text-3xl font-light">
-    {{totalAssetAmount | currency}}
+    {{totalAmount | currency}}
   </div>
 </div>
-<div class="mt-4 py-5">
 
+<div class="mt-4 py-5">
   <div class="grid grid-cols-7 px-5">
     <div class="w-14"></div>
     <div class="text-sm">Name</div>
@@ -29,7 +30,5 @@
            [rate]="asset.rate"
            [change]="asset.change">
     </asset>
-
   </div>
-
 </div>

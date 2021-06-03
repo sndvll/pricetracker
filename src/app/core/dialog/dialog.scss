@@ -1,3 +1,15 @@
+
+
+.connected-dialog-container {
+  @apply pointer-events-none fixed top-0 left-0 h-full w-full z-20;
+  > .connected-dialog {
+    @apply z-30 inline-block absolute;
+    >.dialog-component {
+      @apply z-30 pointer-events-auto block;
+    }
+  }
+}
+
 .dialog {
   @apply flex fixed h-full w-full top-0 left-0 z-20 pointer-events-none;
 

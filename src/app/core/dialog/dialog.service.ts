@@ -4,20 +4,28 @@ import {
   ComponentRef,
   Inject,
   Injectable,
-  Injector, Renderer2,
+  Injector,
+  Renderer2,
   RendererFactory2,
   Type
 } from '@angular/core';
-import {Dialog, DialogBackdrop} from './dialog';
+import {ConnectedDialog, DialogBackdrop, GlobalDialog} from './dialog';
 import {DOCUMENT, Location} from '@angular/common';
 import {DialogRef} from './dialog.ref';
-import {DIALOG_REF, DialogConfig, DialogConfigBuilder, DialogType,} from './dialog.config';
+import {
+  DIALOG_REF,
+  DialogConfig,
+  DialogType,
+} from './dialog.config';
 import {DialogUtils} from './dialog.utils';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 export interface AttachedComponents {
   backdrop?: ComponentRef<DialogBackdrop> | null;
   container?: HTMLElement | null;
-  dialogs: ComponentRef<Dialog>[];
+  connectedContainer?: HTMLElement | null;
+  dialogs: ComponentRef<GlobalDialog>[];
 }
 
 @Injectable({providedIn: 'root'})
@@ -35,29 +43,75 @@ export class DialogService {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
-  /**
-   * Opens a new dialog
-   * @param component
-   * @param config
-   */
-  public open<T>(component: Type<T>, config: Partial<DialogConfig> = {}): DialogRef {
+  public open<T, D = any>(config: DialogConfig<T>) {
+    console.log(config);
+    const dialogRef: DialogRef<T> = new DialogRef<T>(this.location, config);
+    const injector = DialogUtils.createInjector(this.injector,[{provide: DIALOG_REF, useValue: dialogRef}]);
+    return config.type === DialogType.Connected ?
+      this.connectedDialog(config, dialogRef, injector) :
+      this.globalDialog(config, dialogRef, injector);
+  }
+
+  private connectedDialog<T>(config: DialogConfig<T>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
+
+    const component = config.component;
+    const origin = config.origin;
+
+    const componentRef = this.createComponentRef(component!, injector);
+    const connectedDialogRef = this.createConnectedDialogRef(componentRef, injector, origin!);
+
+    let backdropComponentRef: ComponentRef<DialogBackdrop> = DialogUtils.getComponentRef(DialogBackdrop, injector, this.componentFactoryResolver, this.applicationRef);
+    this.document.body.appendChild(backdropComponentRef.location.nativeElement);
+
+    const scrollListenerDestroyer = new Subject<void>();
+    dialogRef.onScroll$
+      .pipe(takeUntil(scrollListenerDestroyer))
+      .subscribe(() =>
+        DialogUtils.calculateElementPosition(connectedDialogRef.location.nativeElement, origin!.getBoundingClientRect()));
+
+    dialogRef.onClose$
+      .subscribe(() => {
+        [componentRef, connectedDialogRef, backdropComponentRef]
+          .forEach(ref => {
+            ref.destroy();
+            scrollListenerDestroyer.next();
+            scrollListenerDestroyer.complete();
+            DialogUtils.detachHtmlElement(this._attachedComponents.connectedContainer!);
+          })
+      });
+
+    return dialogRef;
+  }
+
+  private createConnectedDialogRef<T>(componentRef: ComponentRef<T>, injector: Injector, origin: HTMLElement) {
+    const dialogComponentRef = DialogUtils.getComponentRef(ConnectedDialog, injector, this.componentFactoryResolver, this.applicationRef, [[componentRef.location.nativeElement]])
+    const container = this.document.createElement('div');
+    DialogUtils.addClass(this.renderer, container, 'connected-dialog-container');
+
+    const dialogComponentElement = <HTMLElement>dialogComponentRef.location.nativeElement;
+    DialogUtils.calculateElementPosition(dialogComponentElement, origin.getBoundingClientRect())
+
+    container.appendChild(dialogComponentElement);
+    this.document.body.appendChild(container);
+    this._attachedComponents.connectedContainer = container;
+    return dialogComponentRef;
+  }
+
+  private globalDialog<T, D>(config: DialogConfig<T, D>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
 
     if (this.checkToasts(config.type!)) {
       this._attachedComponents.dialogs.filter(dialog => dialog.instance.role === DialogType.Toast)
         .forEach(dialog => dialog.instance.dialogRef.close());
     }
 
-    config = {...DialogConfigBuilder.Default(), ...config};
-
-    const dialogRef: DialogRef<T> = new DialogRef<T>(this.location, config);
-    const injector = DialogUtils.createInjector(this.injector,[{provide: DIALOG_REF, useValue: dialogRef}]);
-
     if (config.withBackdrop) {
-      this.createBackdrop(injector);
+      let backdropComponentRef: ComponentRef<DialogBackdrop> = DialogUtils.getComponentRef(DialogBackdrop, injector, this.componentFactoryResolver, this.applicationRef);
+      this.document.body.appendChild(backdropComponentRef.location.nativeElement);
+      this._attachedComponents.backdrop = backdropComponentRef;
     }
 
-    const componentRef: ComponentRef<T> = this.createComponentRef(component, injector)
-    const dialogComponentRef: ComponentRef<Dialog> = this.createDialogComponentRef(componentRef, injector);
+    const componentRef: ComponentRef<T> = this.createComponentRef(config.component!, injector)
+    const dialogComponentRef: ComponentRef<GlobalDialog> = this.createDialogComponentRef(componentRef, injector);
 
     dialogRef.onClose$
       .subscribe(() => this.close([componentRef, dialogComponentRef], config));
@@ -65,34 +119,21 @@ export class DialogService {
     return dialogRef;
   }
 
-  /**
-   * Creates the component ref reference, ie the component to be injected, ie a Modal, Toast or other type of component to be
-   * layered over everything.
-   * @param component
-   * @param injector
-   * @private
-   */
   private createComponentRef<T>(component: Type<T>, injector: Injector) {
     const componentRef: ComponentRef<T> = DialogUtils.getComponentRef(component, injector, this.componentFactoryResolver, this.applicationRef);
     DialogUtils.addClass(this.renderer, componentRef.location.nativeElement, 'dialog-component');
     return componentRef;
   }
 
-  /**
-   * Crates the Dialog component reference, ie the component that contains the disered type of component.
-   * @param componentRef
-   * @param injector
-   * @private
-   */
   private createDialogComponentRef<T>(componentRef: ComponentRef<T>, injector: Injector) {
 
-    const dialogComponentRef = DialogUtils.getComponentRef(Dialog, injector, this.componentFactoryResolver, this.applicationRef, [[componentRef.location.nativeElement]]);
+    const dialogComponentRef = DialogUtils.getComponentRef(GlobalDialog, injector, this.componentFactoryResolver, this.applicationRef, [[componentRef.location.nativeElement]]);
 
     if (this._attachedComponents.container) {
       this._attachedComponents.container.appendChild(dialogComponentRef.location.nativeElement);
     } else {
-      const root: HTMLElement = document.body;
-      const container = document.createElement('div');
+      const root: HTMLElement = this.document.body;
+      const container = this.document.createElement('div');
       DialogUtils.addClass(this.renderer, container, 'dialog-container');
       container.appendChild(dialogComponentRef.location.nativeElement);
       root.appendChild(container);
@@ -104,47 +145,17 @@ export class DialogService {
     return dialogComponentRef;
   }
 
-  /**
-   * Creates the backdrop
-   * @param injector
-   * @private
-   */
-  private createBackdrop(injector: Injector) {
-    let backdropComponentRef: ComponentRef<DialogBackdrop> = DialogUtils.getComponentRef(DialogBackdrop, injector, this.componentFactoryResolver, this.applicationRef);
-    const root: HTMLElement = this.document.body;
-    root.appendChild(backdropComponentRef.location.nativeElement);
-    this._attachedComponents.backdrop = backdropComponentRef;
-  }
-
-  /**
-   * Removes the backdrop
-   * @private
-   */
   private removeBackdrop() {
     DialogUtils.detach(this._attachedComponents.backdrop!);
     this._attachedComponents.backdrop = null;
   }
 
-  /**
-   * Checks if the dialog type is of type toast, and if there are any other toasts already showing
-   * @param type
-   * @private
-   */
   private checkToasts(type: DialogType) {
     return type === DialogType.Toast &&
       this._attachedComponents.dialogs.some(dialog => dialog.instance.role === DialogType.Toast)
   }
 
-  /**
-   * Closes dialogs.
-   * This freaky shit checks if there is any dialogs opened.
-   * If there is more than one, only close that one that should be closed.
-   * Else close everything because there is only one opened.
-   * @param refs
-   * @param config
-   * @private
-   */
-  private close(refs: ComponentRef<any>[], config: Partial<DialogConfig>): void {
+  private close(refs: ComponentRef<any>[], config: DialogConfig<any>): void {
 
     const dialogComponentRef = refs[1];
 

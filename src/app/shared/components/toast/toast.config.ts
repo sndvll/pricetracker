@@ -14,7 +14,7 @@ export interface ToastConfig {
   message?: string;
 }
 
-type ToastConfigBuilderPreset = Partial<Omit<ToastConfig, 'message' | 'type'>>;
+type ToastConfigBuilderPreset = Partial<Omit<ToastConfig, 'type'>>;
 
 export class ToastConfigBuilder {
 
@@ -50,32 +50,36 @@ export class ToastConfigBuilder {
     }
   }
 
-  static success({position, time}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static success({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
     return new ToastConfigBuilder()
+      .message(message!)
       .position(position)
       .type(ToastType.Success)
       .time(time)
       .build()
   }
 
-  static error({position, time}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static error({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
     return new ToastConfigBuilder()
+      .message(message!)
       .position(position)
       .type(ToastType.Error)
       .time(time)
       .build()
   }
 
-  static info({position, time}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static info({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
     return new ToastConfigBuilder()
+      .message(message!)
       .position(position)
       .type(ToastType.Info)
       .time(time)
       .build()
   }
 
-  static warning({position, time}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static warning({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
     return new ToastConfigBuilder()
+      .message(message!)
       .position(position)
       .type(ToastType.Warning)
       .time(time)

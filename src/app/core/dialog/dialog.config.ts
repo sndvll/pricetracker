@@ -1,9 +1,10 @@
-import {InjectionToken} from '@angular/core';
+import {InjectionToken, Type} from '@angular/core';
 
 export enum DialogType {
   Full = 'full',
   Modal = 'modal',
-  Toast = 'toast'
+  Toast = 'toast',
+  Connected = 'connected'
 }
 
 export enum DialogXPosition {
@@ -24,33 +25,65 @@ export enum BackdropColor {
   Transparent = 'transparent'
 }
 
-export interface DialogConfig<D = any> {
-  data: D,
-  type: DialogType;
-  xPosition: DialogXPosition;
-  yPosition: DialogYPosition;
-  closeOnNavChange: boolean,
-  closable: boolean;
-  classes: string;
-  fullWidth: boolean;
-  fullHeight: boolean;
-  closeOnBackdropClick: boolean;
-  backdropColor: BackdropColor;
-  backdropClickThrough: boolean;
-  withBackdrop: boolean;
-}
-
 export const DIALOG_REF = new InjectionToken<any>('DIALOG_REF');
 
-/**
- * Builds config for dialogs. Also includes some presets
- * in form of static functions.
- */
-export class DialogConfigBuilder<D> {
+export interface DialogConfig<T, D = any> {
+  origin?: HTMLElement;
+  data?: D;
+  component?: Type<T>,
+  type?: DialogType;
+  classes?: string;
+  closable?: boolean;
+  closeOnNavChange?: boolean;
+  withBackdrop?: boolean;
+  closeOnBackdropClick?: boolean;
+  x?: DialogXPosition;
+  y?: DialogYPosition;
+  fullWidth?: boolean;
+  fullHeight?: boolean;
+  backdropClickThrough?: boolean;
+  backdropColor?: BackdropColor;
+}
 
-  private _config: Partial<DialogConfig<D>> = {};
+abstract class DialogConfigBuilder<T, D = any> {
+  abstract _config: DialogConfig<T>
 
-  data(data: D): DialogConfigBuilder<D> {
+  component(component: Type<T>) {
+    this._config.component = component;
+    return this;
+  }
+
+  classes(classes: string) {
+    this._config.classes = classes;
+    return this;
+  }
+
+  get config(): DialogConfig<T> {
+    if (!this._config.component) {
+      throw new Error('You need to provide a component to inject into the dialog');
+    }
+    return this._config;
+  }
+}
+
+export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T, D>{
+
+  _config: DialogConfig<T, D> = {
+    type: DialogType.Modal,
+    x: DialogXPosition.Center,
+    y: DialogYPosition.Middle,
+    fullHeight: false,
+    fullWidth: false,
+    classes: '',
+    closable: true,
+    closeOnNavChange: true,
+    withBackdrop: true,
+    closeOnBackdropClick: true,
+    backdropClickThrough: false,
+    backdropColor: BackdropColor.Black
+  }
+
+  data(data: D): GlobalDialogConfigBuilder<T> {
     this._config.data = data;
     return this;
   }
@@ -61,23 +94,18 @@ export class DialogConfigBuilder<D> {
   }
 
   position(x: DialogXPosition, y: DialogYPosition) {
-    this._config.xPosition = x;
-    this._config.yPosition = y;
+    this._config.x = x;
+    this._config.y = y;
     return this;
   }
 
-  closeOnNav(close: boolean) {
+  closeOnNavigationChange(close: boolean) {
     this._config.closeOnNavChange = close;
     return this;
   }
 
   isClosable(closable: boolean) {
     this._config.closable = closable;
-    return this;
-  }
-
-  classes(classes: string) {
-    this._config.classes = classes;
     return this;
   }
 
@@ -111,40 +139,30 @@ export class DialogConfigBuilder<D> {
     return this;
   }
 
-  config() {
-    return this._config;
-  }
-
-  static Default(): Partial<DialogConfig> {
-    return new DialogConfigBuilder()
-      .type(DialogType.Modal)
-      .position(DialogXPosition.Center, DialogYPosition.Middle)
-      .isClosable(true)
-      .closeOnNav(true)
-      .backdropColor(BackdropColor.Black)
-      .closeOnBackdropClick(true)
-      .backdropClickThrough(false)
-      .withBackdrop(true)
-      .data(null)
-      .config();
-  }
-
-  static full<D>(data?: D, closable = true): Partial<DialogConfig> {
-    return new DialogConfigBuilder()
-      .type(DialogType.Full)
-      .isClosable(closable)
-      .withBackdrop(false)
-      .config();
-  }
-
-  static toast<C>(x: DialogXPosition): DialogConfigBuilder<C> {
-    return new DialogConfigBuilder<C>()
+  static toast<T>(x: DialogXPosition): GlobalDialogConfigBuilder<T> {
+    return new GlobalDialogConfigBuilder<T>()
       .type(DialogType.Toast)
       .isClosable(true)
-      .backdropClickThrough(true)
       .position(x, DialogYPosition.Top)
       .classes('m-3')
       .withBackdrop(false)
       .backdropColor(BackdropColor.Transparent);
+  }
+}
+
+export class ConnectedDialogConfigBuilder<T> extends DialogConfigBuilder<T> {
+
+  _config: DialogConfig<T> = {
+    type: DialogType.Connected,
+    closable: true,
+    closeOnNavChange: true,
+    withBackdrop: true,
+    closeOnBackdropClick: true,
+    classes: ''
+  };
+
+  origin(origin: HTMLElement): ConnectedDialogConfigBuilder<T> {
+    this._config.origin = origin;
+    return this;
   }
 }

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Dialog, DialogBackdrop} from './dialog';
+import {ConnectedDialog, GlobalDialog, DialogBackdrop} from './dialog';
 import {DialogService} from './dialog.service';
 
 @NgModule({
@@ -8,11 +8,12 @@ import {DialogService} from './dialog.service';
     CommonModule,
   ],
   declarations: [
-    Dialog,
-    DialogBackdrop,
+    GlobalDialog,
+    ConnectedDialog,
+    DialogBackdrop
   ],
   providers: [
     DialogService
-  ],
+  ]
 })
 export class DialogModule {}

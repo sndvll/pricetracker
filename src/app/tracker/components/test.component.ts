@@ -24,6 +24,6 @@ export class TestComponent {
   }
 
   openToast() {
-    this.toast.open('Skitmeddelande', ToastConfigBuilder.info({time: 0}));
+    this.toast.open(ToastConfigBuilder.info({time: 0, message: 'Skitmeddelande'}));
   }
 }

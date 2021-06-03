@@ -35,4 +35,9 @@ export class DialogUtils {
     applicationRef.attachView(componentRef.hostView);
     return componentRef;
   }
+
+  public static calculateElementPosition(element: HTMLElement, rect: DOMRect) {
+    element.style.left = rect.left + 'px';
+    element.style.top = (rect.top + rect.height) + 'px';
+  }
 }

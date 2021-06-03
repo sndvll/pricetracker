@@ -11,12 +11,15 @@
        [class.bg-green-500]="this.success"
        [class.bg-yellow-500]="this.warning">
     <progress-bar class="rounded-bl h-2 block"
-                  [class.rounded-br]="progress === 100"
-                  [progress]="progress"
+                  [class.rounded-br]="timerEnded"
                   [class.bg-red-400]="this.error"
                   [class.bg-gray-200]="this.info"
                   [class.bg-green-400]="this.success"
                   [class.bg-yellow-400]="this.warning"
-                  [total]="total"></progress-bar>
+                  [timer]="true"
+                  [time]="config.time"
+                  [total]="100"
+                  (onTimeout)="close()">
+    </progress-bar>
   </div>
 </ng-container>

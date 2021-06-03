@@ -1,5 +1,10 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import {CryptoCurrencyService, DialogConfigBuilder, DialogService, FiatCurrencyService} from "../core";
+import {
+  ConnectedDialogConfigBuilder,
+  CryptoCurrencyService,
+  DialogService,
+  FiatCurrencyService, GlobalDialogConfigBuilder
+} from "../core";
 import {Asset, AssetStore} from './store';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -33,7 +38,7 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._onDestroy))
       .subscribe(amount => this.totalAmount = amount);
 
-    this.openToast();
+    //this.openToast();
   }
 
   ngOnDestroy() {
@@ -41,12 +46,24 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
     this._onDestroy.complete();
   }
 
+  openConnected(origin: HTMLElement) {
+    this.dialog.open<TestComponent>(new ConnectedDialogConfigBuilder<TestComponent>()
+      .component(TestComponent)
+      .origin(origin)
+      .config);
+  }
+
   openToast() {
-    this.toast.open('Detta är ett meddelande', ToastConfigBuilder.success({time: 10}));
+    this.toast.open(ToastConfigBuilder.success({time: 10, message: 'Detta är ett meddelande'}));
   }
 
   openModal() {
-    this.dialog.open(TestComponent, DialogConfigBuilder.Default());
+
+    const config = new GlobalDialogConfigBuilder<TestComponent>()
+      .component(TestComponent)
+      .config;
+
+    this.dialog.open(config);
   }
 
   add() {

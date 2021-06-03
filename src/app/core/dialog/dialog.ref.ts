@@ -13,14 +13,21 @@ export class DialogRef<T = any> {
 
   private _locationChanges: SubscriptionLike = Subscription.EMPTY;
 
+  private _onScroll = new Subject<Event>();
+  public onScroll$ = this._onScroll.asObservable();
+
   constructor(
     private location: Location,
-    public config: Partial<DialogConfig>
+    public config: DialogConfig<T>
   ) {
     if (this.config.closeOnNavChange) {
       this._locationChanges = this.location
         .subscribe(() => this.close())
     }
+  }
+
+  public scrolling(event: Event) {
+    this._onScroll.next(event);
   }
 
   public close() {
@@ -35,6 +42,7 @@ export class DialogRef<T = any> {
     this._locationChanges.unsubscribe();
     this._onClose.next(reason);
     this._onClose.complete();
+    this._onScroll.complete();
   }
 
 }

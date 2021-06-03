@@ -25,7 +25,7 @@ export class AssetStore extends BaseStore<AssetState>{
     if (!this.currentState.assets.some(a => a.shortName === asset.shortName)) {
       this.setState(currentState => ({...currentState, assets: [...currentState.assets, asset]}), 'add-asset');
     } else {
-      this.toast.open('Asset already added', ToastConfigBuilder.info({time: 0}));
+      this.toast.open(ToastConfigBuilder.info({time: 0, message: 'Asset already added'}));
     }
   }
 

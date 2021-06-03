@@ -1,18 +1,16 @@
-import {Component, HostBinding, HostListener, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, HostListener, Inject} from '@angular/core';
 import {DIALOG_REF, DialogRef} from '../../../core/dialog';
 import {ToastConfig, ToastType} from './toast.config';
-import {interval} from 'rxjs';
-import {filter, map, take} from 'rxjs/operators';
 
 @Component({
-  templateUrl: './toast.component.html'
+  templateUrl: './toast.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent {
 
   public config: ToastConfig;
   public icon: string = 'info';
-  public progress = 0;
-  public total = 100;
+  public timerEnded = false;
 
   @HostBinding('class') classes = 'flex flex-col rounded shadow-lg cursor-pointer';
   @HostBinding('class.bg-gray-200') info: boolean;
@@ -39,26 +37,6 @@ export class ToastComponent implements OnInit {
     if (this.warning || this.error) {
       this.icon = 'alert-triangle';
     }
-
-  }
-
-  ngOnInit() {
-    this._startTimer();
-  }
-
-  private _startTimer() {
-    if (this.dialogRef.config.closable && this.config.time > 0) {
-      this.total = this.config.time * 10;
-      interval(100)
-        .pipe(
-          take(this.config.time * 10),
-          map(time => {
-            this.progress = time + 1;
-            return this.progress;
-          }),
-          filter(v => v === (this.total)))
-        .subscribe(() => this.close())
-    }
   }
 
   @HostListener('click') click() {
@@ -66,6 +44,7 @@ export class ToastComponent implements OnInit {
   }
 
   close() {
+    this.timerEnded = true;
     if (this.dialogRef.config.closable) {
       this.dialogRef.close();
     }

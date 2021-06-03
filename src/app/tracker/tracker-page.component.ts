@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {
   ConnectedDialogConfigBuilder,
-  CryptoCurrencyService,
+  CryptoCurrencyService, DialogConnectedPosition,
   DialogService,
   FiatCurrencyService, GlobalDialogConfigBuilder
 } from "../core";
@@ -48,7 +48,9 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
 
   openConnected(origin: HTMLElement) {
     this.dialog.open<TestComponent>(new ConnectedDialogConfigBuilder<TestComponent>()
+      .data(['GOT SOME DATA MF'])
       .component(TestComponent)
+      .preferredConnectedPosition(DialogConnectedPosition.Left)
       .origin(origin)
       .config);
   }

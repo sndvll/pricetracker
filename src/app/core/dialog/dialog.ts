@@ -1,6 +1,15 @@
-import {Component, Directive, ElementRef, HostBinding, HostListener, Inject, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Inject,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {DialogRef} from './dialog.ref';
-import {DIALOG_REF, DialogType, DialogXPosition, DialogYPosition} from './dialog.config';
+import {DIALOG_REF, DialogConnectedPosition, DialogType, DialogXPosition, DialogYPosition} from './dialog.config';
 
 @Component({
   template: '',
@@ -21,11 +30,6 @@ export class DialogBackdrop {
 
   @HostListener('document:keydown.escape') onEscKey() {
     this._close();
-  }
-
-  @HostListener('scroll', ['$event']) onScroll(event: any) {
-    console.log(event);
-    this.dialogRef.scrolling(event);
   }
 
   private _close() {
@@ -69,13 +73,35 @@ export class GlobalDialog {
   styleUrls: ['./dialog.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ConnectedDialog {
+export class ConnectedDialog implements OnInit, AfterViewInit {
 
   @HostBinding('class') classList = 'connected-dialog';
 
-  @HostListener('window:scroll', ['$event']) onScroll(event: Event) {
-    this.dialogRef.scrolling(event)
+  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef,
+              private elementRef: ElementRef) {  }
+
+  ngOnInit() {
+
   }
 
-  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {}
+  ngAfterViewInit() {
+    this._reposition(this.dialogRef.config.preferredConnectedPosition ?? DialogConnectedPosition.BottomLeft);
+  }
+
+
+  @HostListener('window:scroll') onScroll() {
+    this._reposition(this.dialogRef.config.preferredConnectedPosition ?? DialogConnectedPosition.BottomLeft);
+  }
+
+  @HostListener('window:resize') onResize() {
+    this._reposition(this.dialogRef.config.preferredConnectedPosition ?? DialogConnectedPosition.BottomLeft);
+  }
+
+  private _reposition(position: DialogConnectedPosition) {
+    this.dialogRef.reposition({
+      elementRect: this.elementRef.nativeElement.getBoundingClientRect(),
+      position
+    });
+  }
+
 }

@@ -1,7 +1,3 @@
-<button (click)="add()">Add</button>
-<button (click)="openModal()">Modal</button>
-<button (click)="openToast()">Toast</button>
-<button (click)="openConnected(origin)" #origin>Connected</button>
 <div class="p-5 bg-green-100 box-border rounded shadow-sm">
   <div class="flex flex-row justify-between">
     <div>Show holdings in</div>
@@ -17,6 +13,13 @@
   </div>
 </div>
 
+<div>
+  <button (click)="add()" class="primary">Add</button>
+  <button (click)="openModal()" class="secondary">Modal</button>
+  <button (click)="openToast()" class="bg-green-400">Toast</button>
+  <button (click)="openConnected(origin)" class="primary" #origin>Connected</button>
+</div>
+
 <div class="mt-4 py-5">
   <div class="grid grid-cols-7 px-5">
     <div class="w-14"></div>
@@ -30,7 +33,7 @@
            [shortName]="asset.shortName"
            [quantity]="asset.quantity"
            [rate]="asset.rate"
-           [change]="asset.change">
+           [marketChange]="asset.change">
     </asset>
   </div>
 </div>

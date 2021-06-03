@@ -7,6 +7,17 @@ export enum DialogType {
   Connected = 'connected'
 }
 
+export enum DialogConnectedPosition {
+  TopLeft = 'top-left',
+  TopMiddle = 'top-middle',
+  TopRight = 'top-right',
+  BottomLeft = 'bottom-left',
+  BottomRight = 'bottom-right',
+  BottomMiddle = 'bottom-middle',
+  Left = 'left',
+  Right = 'right'
+}
+
 export enum DialogXPosition {
   Center = 'center',
   Left = 'left',
@@ -25,6 +36,12 @@ export enum BackdropColor {
   Transparent = 'transparent'
 }
 
+export  interface RepositionEvent {
+  elementRect: DOMRect;
+  position: DialogConnectedPosition;
+}
+
+
 export const DIALOG_REF = new InjectionToken<any>('DIALOG_REF');
 
 export interface DialogConfig<T, D = any> {
@@ -34,7 +51,7 @@ export interface DialogConfig<T, D = any> {
   type?: DialogType;
   classes?: string;
   closable?: boolean;
-  closeOnNavChange?: boolean;
+  closeOnNavigationChange?: boolean;
   withBackdrop?: boolean;
   closeOnBackdropClick?: boolean;
   x?: DialogXPosition;
@@ -43,10 +60,17 @@ export interface DialogConfig<T, D = any> {
   fullHeight?: boolean;
   backdropClickThrough?: boolean;
   backdropColor?: BackdropColor;
+  preferredConnectedPosition?: DialogConnectedPosition;
 }
 
 abstract class DialogConfigBuilder<T, D = any> {
-  abstract _config: DialogConfig<T>
+
+  abstract _config: DialogConfig<T>;
+
+  data(data: D) {
+    this._config.data = data;
+    return this;
+  }
 
   component(component: Type<T>) {
     this._config.component = component;
@@ -76,16 +100,11 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
     fullWidth: false,
     classes: '',
     closable: true,
-    closeOnNavChange: true,
+    closeOnNavigationChange: true,
     withBackdrop: true,
     closeOnBackdropClick: true,
     backdropClickThrough: false,
     backdropColor: BackdropColor.Black
-  }
-
-  data(data: D): GlobalDialogConfigBuilder<T> {
-    this._config.data = data;
-    return this;
   }
 
   type(type: DialogType) {
@@ -100,7 +119,7 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
   }
 
   closeOnNavigationChange(close: boolean) {
-    this._config.closeOnNavChange = close;
+    this._config.closeOnNavigationChange = close;
     return this;
   }
 
@@ -155,14 +174,20 @@ export class ConnectedDialogConfigBuilder<T> extends DialogConfigBuilder<T> {
   _config: DialogConfig<T> = {
     type: DialogType.Connected,
     closable: true,
-    closeOnNavChange: true,
+    closeOnNavigationChange: true,
     withBackdrop: true,
     closeOnBackdropClick: true,
+    preferredConnectedPosition: DialogConnectedPosition.BottomLeft,
     classes: ''
   };
 
   origin(origin: HTMLElement): ConnectedDialogConfigBuilder<T> {
     this._config.origin = origin;
+    return this;
+  }
+
+  preferredConnectedPosition(position: DialogConnectedPosition) {
+    this._config.preferredConnectedPosition = position;
     return this;
   }
 }

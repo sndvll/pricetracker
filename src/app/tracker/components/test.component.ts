@@ -13,7 +13,7 @@ import {ToastConfigBuilder, ToastService} from '../../shared/components/toast';
 })
 export class TestComponent {
 
-  @HostBinding('class') classList = 'bg-white p-5';
+  @HostBinding('class') classList = 'bg-black text-white p-5 shadow';
 
   constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef,
               private toast: ToastService) {

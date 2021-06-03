@@ -44,38 +44,41 @@ export class DialogService {
   }
 
   public open<T, D = any>(config: DialogConfig<T>) {
-    console.log(config);
     const dialogRef: DialogRef<T> = new DialogRef<T>(this.location, config);
     const injector = DialogUtils.createInjector(this.injector,[{provide: DIALOG_REF, useValue: dialogRef}]);
     return config.type === DialogType.Connected ?
-      this.connectedDialog(config, dialogRef, injector) :
-      this.globalDialog(config, dialogRef, injector);
+      this._connectedDialog(config, dialogRef, injector) :
+      this._globalDialog(config, dialogRef, injector);
   }
 
-  private connectedDialog<T>(config: DialogConfig<T>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
+  private _connectedDialog<T>(config: DialogConfig<T>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
 
-    const component = config.component;
-    const origin = config.origin;
+    const {component, origin} = config;
 
-    const componentRef = this.createComponentRef(component!, injector);
-    const connectedDialogRef = this.createConnectedDialogRef(componentRef, injector, origin!);
+    if (!origin) {
+      throw new Error('Got no origin element to position the connected component to. Please check your config and provide an origin from the template.')
+    }
+
+    const componentRef = this._createComponentRef(component!, injector);
+    const dialogComponentRef = this._createDialogComponentRef(componentRef, injector, true);
 
     let backdropComponentRef: ComponentRef<DialogBackdrop> = DialogUtils.getComponentRef(DialogBackdrop, injector, this.componentFactoryResolver, this.applicationRef);
     this.document.body.appendChild(backdropComponentRef.location.nativeElement);
 
-    const scrollListenerDestroyer = new Subject<void>();
-    dialogRef.onScroll$
-      .pipe(takeUntil(scrollListenerDestroyer))
-      .subscribe(() =>
-        DialogUtils.calculateElementPosition(connectedDialogRef.location.nativeElement, origin!.getBoundingClientRect()));
+    const repositionListenerDestroyer = new Subject<void>();
+    dialogRef.reposition$
+      .pipe(takeUntil(repositionListenerDestroyer))
+      .subscribe(repositionEvent => {
+        DialogUtils.calculateElementPosition(dialogComponentRef.location.nativeElement, origin!.getBoundingClientRect(), repositionEvent);
+      });
 
     dialogRef.onClose$
       .subscribe(() => {
-        [componentRef, connectedDialogRef, backdropComponentRef]
+        [componentRef, dialogComponentRef, backdropComponentRef]
           .forEach(ref => {
             ref.destroy();
-            scrollListenerDestroyer.next();
-            scrollListenerDestroyer.complete();
+            repositionListenerDestroyer.next();
+            repositionListenerDestroyer.complete();
             DialogUtils.detachHtmlElement(this._attachedComponents.connectedContainer!);
           })
       });
@@ -83,79 +86,75 @@ export class DialogService {
     return dialogRef;
   }
 
-  private createConnectedDialogRef<T>(componentRef: ComponentRef<T>, injector: Injector, origin: HTMLElement) {
-    const dialogComponentRef = DialogUtils.getComponentRef(ConnectedDialog, injector, this.componentFactoryResolver, this.applicationRef, [[componentRef.location.nativeElement]])
-    const container = this.document.createElement('div');
-    DialogUtils.addClass(this.renderer, container, 'connected-dialog-container');
+  private _globalDialog<T, D>(config: DialogConfig<T, D>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
 
-    const dialogComponentElement = <HTMLElement>dialogComponentRef.location.nativeElement;
-    DialogUtils.calculateElementPosition(dialogComponentElement, origin.getBoundingClientRect())
+    const {component, type, withBackdrop} = config;
 
-    container.appendChild(dialogComponentElement);
-    this.document.body.appendChild(container);
-    this._attachedComponents.connectedContainer = container;
-    return dialogComponentRef;
-  }
-
-  private globalDialog<T, D>(config: DialogConfig<T, D>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
-
-    if (this.checkToasts(config.type!)) {
+    if (type === DialogType.Toast && this._openedToasts()) {
       this._attachedComponents.dialogs.filter(dialog => dialog.instance.role === DialogType.Toast)
         .forEach(dialog => dialog.instance.dialogRef.close());
     }
 
-    if (config.withBackdrop) {
+    if (withBackdrop) {
       let backdropComponentRef: ComponentRef<DialogBackdrop> = DialogUtils.getComponentRef(DialogBackdrop, injector, this.componentFactoryResolver, this.applicationRef);
       this.document.body.appendChild(backdropComponentRef.location.nativeElement);
       this._attachedComponents.backdrop = backdropComponentRef;
     }
 
-    const componentRef: ComponentRef<T> = this.createComponentRef(config.component!, injector)
-    const dialogComponentRef: ComponentRef<GlobalDialog> = this.createDialogComponentRef(componentRef, injector);
+    const componentRef: ComponentRef<T> = this._createComponentRef(component!, injector)
+    const dialogComponentRef = this._createDialogComponentRef(componentRef, injector, false);
 
     dialogRef.onClose$
-      .subscribe(() => this.close([componentRef, dialogComponentRef], config));
+      .subscribe(() => this.close([componentRef, dialogComponentRef], withBackdrop!));
 
     return dialogRef;
   }
 
-  private createComponentRef<T>(component: Type<T>, injector: Injector) {
+  private _createComponentRef<T>(component: Type<T>, injector: Injector) {
     const componentRef: ComponentRef<T> = DialogUtils.getComponentRef(component, injector, this.componentFactoryResolver, this.applicationRef);
     DialogUtils.addClass(this.renderer, componentRef.location.nativeElement, 'dialog-component');
     return componentRef;
   }
 
-  private createDialogComponentRef<T>(componentRef: ComponentRef<T>, injector: Injector) {
+  private _createDialogComponentRef<T>(componentRef: ComponentRef<T>, injector: Injector, connected: boolean) {
 
-    const dialogComponentRef = DialogUtils.getComponentRef(GlobalDialog, injector, this.componentFactoryResolver, this.applicationRef, [[componentRef.location.nativeElement]]);
+    let dialogComponentRef;
+    const container = this.document.createElement('div');
+    const root: HTMLElement = this.document.body;
 
-    if (this._attachedComponents.container) {
-      this._attachedComponents.container.appendChild(dialogComponentRef.location.nativeElement);
-    } else {
-      const root: HTMLElement = this.document.body;
-      const container = this.document.createElement('div');
-      DialogUtils.addClass(this.renderer, container, 'dialog-container');
+    if (connected) {
+      dialogComponentRef = DialogUtils.getComponentRef(ConnectedDialog, injector, this.componentFactoryResolver, this.applicationRef, [[componentRef.location.nativeElement]]);
+      DialogUtils.addClass(this.renderer, container, 'connected-dialog-container');
+
+      this._attachedComponents.connectedContainer = container;
       container.appendChild(dialogComponentRef.location.nativeElement);
       root.appendChild(container);
-      this._attachedComponents.container = container;
+    } else {
+      dialogComponentRef = DialogUtils.getComponentRef(GlobalDialog, injector, this.componentFactoryResolver, this.applicationRef, [[componentRef.location.nativeElement]]);
+      if (this._attachedComponents.container) {
+        this._attachedComponents.container.appendChild(dialogComponentRef.location.nativeElement);
+      } else {
+        DialogUtils.addClass(this.renderer, container, 'dialog-container');
+        this._attachedComponents.container = container;
+        container.appendChild(dialogComponentRef.location.nativeElement);
+        root.appendChild(container);
+      }
+      this._attachedComponents.dialogs.push(dialogComponentRef);
     }
-
-    this._attachedComponents.dialogs.push(dialogComponentRef);
 
     return dialogComponentRef;
   }
 
-  private removeBackdrop() {
+  private _removeBackdrop() {
     DialogUtils.detach(this._attachedComponents.backdrop!);
     this._attachedComponents.backdrop = null;
   }
 
-  private checkToasts(type: DialogType) {
-    return type === DialogType.Toast &&
-      this._attachedComponents.dialogs.some(dialog => dialog.instance.role === DialogType.Toast)
+  private _openedToasts() {
+    return this._attachedComponents.dialogs.some(dialog => dialog.instance.role === DialogType.Toast)
   }
 
-  private close(refs: ComponentRef<any>[], config: DialogConfig<any>): void {
+  private close(refs: ComponentRef<any>[], withBackdrop: boolean): void {
 
     const dialogComponentRef = refs[1];
 
@@ -172,8 +171,8 @@ export class DialogService {
       // So if we have a backdrop open (ie a modal) and opens a toast
       // the backdrop needs to be discarded when closing the modal, but not
       // the toast (toast config.withBackdrop === false)
-      if (config.withBackdrop && this._attachedComponents.backdrop) {
-        this.removeBackdrop();
+      if (withBackdrop && this._attachedComponents.backdrop) {
+        this._removeBackdrop();
       }
 
     } else {
@@ -182,7 +181,7 @@ export class DialogService {
         // Remove backdrop if there is one
         refs.push(this._attachedComponents.backdrop);
         // and detach it from the body
-        this.removeBackdrop();
+        this._removeBackdrop();
       }
 
       // Remove the container that contains the dialog/s

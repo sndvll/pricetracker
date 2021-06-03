@@ -8,3 +8,16 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button {
+  @apply text-white rounded p-2 shadow m-1 focus:outline-none;
+
+  &.primary {
+    @apply bg-blue-400 focus:bg-blue-600 hover:bg-blue-600;
+  }
+
+  &.secondary {
+    @apply  bg-gray-300;
+  }
+
+}

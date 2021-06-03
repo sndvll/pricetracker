@@ -15,7 +15,7 @@ import {Component, Input} from "@angular/core";
        <span class="text-base">{{rate | currency}}</span>
        <span class="text-sm"
              [class.text-red-500]="negativeChange"
-             [class.text-green-500]="!negativeChange">{{!negativeChange ? '+' : ''}}{{change}}%</span>
+             [class.text-green-500]="!negativeChange">{{!negativeChange ? '+' : ''}}{{marketChange}}%</span>
       </div>
       <div class="text-lg text-right flex flex-col col-span-4 justify-center">
         <span class="text-2xl subpixel-antialiased">{{(quantity * rate) | currency : 'USD' }}</span>
@@ -39,14 +39,14 @@ export class AssetComponent {
   @Input() name!: string;
   @Input() quantity!: number;
   @Input() rate!: number;
-  @Input() change!: number;
+  @Input() marketChange!: number;
 
   get icon(): string {
     return `cf cf-${this.shortName.toLowerCase()}`;
   }
 
   get negativeChange(): boolean {
-    return this.change < 0;
+    return this.marketChange < 0;
   }
 
 }

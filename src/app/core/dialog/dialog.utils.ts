@@ -38,44 +38,47 @@ export class DialogUtils {
   }
 
 
-  public static getPixelPosition(pixels: number): string {
+  public static getPxValue(pixels: number): string {
     return `${pixels}px`
   }
 
   public static calculateElementPosition(element: HTMLElement, originRect: DOMRect, repositionEvent: RepositionEvent) {
-    const {elementRect, position} = repositionEvent;
+    const {elementRect, position, parentWide} = repositionEvent;
+    if (parentWide) {
+      element.style.width = this.getPxValue(originRect.width);
+    }
     const positioning: any = {
       [DialogConnectedPosition.BottomLeft]: () => {
-        element.style.top = this.getPixelPosition(originRect.top + originRect.height);
-        element.style.left = this.getPixelPosition(originRect.left);
+        element.style.top = this.getPxValue(originRect.top + originRect.height);
+        element.style.left = this.getPxValue(originRect.left);
       },
       [DialogConnectedPosition.BottomRight]: () => {
-        element.style.top = this.getPixelPosition(originRect.top + originRect.height);
-        element.style.left = this.getPixelPosition(originRect.right - elementRect.width);
+        element.style.top = this.getPxValue(originRect.top + originRect.height);
+        element.style.left = this.getPxValue(originRect.right - elementRect.width);
       },
       [DialogConnectedPosition.BottomMiddle]: () => {
-        element.style.top = this.getPixelPosition(originRect.top + originRect.height);
-        element.style.left = this.getPixelPosition(originRect.left - ((elementRect.width / 2) - (originRect.width / 2)));
+        element.style.top = this.getPxValue(originRect.top + originRect.height);
+        element.style.left = this.getPxValue(originRect.left - ((elementRect.width / 2) - (originRect.width / 2)));
       },
       [DialogConnectedPosition.TopLeft]: () => {
-        element.style.top = this.getPixelPosition(originRect.top - elementRect.height);
-        element.style.left = this.getPixelPosition(originRect.left);
+        element.style.top = this.getPxValue(originRect.top - elementRect.height);
+        element.style.left = this.getPxValue(originRect.left);
       },
       [DialogConnectedPosition.TopRight]: () => {
-        element.style.top = this.getPixelPosition(originRect.top - elementRect.height);
-        element.style.left = this.getPixelPosition(originRect.right - elementRect.width);
+        element.style.top = this.getPxValue(originRect.top - elementRect.height);
+        element.style.left = this.getPxValue(originRect.right - elementRect.width);
       },
       [DialogConnectedPosition.TopMiddle]: () => {
-        element.style.top = this.getPixelPosition(originRect.top - elementRect.height) + 'px';
-        element.style.left = this.getPixelPosition(originRect.left - ((elementRect.width / 2) - (originRect.width / 2)));
+        element.style.top = this.getPxValue(originRect.top - elementRect.height) + 'px';
+        element.style.left = this.getPxValue(originRect.left - ((elementRect.width / 2) - (originRect.width / 2)));
       },
       [DialogConnectedPosition.Left]: () => {
-        element.style.top = this.getPixelPosition(originRect.top - (elementRect.height / 2) + (originRect.height / 2));
-        element.style.left = this.getPixelPosition(originRect.left - elementRect.width);
+        element.style.top = this.getPxValue(originRect.top - (elementRect.height / 2) + (originRect.height / 2));
+        element.style.left = this.getPxValue(originRect.left - elementRect.width);
       },
       [DialogConnectedPosition.Right]: () => {
-        element.style.top = this.getPixelPosition(originRect.top - (elementRect.height / 2) + (originRect.height / 2));
-        element.style.left = this.getPixelPosition(originRect.right);
+        element.style.top = this.getPxValue(originRect.top - (elementRect.height / 2) + (originRect.height / 2));
+        element.style.left = this.getPxValue(originRect.right);
       }
     };
 

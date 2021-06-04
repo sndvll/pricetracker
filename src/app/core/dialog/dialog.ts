@@ -5,7 +5,6 @@ import {
   HostBinding,
   HostListener,
   Inject,
-  OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import {DialogRef} from './dialog.ref';
@@ -16,10 +15,9 @@ import {DIALOG_REF, DialogConnectedPosition, DialogType, DialogXPosition, Dialog
 })
 export class DialogBackdrop {
 
-  @HostBinding('class') classes;
+  @HostBinding('class') classes = `backdrop ${this.dialogRef.config.type === DialogType.Connected ? 'connected' : ''} bg-${this.dialogRef.config.backdropColor} opacity-50 ${this.dialogRef.config.backdropClickThrough ? 'pointer-events-none' : 'pointer-events-auto'}`;
 
   constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {
-    this.classes = `backdrop bg-${dialogRef.config.backdropColor} opacity-50 ${dialogRef.config.backdropClickThrough ? 'pointer-events-none' : 'pointer-events-auto'}`;
   }
 
   @HostListener('click') onBackdropClick() {
@@ -51,6 +49,7 @@ export class DialogBackdrop {
 export class GlobalDialog {
 
   @HostBinding('class') classList = 'dialog';
+  @HostBinding('class.toast') isToast = this.dialogRef.config.type === DialogType.Toast;
   @HostBinding('class.full') full = this.dialogRef.config.type === DialogType.Full;
   @HostBinding('class.right') right = this.dialogRef.config.x === DialogXPosition.Right;
   @HostBinding('class.left') left = this.dialogRef.config.x === DialogXPosition.Left;
@@ -65,7 +64,6 @@ export class GlobalDialog {
   constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {
     this.role = dialogRef.config.type!;
   }
-
 }
 
 @Component({
@@ -73,21 +71,17 @@ export class GlobalDialog {
   styleUrls: ['./dialog.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ConnectedDialog implements OnInit, AfterViewInit {
+export class ConnectedDialog implements AfterViewInit {
 
   @HostBinding('class') classList = 'connected-dialog';
 
   constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef,
-              private elementRef: ElementRef) {  }
-
-  ngOnInit() {
-
+              private elementRef: ElementRef) {
   }
 
   ngAfterViewInit() {
     this._reposition(this.dialogRef.config.preferredConnectedPosition ?? DialogConnectedPosition.BottomLeft);
   }
-
 
   @HostListener('window:scroll') onScroll() {
     this._reposition(this.dialogRef.config.preferredConnectedPosition ?? DialogConnectedPosition.BottomLeft);
@@ -98,9 +92,11 @@ export class ConnectedDialog implements OnInit, AfterViewInit {
   }
 
   private _reposition(position: DialogConnectedPosition) {
+    const elementRect: DOMRect = this.elementRef.nativeElement.getBoundingClientRect();
     this.dialogRef.reposition({
-      elementRect: this.elementRef.nativeElement.getBoundingClientRect(),
-      position
+      elementRect,
+      position,
+      parentWide: this.dialogRef.config.parentWide
     });
   }
 

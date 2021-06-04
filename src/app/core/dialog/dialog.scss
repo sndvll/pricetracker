@@ -1,7 +1,6 @@
 
-
 .connected-dialog-container {
-  @apply pointer-events-none fixed top-0 left-0 h-full w-full z-20;
+  @apply pointer-events-none fixed top-0 left-0 h-full w-full z-40;
   > .connected-dialog {
     @apply z-30 inline-block absolute;
     >.dialog-component {
@@ -61,8 +60,15 @@
       @apply justify-start;
     }
   }
+
+  &.toast {
+    @apply z-40;
+  }
 }
 
 .backdrop {
   @apply fixed top-0 left-0 z-10 w-screen h-screen;
+  &.connected {
+    @apply z-30;
+  }
 }

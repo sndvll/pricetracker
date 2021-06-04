@@ -1,0 +1,10 @@
+<input [value]="(value$ | async)" (keyup)="change(input.value)"
+       [placeholder]="placeholder"
+       class="focus:outline-none focus:border-hidden focus:ring-0"
+       [class]="size"
+       [type]="type" #input>
+<div *ngIf="showClearButton">
+  <button (click)="clear()" class="focus:outline-none">
+    <icon name="x"></icon>
+  </button>
+</div>

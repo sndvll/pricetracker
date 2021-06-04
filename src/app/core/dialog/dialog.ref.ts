@@ -16,6 +16,9 @@ export class DialogRef<T = any> {
   private _reposition = new Subject<RepositionEvent>();
   public reposition$ = this._reposition.asObservable();
 
+  private _checkPosition = new Subject<void>();
+  public checkPosition$ = this._checkPosition.asObservable();
+
   constructor(
     private location: Location,
     public config: DialogConfig<T>
@@ -31,6 +34,11 @@ export class DialogRef<T = any> {
     this._reposition.next(event);
   }
 
+  public checkPosition() {
+    console.log('about to check position');
+    this._checkPosition.next();
+  }
+
   public close() {
     this._destroy();
   }
@@ -44,6 +52,7 @@ export class DialogRef<T = any> {
     this._onClose.next(reason);
     this._onClose.complete();
     this._reposition.complete();
+    this._checkPosition.complete();
   }
 
 }

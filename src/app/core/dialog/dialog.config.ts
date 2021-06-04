@@ -1,4 +1,4 @@
-import {InjectionToken, Type} from '@angular/core';
+import {InjectionToken, TemplateRef, Type} from '@angular/core';
 
 export enum DialogType {
   Full = 'full',
@@ -39,6 +39,7 @@ export enum BackdropColor {
 export  interface RepositionEvent {
   elementRect: DOMRect;
   position: DialogConnectedPosition;
+  parentWide?: boolean;
 }
 
 
@@ -61,6 +62,8 @@ export interface DialogConfig<T, D = any> {
   backdropClickThrough?: boolean;
   backdropColor?: BackdropColor;
   preferredConnectedPosition?: DialogConnectedPosition;
+  parentWide?: boolean;
+  noScroll?: boolean;
 }
 
 abstract class DialogConfigBuilder<T, D = any> {
@@ -158,7 +161,23 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
     return this;
   }
 
-  static toast<T>(x: DialogXPosition): GlobalDialogConfigBuilder<T> {
+  noScroll(noScroll: boolean) {
+    this._config.noScroll = noScroll;
+    return this;
+  }
+
+  static modal<T>(templateRef: TemplateRef<any>, y: DialogYPosition) {
+    return new GlobalDialogConfigBuilder<T, TemplateRef<any>>()
+      .data(templateRef)
+      .type(DialogType.Modal)
+      .isClosable(true)
+      .position(DialogXPosition.Center, y)
+      .withBackdrop(true)
+      .backdropColor(BackdropColor.Transparent)
+      .noScroll(true)
+  }
+
+  static toast<T>(x: DialogXPosition) {
     return new GlobalDialogConfigBuilder<T>()
       .type(DialogType.Toast)
       .isClosable(true)
@@ -178,11 +197,17 @@ export class ConnectedDialogConfigBuilder<T> extends DialogConfigBuilder<T> {
     withBackdrop: true,
     closeOnBackdropClick: true,
     preferredConnectedPosition: DialogConnectedPosition.BottomLeft,
+    parentWide: false,
     classes: ''
   };
 
-  origin(origin: HTMLElement): ConnectedDialogConfigBuilder<T> {
+  origin(origin: HTMLElement) {
     this._config.origin = origin;
+    return this;
+  }
+
+  parentWide(parentWide: boolean) {
+    this._config.parentWide = parentWide;
     return this;
   }
 

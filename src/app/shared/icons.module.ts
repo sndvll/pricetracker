@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {SndvllIconsModule} from '@sndvll/icons';
-import {AlertCircle, AlertTriangle, Info, XCircle} from '@sndvll/icons/icons';
+import {AlertCircle, AlertTriangle, ChevronDown, ChevronUp, Info, X, XCircle} from '@sndvll/icons/icons';
 
 @NgModule({
   imports: [
@@ -8,7 +8,10 @@ import {AlertCircle, AlertTriangle, Info, XCircle} from '@sndvll/icons/icons';
       AlertCircle,
       XCircle,
       AlertTriangle,
-      Info
+      Info,
+      X,
+      ChevronDown,
+      ChevronUp
     })
   ],
   exports: [

@@ -14,10 +14,13 @@
 </div>
 
 <div>
-  <button (click)="add()" class="primary">Add</button>
-  <button (click)="openModal()" class="secondary">Modal</button>
-  <button (click)="openToast()" class="bg-green-400">Toast</button>
-  <button (click)="openConnected(origin)" class="primary" #origin>Connected</button>
+  <button (click)="add()" class="button primary">Add</button>
+  <button (click)="openModal(modalTemplate)" class="button secondary">Modal</button>
+  <button (click)="openToast()" class="button bg-green-400">Toast</button>
+  <button (click)="openConnectedLeft(origin1)" class="button primary" #origin1>Connected Left</button>
+  <button (click)="openConnectedRight(origin2)" class="button primary" #origin2>Connected Right</button>
+  <button (click)="openConnectedMiddleBottom(origin3)" class="button primary" #origin3>Connected Middle bottom</button>
+  <button (click)="openConnectedTopRight(origin4)" class="button primary" #origin4>Connected Top Right</button>
 </div>
 
 <div class="mt-4 py-5">
@@ -37,3 +40,24 @@
     </asset>
   </div>
 </div>
+
+<ng-template #modalTemplate>
+  <div class="w-100">
+    <button (click)="openToast()" class="button bg-green-400">Toast</button>
+    <form [formGroup]="formGroup">
+      <sndvll-select class="my-2"
+                     formControlName="select"
+                     [options]="options" placeholder="select component">
+      </sndvll-select>
+      <sndvll-input class="my-2"
+                    formControlName="input"
+                    placeholder="input component">
+      </sndvll-input>
+      <sndvll-toggle class="my-2"
+                     formControlName="toggle">
+        Toggle label
+      </sndvll-toggle>
+    </form>
+  </div>
+  <pre>{{formGroup.value | json}}</pre>
+</ng-template>

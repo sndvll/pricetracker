@@ -56,7 +56,7 @@ export class DialogService {
     const {component, origin} = config;
 
     if (!origin) {
-      throw new Error('Got no origin element to position the connected component to. Please check your config and provide an origin from the template.')
+            throw new Error('Got no origin element to position the connected component to. Please check your config and provide an origin from the template.')
     }
 
     const componentRef = this._createComponentRef(component!, injector);
@@ -88,7 +88,9 @@ export class DialogService {
 
   private _globalDialog<T, D>(config: DialogConfig<T, D>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
 
-    const {component, type, withBackdrop} = config;
+    const {component, type, withBackdrop, noScroll} = config;
+
+    console.log(config);
 
     if (type === DialogType.Toast && this._openedToasts()) {
       this._attachedComponents.dialogs.filter(dialog => dialog.instance.role === DialogType.Toast)
@@ -101,11 +103,21 @@ export class DialogService {
       this._attachedComponents.backdrop = backdropComponentRef;
     }
 
+    if (noScroll) {
+      this.document.body.classList.toggle('overflow-hidden', true);
+    }
+
+
     const componentRef: ComponentRef<T> = this._createComponentRef(component!, injector)
     const dialogComponentRef = this._createDialogComponentRef(componentRef, injector, false);
 
     dialogRef.onClose$
-      .subscribe(() => this.close([componentRef, dialogComponentRef], withBackdrop!));
+      .subscribe(() => {
+        this.close([componentRef, dialogComponentRef], withBackdrop!);
+        if (noScroll) {
+          this.document.body.classList.toggle('overflow-hidden', false);
+        }
+      });
 
     return dialogRef;
   }

@@ -1,4 +1,4 @@
-import {DialogXPosition} from '../../../core/dialog';
+import {DialogXPosition, DialogYPosition} from '../../../core/dialog';
 
 export enum ToastType {
   Info = 'info',
@@ -8,7 +8,8 @@ export enum ToastType {
 }
 
 export interface ToastConfig {
-  position: DialogXPosition;
+  x: DialogXPosition;
+  y: DialogYPosition;
   time: number;
   type: ToastType
   message?: string;
@@ -18,13 +19,15 @@ type ToastConfigBuilderPreset = Partial<Omit<ToastConfig, 'type'>>;
 
 export class ToastConfigBuilder {
 
-  private _position = DialogXPosition.Center;
+  private _x = DialogXPosition.Center;
+  private _y = DialogYPosition.Top;
   private _time = 10;
   private _type = ToastType.Info;
   private _message = '';
 
-  position(position: DialogXPosition = DialogXPosition.Center) {
-    this._position = position;
+  position(x: DialogXPosition, y: DialogYPosition) {
+    this._x = x;
+    this._y = y;
     return this;
   }
   time(time: number = 10) {
@@ -43,44 +46,45 @@ export class ToastConfigBuilder {
 
   build(): ToastConfig {
     return {
-      position: this._position,
+      x: this._x,
+      y: this._y,
       message: this._message,
       time: this._time,
       type: this._type
     }
   }
 
-  static success({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static success({x, y, time, message}: ToastConfigBuilderPreset): ToastConfig {
     return new ToastConfigBuilder()
       .message(message!)
-      .position(position)
+      .position(x ?? DialogXPosition.Center, y ?? DialogYPosition.Top)
       .type(ToastType.Success)
       .time(time)
       .build()
   }
 
-  static error({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static error({x, y, time, message}: ToastConfigBuilderPreset): ToastConfig {
     return new ToastConfigBuilder()
       .message(message!)
-      .position(position)
+      .position(x ?? DialogXPosition.Center, y ?? DialogYPosition.Top)
       .type(ToastType.Error)
       .time(time)
       .build()
   }
 
-  static info({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static info({x, y, time, message}: ToastConfigBuilderPreset): ToastConfig {
     return new ToastConfigBuilder()
       .message(message!)
-      .position(position)
+      .position(x ?? DialogXPosition.Center, y ?? DialogYPosition.Top)
       .type(ToastType.Info)
       .time(time)
       .build()
   }
 
-  static warning({position, time, message}: ToastConfigBuilderPreset = {}): ToastConfig {
+  static warning({x, y, time, message}: ToastConfigBuilderPreset): ToastConfig {
     return new ToastConfigBuilder()
       .message(message!)
-      .position(position)
+      .position(x ?? DialogXPosition.Center, y ?? DialogYPosition.Top)
       .type(ToastType.Warning)
       .time(time)
       .build()

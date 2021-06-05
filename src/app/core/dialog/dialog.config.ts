@@ -1,4 +1,5 @@
-import {InjectionToken, TemplateRef, Type} from '@angular/core';
+import {InjectionToken, Type} from '@angular/core';
+import {Opacity} from '../utils';
 
 export enum DialogType {
   Full = 'full',
@@ -61,6 +62,7 @@ export interface DialogConfig<T, D = any> {
   fullHeight?: boolean;
   backdropClickThrough?: boolean;
   backdropColor?: BackdropColor;
+  backdropOpacity?: Opacity;
   preferredConnectedPosition?: DialogConnectedPosition;
   parentWide?: boolean;
   noScroll?: boolean;
@@ -166,25 +168,9 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
     return this;
   }
 
-  static modal<T>(templateRef: TemplateRef<any>, y: DialogYPosition) {
-    return new GlobalDialogConfigBuilder<T, TemplateRef<any>>()
-      .data(templateRef)
-      .type(DialogType.Modal)
-      .isClosable(true)
-      .position(DialogXPosition.Center, y)
-      .withBackdrop(true)
-      .backdropColor(BackdropColor.Transparent)
-      .noScroll(true)
-  }
-
-  static toast<T>(x: DialogXPosition) {
-    return new GlobalDialogConfigBuilder<T>()
-      .type(DialogType.Toast)
-      .isClosable(true)
-      .position(x, DialogYPosition.Top)
-      .classes('m-3')
-      .withBackdrop(false)
-      .backdropColor(BackdropColor.Transparent);
+  backdropOpacity(opacity: Opacity) {
+    this._config.backdropOpacity = opacity;
+    return this;
   }
 }
 
@@ -198,7 +184,9 @@ export class ConnectedDialogConfigBuilder<T> extends DialogConfigBuilder<T> {
     closeOnBackdropClick: true,
     preferredConnectedPosition: DialogConnectedPosition.BottomLeft,
     parentWide: false,
-    classes: ''
+    classes: '',
+    backdropOpacity: '30',
+    backdropColor: BackdropColor.White
   };
 
   origin(origin: HTMLElement) {

@@ -107,7 +107,6 @@ export class DialogService {
       this.document.body.classList.toggle('overflow-hidden', true);
     }
 
-
     const componentRef: ComponentRef<T> = this._createComponentRef(component!, injector)
     const dialogComponentRef = this._createDialogComponentRef(componentRef, injector, false);
 

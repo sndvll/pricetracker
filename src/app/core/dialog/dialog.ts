@@ -15,9 +15,13 @@ import {DIALOG_REF, DialogConnectedPosition, DialogType, DialogXPosition, Dialog
 })
 export class DialogBackdrop {
 
-  @HostBinding('class') classes = `backdrop ${this.dialogRef.config.type === DialogType.Connected ? 'connected' : ''} bg-${this.dialogRef.config.backdropColor} opacity-50 ${this.dialogRef.config.backdropClickThrough ? 'pointer-events-none' : 'pointer-events-auto'}`;
+  @HostBinding('class') classes = '';
+  @HostBinding('class.connected') isConnected = this.dialogRef.config.type === DialogType.Connected;
+  @HostBinding('class.pointer-events-none') pointerEventsNone = this.dialogRef.config.backdropClickThrough;
+  @HostBinding('class.pointer-events-auto') pointerEventsAuto = !this.dialogRef.config.backdropClickThrough;
 
   constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {
+    this.classes = `backdrop bg-${this.dialogRef.config.backdropColor ?? 'black'} opacity-${this.dialogRef.config.backdropOpacity ?? '50'}`;
   }
 
   @HostListener('click') onBackdropClick() {

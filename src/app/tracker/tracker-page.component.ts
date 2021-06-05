@@ -4,6 +4,7 @@ import {
   CryptoCurrencyService,
   DialogConnectedPosition,
   DialogService,
+  DialogXPosition,
   FiatCurrencyService
 } from "../core";
 import {Asset, AssetStore} from './store';
@@ -14,6 +15,7 @@ import {TestComponent} from './components/test.component';
 import {SelectOption} from '../shared/components/select/select.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ModalService} from '../shared/components/modal/modal.service';
+import {ModalType} from '../shared/components/modal/modal.config';
 
 @Component({
   selector: 'tracker',
@@ -93,11 +95,15 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
   }
 
   openToast() {
-    this.toast.open(ToastConfigBuilder.success({time: 10, message: 'Detta är ett meddelande'}));
+    this.toast.open(ToastConfigBuilder.success({
+      time: 10,
+      message: 'Detta är ett meddelande',
+      x: DialogXPosition.Right
+    }));
   }
 
   openModal(templateRef: TemplateRef<any>) {
-    this.modal.open(templateRef);
+    this.modal.open({type: ModalType.Right, templateRef});
   }
 
   add() {

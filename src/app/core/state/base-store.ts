@@ -19,7 +19,7 @@ export abstract class BaseStore<S extends object | Array<any>> implements OnDest
     return this._state.asObservable();
   }
 
-  constructor(@Inject(Injector) injector: Injector) {
+  protected constructor(@Inject(Injector) injector: Injector) {
     this._devTools = injector.get(StateDevTools);
     const globalConfig = injector.get(STORE_CONFIG, {});
     const storeConfig = this.storeConfig() || {};

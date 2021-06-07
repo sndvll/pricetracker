@@ -1,7 +1,6 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, Directive,
+  Directive,
   EventEmitter,
   HostBinding,
   Input,

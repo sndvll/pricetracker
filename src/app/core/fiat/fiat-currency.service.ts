@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FiatRatesDbService} from './fiat-rates-db.service';
 import {FreeCurrencyApiService} from '../api/free-currency-api.service';
-import {DateUtils} from '../utils/date.utils';
+import {DateUtils} from '../utils';
 import {CurrencyModel} from './interfaces';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {NEVER, Observable, Subject} from 'rxjs';

@@ -5,9 +5,8 @@ import {
   HostBinding,
   Inject,
   Input,
-  OnChanges, OnInit,
+  OnChanges,
   SimpleChanges,
-  ViewEncapsulation
 } from '@angular/core';
 import {Icons} from './icons';
 import {uppercamelcase} from './utils';

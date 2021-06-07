@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, Directive,
   EventEmitter,
   HostBinding,
   Input,
@@ -11,12 +11,10 @@ import {
 import {interval} from 'rxjs';
 import {filter, map, take} from 'rxjs/operators';
 
-@Component({
-  selector: 'progress-bar',
-  template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush
+@Directive({
+  selector: 'div[progress-bar]',
 })
-export class ProgressBarComponent implements OnInit {
+export class ProgressBarDirective implements OnInit {
 
   @Input() timer: boolean = false;
   @Input() total!: number;

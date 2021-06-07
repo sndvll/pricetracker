@@ -1,29 +1,35 @@
-<div class="p-5 bg-green-100 box-border rounded shadow-sm">
+<div class="p-5 box-border rounded shadow-sm bg-yellow-50 dark:bg-black">
   <div class="flex flex-row justify-between">
-    <div>Show holdings in</div>
+    <div class="text-sm leading-none">Show holdings in</div>
     <div class="flex flex-row gap-x-1">
-      <div class="base-currency active">USD</div>
-      <div class="base-currency">EUR</div>
-      <div class="base-currency">BTC</div>
-      <div class="base-currency">ETH</div>
+      <button sndvll-btn="button" size="sm" class="base-currency active">USD</button>
+      <button sndvll-btn="button" size="sm" class="base-currency">EUR</button>
+      <button sndvll-btn="button" size="sm" class="base-currency">BTC</button>
+      <button sndvll-btn="button" size="sm" class="base-currency">ETH</button>
     </div>
   </div>
-  <div class="mt-2 text-3xl font-light">
+  <div class="mt-2 text-3xl font-bold leading-none">
     {{totalAmount | currency}}
   </div>
 </div>
-
-<div>
-  <button (click)="add()" class="button primary">Add</button>
-  <button (click)="openModal(modalTemplate)" class="button secondary">Modal</button>
-  <button (click)="openToast()" class="button bg-green-400">Toast</button>
-  <button (click)="openConnectedLeft(origin1)" class="button primary" #origin1>Connected Left</button>
-  <button (click)="openConnectedRight(origin2)" class="button primary" #origin2>Connected Right</button>
-  <button (click)="openConnectedMiddleBottom(origin3)" class="button primary" #origin3>Connected Middle bottom</button>
-  <button (click)="openConnectedTopRight(origin4)" class="button primary" #origin4>Connected Top Right</button>
+<div class="mt-2">
+  <button sndvll-btn="button" (click)="add()" color="primary" class="m-1">Add</button>
+  <button sndvll-btn="button" (click)="openModal(modalTemplate)" color="secondary" class="m-1">Modal</button>
+  <button sndvll-btn="button" (click)="openToast()" color="success" class="m-1" tooltip="Öppnar en toast">Toast</button>
+  <button sndvll-btn="button" (click)="openToast()" color="danger" class="m-1" tooltip="Öppnar en toast">Danger</button>
+  <button sndvll-btn="button" (click)="openToast()" color="warning" class="m-1" tooltip="Öppnar en toast">Warning</button>
+  <button sndvll-btn="button" (click)="openToast()" color="light" class="m-1" tooltip="Öppnar en toast">Light</button>
+  <button sndvll-btn="button" (click)="openToast()" color="dark" class="m-1" tooltip="Öppnar en toast">Dark</button>
+  <button sndvll-btn="icon" [hover]="false" tooltip="Ett informativt jävla meddelande">
+    <icon name="info" size="lg"></icon>
+  </button>
 </div>
-
-<div class="mt-4 py-5">
+<div class="p-2">
+  <p>
+    Hey, <br /> This is a nice text.. <a sndvll-btn="link">and this is a link somewhere</a>
+  </p>
+</div>
+<div class="py-5">
   <div class="grid grid-cols-7 px-5">
     <div class="w-14"></div>
     <div class="text-sm">Name</div>
@@ -42,8 +48,8 @@
 </div>
 
 <ng-template #modalTemplate>
-  <div class="w-100">
-    <button (click)="openToast()" class="button bg-green-400">Toast</button>
+  <div modalContent>
+    <button sndvll-btn="button" (click)="openToast()">Toast</button>
     <form [formGroup]="formGroup">
       <sndvll-select class="my-2"
                      formControlName="select"
@@ -58,6 +64,13 @@
         Toggle label
       </sndvll-toggle>
     </form>
+    <pre>{{formGroup.value | json}}</pre>
   </div>
-  <pre>{{formGroup.value | json}}</pre>
+</ng-template>
+
+<ng-template #dropdown>
+  <a sndvll-dropdown-item class="w-40">Link 1</a>
+  <a sndvll-dropdown-item class="w-40">Link 2</a>
+  <a sndvll-dropdown-item class="w-40">Link 3</a>
+  <a sndvll-dropdown-item class="w-40">Link 4</a>
 </ng-template>

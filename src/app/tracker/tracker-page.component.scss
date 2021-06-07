@@ -1,6 +1,6 @@
-.base-currency {
-  @apply bg-green-300 px-2 rounded text-white;
+button.base-currency {
+  @apply bg-green-300 hover:bg-green-400 dark:bg-gray-500 text-white font-bold;
   &.active {
-    @apply bg-green-500;
+    @apply bg-green-500 hover:bg-green-700 dark:bg-gray-300;
   }
 }

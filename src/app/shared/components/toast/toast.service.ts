@@ -22,7 +22,7 @@ export class ToastService {
 
   constructor(private dialog: DialogService) {}
 
-  public open(config: ToastConfig = DEFAULT_CONFIG): DialogRef {
+  public open(config: ToastConfig = DEFAULT_CONFIG): DialogRef<ToastComponent, ToastConfig> {
     return this.dialog.open<ToastComponent, ToastConfig>(ToastService
       .getDialogConfig(config));
   }

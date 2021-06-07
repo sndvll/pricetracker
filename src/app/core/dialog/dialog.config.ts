@@ -31,12 +31,6 @@ export enum DialogYPosition {
   Bottom = 'bottom',
 }
 
-export enum BackdropColor {
-  White = 'white',
-  Black = 'black',
-  Transparent = 'transparent'
-}
-
 export  interface RepositionEvent {
   elementRect: DOMRect;
   position: DialogConnectedPosition;
@@ -61,7 +55,7 @@ export interface DialogConfig<T, D = any> {
   fullWidth?: boolean;
   fullHeight?: boolean;
   backdropClickThrough?: boolean;
-  backdropColor?: BackdropColor;
+  backdropClass?: string;
   backdropOpacity?: Opacity;
   preferredConnectedPosition?: DialogConnectedPosition;
   parentWide?: boolean;
@@ -87,6 +81,21 @@ abstract class DialogConfigBuilder<T, D = any> {
     return this;
   }
 
+  withBackdrop(withBackdrop: boolean) {
+    this._config.withBackdrop = withBackdrop;
+    return this;
+  }
+
+  backdropClass(color: string) {
+    this._config.backdropClass = color;
+    return this;
+  }
+
+  backdropOpacity(opacity: Opacity) {
+    this._config.backdropOpacity = opacity;
+    return this;
+  }
+
   get config(): DialogConfig<T> {
     if (!this._config.component) {
       throw new Error('You need to provide a component to inject into the dialog');
@@ -109,7 +118,7 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
     withBackdrop: true,
     closeOnBackdropClick: true,
     backdropClickThrough: false,
-    backdropColor: BackdropColor.Black
+    backdropClass: 'bg-black'
   }
 
   type(type: DialogType) {
@@ -148,18 +157,8 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
     return this;
   }
 
-  backdropColor(color: BackdropColor) {
-    this._config.backdropColor = color;
-    return this;
-  }
-
   backdropClickThrough(clickTrough: boolean) {
     this._config.backdropClickThrough = clickTrough;
-    return this;
-  }
-
-  withBackdrop(withBackdrop: boolean) {
-    this._config.withBackdrop = withBackdrop;
     return this;
   }
 
@@ -167,14 +166,9 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
     this._config.noScroll = noScroll;
     return this;
   }
-
-  backdropOpacity(opacity: Opacity) {
-    this._config.backdropOpacity = opacity;
-    return this;
-  }
 }
 
-export class ConnectedDialogConfigBuilder<T> extends DialogConfigBuilder<T> {
+export class ConnectedDialogConfigBuilder<T, D> extends DialogConfigBuilder<T, D> {
 
   _config: DialogConfig<T> = {
     type: DialogType.Connected,
@@ -186,7 +180,7 @@ export class ConnectedDialogConfigBuilder<T> extends DialogConfigBuilder<T> {
     parentWide: false,
     classes: '',
     backdropOpacity: '30',
-    backdropColor: BackdropColor.White
+    backdropClass: 'bg-white dark:bg-black'
   };
 
   origin(origin: HTMLElement) {

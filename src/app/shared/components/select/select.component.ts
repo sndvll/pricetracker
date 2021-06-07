@@ -84,7 +84,7 @@ export class SelectComponent implements ControlValueAccessor {
   public open() {
     this.opened = true;
 
-    const config = new ConnectedDialogConfigBuilder()
+    const config = new ConnectedDialogConfigBuilder<SelectDropdownComponent, SelectOption[]>()
       .data(this._options)
       .origin(this.elementRef.nativeElement)
       .component(SelectDropdownComponent)
@@ -92,9 +92,9 @@ export class SelectComponent implements ControlValueAccessor {
       .preferredConnectedPosition(DialogConnectedPosition.BottomLeft)
       .config;
 
-    const dialogRef = this.dialog.open(config);
+    const dialogRef = this.dialog.open<SelectDropdownComponent, SelectOption[]>(config);
     dialogRef.onClose$
-      .subscribe((options) => {
+      .subscribe((options: SelectOption[]) => {
         if (options) {
           this.options = options;
         }

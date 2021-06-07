@@ -21,8 +21,8 @@ export class ToastComponent {
   @HostBinding('class.text-black') textBlack: boolean;
   @HostBinding('class.text-white') textWhite: boolean;
 
-  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {
-    this.config = dialogRef.config.data;
+  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef<ToastComponent, ToastConfig>) {
+    this.config = dialogRef.config.data!;
     this.info = this.config.type === ToastType.Info;
     this.success = this.config.type === ToastType.Success;
     this.warning = this.config.type === ToastType.Warning;

@@ -1,6 +1,6 @@
 input {
   border-style: hidden;
-  @apply appearance-none outline-none w-full text-gray-800 placeholder-gray-400;
+  @apply appearance-none outline-none w-full text-gray-800 placeholder-gray-400 bg-white dark:bg-black text-black dark:text-white;
   &.sm {
     @apply text-sm py-px px-2;
   }

@@ -25,6 +25,7 @@ export interface AttachedComponents {
   backdrop?: ComponentRef<DialogBackdrop> | null;
   container?: HTMLElement | null;
   connectedContainer?: HTMLElement | null;
+  connectedBackdrop?: HTMLElement | null;
   dialogs: ComponentRef<GlobalDialog>[];
 }
 
@@ -43,17 +44,17 @@ export class DialogService {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
-  public open<T, D = any>(config: DialogConfig<T>) {
-    const dialogRef: DialogRef<T> = new DialogRef<T>(this.location, config);
+  public open<T, D>(config: DialogConfig<T, D>) {
+    const dialogRef: DialogRef<T, D> = new DialogRef<T, D>(this.location, config);
     const injector = DialogUtils.createInjector(this.injector,[{provide: DIALOG_REF, useValue: dialogRef}]);
     return config.type === DialogType.Connected ?
       this._connectedDialog(config, dialogRef, injector) :
       this._globalDialog(config, dialogRef, injector);
   }
 
-  private _connectedDialog<T>(config: DialogConfig<T>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
+  private _connectedDialog<T, D>(config: DialogConfig<T>, dialogRef: DialogRef<T, D>, injector: Injector): DialogRef<T, D> {
 
-    const {component, origin} = config;
+    const {component, origin, withBackdrop} = config;
 
     if (!origin) {
             throw new Error('Got no origin element to position the connected component to. Please check your config and provide an origin from the template.')
@@ -62,8 +63,12 @@ export class DialogService {
     const componentRef = this._createComponentRef(component!, injector);
     const dialogComponentRef = this._createDialogComponentRef(componentRef, injector, true);
 
-    let backdropComponentRef: ComponentRef<DialogBackdrop> = DialogUtils.getComponentRef(DialogBackdrop, injector, this.componentFactoryResolver, this.applicationRef);
-    this.document.body.appendChild(backdropComponentRef.location.nativeElement);
+    let backdropComponentRef: ComponentRef<DialogBackdrop>;
+    if (withBackdrop) {
+      backdropComponentRef = DialogUtils.getComponentRef(DialogBackdrop, injector, this.componentFactoryResolver, this.applicationRef);
+      this.document.body.appendChild(backdropComponentRef.location.nativeElement);
+    }
+
 
     const repositionListenerDestroyer = new Subject<void>();
     dialogRef.reposition$
@@ -74,7 +79,11 @@ export class DialogService {
 
     dialogRef.onClose$
       .subscribe(() => {
-        [componentRef, dialogComponentRef, backdropComponentRef]
+        const refs: ComponentRef<any>[] = [componentRef, dialogComponentRef];
+        if (backdropComponentRef) {
+          refs.push(backdropComponentRef);
+        }
+        refs
           .forEach(ref => {
             ref.destroy();
             repositionListenerDestroyer.next();
@@ -86,7 +95,7 @@ export class DialogService {
     return dialogRef;
   }
 
-  private _globalDialog<T, D>(config: DialogConfig<T, D>, dialogRef: DialogRef<T>, injector: Injector): DialogRef<T> {
+  private _globalDialog<T, D>(config: DialogConfig<T, D>, dialogRef: DialogRef<T, D>, injector: Injector): DialogRef<T, D> {
 
     const {component, type, withBackdrop, noScroll} = config;
 

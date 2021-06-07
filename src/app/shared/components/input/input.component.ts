@@ -17,7 +17,6 @@ export const INPUT_VALUE_ACCESSOR = {
   multi: true
 }
 
-
 @Component({
   selector: 'sndvll-input',
   templateUrl: './input.component.html',
@@ -68,7 +67,7 @@ export class InputComponent implements ControlValueAccessor {
 
   @ViewChild('input') input!: ElementRef;
 
-  @HostBinding('class') classList = 'my-2 bg-white p-1 flex border border-gray-200 rounded';
+  @HostBinding('class') classList = 'my-2 bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded';
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 

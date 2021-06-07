@@ -5,18 +5,18 @@ import {AssetComponent} from "./components/asset.component";
 import {TrackerPageComponent} from "./tracker-page.component";
 import {StateModule} from '../core/state';
 import {AssetStore} from './store';
-import {TestComponent} from './components/test.component';
+import {ButtonModule} from '../shared/directives/button/button.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    StateModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        StateModule,
+        ButtonModule
+    ],
   declarations: [
     TrackerPageComponent,
     AssetComponent,
-    TestComponent
   ],
   providers: [
     AssetStore

@@ -3,8 +3,8 @@ import {Component, Input} from "@angular/core";
 @Component({
   selector: 'asset',
   template: `
-    <div class="asset bg-yellow-50">
-      <div class="icon">
+    <div class="grid grid-cols-7 mt-2 py-3 shadow-sm rounded px-3 bg-yellow-50 dark:bg-black">
+      <div class="w-14 h-14 flex items-center justify-center rounded-full text-3xl subpixel-antialiased text-gray-600 dark:text-gray-100 bg-yellow-200 dark:bg-gray-400">
         <i [classList]="icon"></i>
       </div>
       <div class="flex flex-col justify-center">
@@ -22,16 +22,7 @@ import {Component, Input} from "@angular/core";
         <span class="text-sm">{{quantity | number : '1.2-6'}}</span>
       </div>
     </div>
-  `,
-  styles: [`
-    .icon {
-      @apply w-14 h-14 flex items-center justify-center rounded-full bg-yellow-200 text-3xl subpixel-antialiased text-gray-600;
-    }
-
-    .asset {
-      @apply grid grid-cols-7 mt-2 py-3 shadow-sm rounded px-3;
-    }
-  `]
+  `
 })
 export class AssetComponent {
 

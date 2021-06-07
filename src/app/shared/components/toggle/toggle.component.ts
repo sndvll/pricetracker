@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BehaviorSubject} from 'rxjs';
-import {ColorHues, Colors} from '../../../core/utils';
+import {ColorHue, Color, ColorUtils} from '../../../core/utils';
 
 export const TOGGLE_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -31,10 +31,10 @@ export class ToggleComponent implements ControlValueAccessor {
 
   @HostBinding('class') classList = 'mb-3';
 
-  @Input() color: Colors = 'blue';
-  @Input() hue: ColorHues = '400';
+  @Input() color: Color = 'blue';
+  @Input() hue: ColorHue = '400';
   get checkedColor(): string {
-    return `bg-${this.color}${this.hue ? `-${this.hue}`: ''}`;
+    return `${ColorUtils.color(this.color, this.hue)} ${ColorUtils.color(this.color, this.hue, true)}`;
   }
 
   @Input() set disabled(value: boolean) {

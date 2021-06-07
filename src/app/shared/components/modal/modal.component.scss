@@ -1,0 +1,17 @@
+.modal {
+  @apply relative bg-white dark:bg-black text-black dark:text-white border-0 shadow-lg;
+  &.floating {
+    @apply rounded-xl;
+  }
+  &.full-height {
+    @apply h-full;
+  }
+}
+
+.modal-header {
+  @apply flex w-full py-4 px-5;
+}
+
+.modal-content {
+  @apply w-full py-4 px-5;
+}

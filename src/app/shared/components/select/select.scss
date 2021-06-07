@@ -1,9 +1,9 @@
 .select-component {
-  @apply bg-white p-1 flex border border-gray-200 rounded;
+  @apply bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded;
 }
 
 .select-label {
- @apply appearance-none outline-none w-full text-gray-800 cursor-pointer;
+ @apply appearance-none outline-none w-full text-gray-800 dark:text-white cursor-pointer;
   &.sm {
     @apply text-sm py-px px-2;
   }
@@ -16,7 +16,7 @@
 }
 
 .select-chevron-container {
-  @apply text-gray-300 w-8 border-l flex items-center border-gray-200;
+  @apply  w-8 border-l flex items-center border-gray-200;
   &.sm {
     @appl py-px pl-2 pr-1;
   }
@@ -29,7 +29,7 @@
 }
 
 .select-chevron {
-  @apply cursor-pointer text-gray-600 outline-none;
+  @apply cursor-pointer text-gray-600 outline-none text-gray-300 dark:text-white;
   > icon {
     @apply align-middle;
   }
@@ -60,5 +60,5 @@
 }
 
 .select-option {
-  @apply block cursor-pointer items-center p-2 border-transparent bg-white border-l-2 hover:bg-gray-50 hover:border-gray-200;
+  @apply block cursor-pointer items-center p-2 border-transparent bg-white dark:bg-gray-900 text-black dark:text-white border-l-2 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-200 dark:hover:border-gray-400;
 }

@@ -69,7 +69,7 @@ export class DialogUtils {
         element.style.left = this.getPxValue(originRect.right - elementRect.width);
       },
       [DialogConnectedPosition.TopMiddle]: () => {
-        element.style.top = this.getPxValue(originRect.top - elementRect.height) + 'px';
+        element.style.top = this.getPxValue(originRect.top - elementRect.height);
         element.style.left = this.getPxValue(originRect.left - ((elementRect.width / 2) - (originRect.width / 2)));
       },
       [DialogConnectedPosition.Left]: () => {

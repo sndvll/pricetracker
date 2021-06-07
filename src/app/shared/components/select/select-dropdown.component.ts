@@ -18,8 +18,8 @@ export class SelectDropdownComponent {
     this.dialogRef.dismiss(options);
   }
 
-  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef) {
-    this.options = dialogRef.config.data;
+  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<SelectDropdownComponent, SelectOption[]>) {
+    this.options = dialogRef.config.data!;
   }
 
 }

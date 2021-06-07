@@ -3,7 +3,7 @@ label.toggle {
   >.toggle-container {
     @apply relative;
     >.toggle-bg {
-      @apply block w-10 h-6 bg-gray-200 rounded-full shadow-inner;
+      @apply block w-10 h-6 bg-gray-200 dark:bg-gray-800 rounded-full shadow-inner;
     }
   }
   &.disabled {
@@ -22,7 +22,7 @@ label.toggle {
   }
 
   &.unchecked {
-    @apply bg-white;
+    @apply bg-white dark:bg-black hover:bg-gray-100;
   }
 
   &.disabled {

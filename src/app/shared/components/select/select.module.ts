@@ -9,7 +9,6 @@ import {SelectDropdownComponent} from './select-dropdown.component';
 @NgModule({
   imports: [
     CommonModule,
-    DialogModule,
     IconsModule
   ],
   declarations: [

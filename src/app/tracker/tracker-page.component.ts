@@ -1,8 +1,6 @@
 import {Component, OnDestroy, OnInit, TemplateRef} from "@angular/core";
 import {
-  ConnectedDialogConfigBuilder,
   CryptoCurrencyService,
-  DialogConnectedPosition,
   DialogService,
   DialogXPosition,
   FiatCurrencyService
@@ -11,11 +9,11 @@ import {Asset, AssetStore} from './store';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ToastConfigBuilder, ToastService} from '../shared/components/toast';
-import {TestComponent} from './components/test.component';
 import {SelectOption} from '../shared/components/select/select.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ModalService} from '../shared/components/modal/modal.service';
 import {ModalType} from '../shared/components/modal/modal.config';
+import {DropdownMenuService} from '../shared/components/dropdown-menu/dropdown-menu.service';
 
 @Component({
   selector: 'tracker',
@@ -47,6 +45,7 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
     private store: AssetStore,
     private toast: ToastService,
     private modal: ModalService,
+    private dropdown: DropdownMenuService,
     private dialog: DialogService,
     private formBuilder: FormBuilder) {
 
@@ -68,30 +67,8 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
     this._onDestroy.complete();
   }
 
-  openConnected(origin: HTMLElement, position: DialogConnectedPosition) {
-    const dialogRef = this.dialog.open<TestComponent>(new ConnectedDialogConfigBuilder<TestComponent>()
-      .data(['GOT SOME DATA MF'])
-      .component(TestComponent)
-      .preferredConnectedPosition(position)
-      .origin(origin)
-      .config);
-    dialogRef.checkPosition();
-  }
-
-  openConnectedRight(origin: HTMLElement) {
-    this.openConnected(origin, DialogConnectedPosition.Right)
-  }
-
-  openConnectedMiddleBottom(origin: HTMLElement) {
-    this.openConnected(origin, DialogConnectedPosition.BottomMiddle)
-  }
-
-  openConnectedTopRight(origin: HTMLElement) {
-    this.openConnected(origin, DialogConnectedPosition.TopRight)
-  }
-
-  openConnectedLeft(origin: HTMLElement) {
-    this.openConnected(origin, DialogConnectedPosition.Left)
+  openDropdown(origin: HTMLElement, templateRef: TemplateRef<any>) {
+    this.dropdown.open(origin, templateRef)
   }
 
   openToast() {
@@ -103,7 +80,7 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
   }
 
   openModal(templateRef: TemplateRef<any>) {
-    this.modal.open({type: ModalType.Right, templateRef});
+    this.modal.open({type: ModalType.Floating, templateRef, width: '600px'});
   }
 
   add() {

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {
-  BackdropColor,
+  DialogConfig,
+  DialogRef,
   DialogService,
   DialogType,
   DialogXPosition,
@@ -16,7 +17,7 @@ export class ModalService {
 
   constructor(private dialog: DialogService) {}
 
-  open(config: ModalConfig) {
+  open(config: ModalConfig): DialogRef<ModalComponent, ModalConfig> {
 
     const modalTypeConfigs = {
       [ModalType.Floating]: ModalService.getDialogConfig(config)
@@ -30,8 +31,8 @@ export class ModalService {
         .fullHeight(true)
     };
 
-    const dialogConfig = modalTypeConfigs[config.type].config;
-    return this.dialog.open(dialogConfig);
+    const dialogConfig: DialogConfig<ModalComponent, ModalConfig> = modalTypeConfigs[config.type].config;
+    return this.dialog.open<ModalComponent, ModalConfig>(dialogConfig);
   }
 
   private static getDialogConfig(config: ModalConfig) {
@@ -39,11 +40,11 @@ export class ModalService {
       .component(ModalComponent)
       .data(config)
       .type(DialogType.Modal)
-      .isClosable(true)
+      .isClosable(config.closable ?? true)
       .closeOnBackdropClick(config.closeOnBackdropClick ?? true)
       .withBackdrop(true)
-      .backdropOpacity(config.backdropOpacity ?? '40')
-      .backdropColor(config.backdropColor ?? BackdropColor.White)
+      .backdropOpacity(config.backdropOpacity ?? '60')
+      .backdropClass(config.backdropClass ?? 'bg-white dark:bg-gray-700')
       .noScroll(true)
   }
 }

@@ -85,7 +85,7 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    this.store.add({id: 'nano', name: 'Nano', shortName: 'nano', quantity: 16, rate: 7.8, change: 10, color: 'gray'});
+    this.store.add({id: 'nano', name: 'Nano', shortName: 'nano', quantity: 16, rate: 7.8, marketChange: 10, color: 'gray'});
   }
 
 }

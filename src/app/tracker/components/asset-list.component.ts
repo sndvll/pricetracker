@@ -19,12 +19,7 @@ import {DialogRef} from '../../core/dialog';
           <div class="text-right col-span-2">Quantity</div>
         </div>
         <asset *ngFor="let asset of assets"
-               [shortName]="asset.shortName"
-               [name]="asset.name"
-               [quantity]="asset.quantity"
-               [rate]="asset.rate"
-               [marketChange]="asset.change"
-               [color]="asset.color"
+               [asset]="asset"
         ></asset>
       </div>
     </card>

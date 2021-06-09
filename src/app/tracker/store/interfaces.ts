@@ -6,7 +6,7 @@ export interface Asset {
   shortName: string;
   quantity: number;
   rate: number;
-  change: number
+  marketChange: number
   color: Color;
 }
 export interface AssetList {

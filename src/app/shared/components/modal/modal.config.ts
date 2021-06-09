@@ -7,7 +7,7 @@ export enum ModalType {
   Right
 }
 
-export interface ModalConfig {
+export interface ModalConfig<T = any> {
   type: ModalType;
   templateRef: TemplateRef<any>;
   backdropClass?: string,
@@ -15,4 +15,5 @@ export interface ModalConfig {
   closeOnBackdropClick?: boolean;
   width?: string;
   closable?: boolean
+  data?: T
 }

@@ -11,12 +11,12 @@ import {AssetIconComponent} from './components/asset-icon.component';
 import {AssetListComponent} from './components/asset-list.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        SharedModule,
-        StateModule,
-        ButtonModule
-    ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    StateModule,
+    ButtonModule
+  ],
   declarations: [
     TrackerPageComponent,
     AssetComponent,

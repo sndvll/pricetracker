@@ -21,19 +21,19 @@ export class AssetStore extends BaseStore<AssetState>{
           name: 'Crypto',
           id: shortid.generate(),
           assets: [
-            {id: shortid.generate(), name: 'Bitcoin', shortName: 'btc', quantity: 1.00144781, rate: 33482.30, change: 56, color: 'red'},
-            {id: shortid.generate(), name: 'Doge', shortName: 'doge', quantity: 200.5992, rate: 0.3456, change: -30, color: 'yellow'},
-            {id: shortid.generate(), name: 'Shiba Inu', shortName: 'shib', quantity: 3458033.51, rate: 0.00000742, change: 10, color: 'pink'},
-            {id: shortid.generate(), name: 'BNB', shortName: 'bnb', quantity: 0.00844984, rate: 1.7, change: 10, color: 'pink'},
-            {id: shortid.generate(), name: 'Ether', shortName: 'eth', quantity: 1, rate: 1.7, change: 10, color: 'blue'},
+            {id: shortid.generate(), name: 'Bitcoin', shortName: 'btc', quantity: 1.00144781, rate: 33482.30, marketChange: 56, color: 'red'},
+            {id: shortid.generate(), name: 'Doge', shortName: 'doge', quantity: 200.5992, rate: 0.3456, marketChange: -30, color: 'yellow'},
+            {id: shortid.generate(), name: 'Shiba Inu', shortName: 'shib', quantity: 3458033.51, rate: 0.00000742, marketChange: 10, color: 'pink'},
+            {id: shortid.generate(), name: 'BNB', shortName: 'bnb', quantity: 0.00844984, rate: 1.7, marketChange: 10, color: 'pink'},
+            {id: shortid.generate(), name: 'Ether', shortName: 'eth', quantity: 1, rate: 1.7, marketChange: 10, color: 'blue'},
           ]
         },
         {
           name: 'Stable',
           id: shortid.generate(),
           assets: [
-            {id: shortid.generate(), name: 'TetherUSD', shortName: 'usdt', quantity: 5, rate: 1, change: 0, color: 'green'},
-            {id: shortid.generate(), name: 'USD Coin', shortName: 'usdc', quantity: 10, rate: 1, change: 0, color: 'blue'},
+            {id: shortid.generate(), name: 'TetherUSD', shortName: 'usdt', quantity: 5, rate: 1, marketChange: 0, color: 'green'},
+            {id: shortid.generate(), name: 'USD Coin', shortName: 'usdc', quantity: 10, rate: 1, marketChange: 0, color: 'blue'},
           ]
         }
       ]
@@ -64,7 +64,8 @@ export class AssetStore extends BaseStore<AssetState>{
 
     return assets
       .pipe(
-        switchMap((assets: Asset[]) => of(assets.reduce((value: number, current: Asset): number => current.rate * current.quantity + value, 0)))
+        switchMap((assets: Asset[]) => of(assets
+          .reduce((value: number, current: Asset): number => current.rate * current.quantity + value, 0)))
       );
   }
 

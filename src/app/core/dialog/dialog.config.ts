@@ -62,7 +62,7 @@ export interface DialogConfig<T, D = any> {
   noScroll?: boolean;
 }
 
-abstract class DialogConfigBuilder<T, D = any> {
+abstract class DialogConfigBuilder<T, D> {
 
   abstract _config: DialogConfig<T>;
 
@@ -96,7 +96,7 @@ abstract class DialogConfigBuilder<T, D = any> {
     return this;
   }
 
-  get config(): DialogConfig<T> {
+  get config(): DialogConfig<T, D> {
     if (!this._config.component) {
       throw new Error('You need to provide a component to inject into the dialog');
     }

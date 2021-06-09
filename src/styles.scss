@@ -1,6 +1,9 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "./styles/shared";
+@import "./styles/tracker";
+@import "./styles/dialog";
 
 body {
   @apply bg-gray-200 dark:bg-black;

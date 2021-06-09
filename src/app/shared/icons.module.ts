@@ -4,9 +4,10 @@ import {
   AlertCircle,
   AlertTriangle,
   ChevronDown,
-  ChevronUp,
-  Info,
+  ChevronUp, Edit,
+  Info, Menu,
   MoreVertical,
+  PlusCircle, Settings, Trash2,
   X,
   XCircle,
 } from '@sndvll/icons/icons';
@@ -19,7 +20,12 @@ const icons = {
   X,
   ChevronDown,
   ChevronUp,
-  MoreVertical
+  MoreVertical,
+  PlusCircle,
+  Menu,
+  Settings,
+  Edit,
+  Trash2
 };
 
 @NgModule({

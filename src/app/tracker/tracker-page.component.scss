@@ -4,3 +4,7 @@ button.base-currency {
     @apply bg-green-500 hover:bg-green-700 dark:bg-gray-300;
   }
 }
+
+.total-amount {
+  @apply p-5 box-border rounded shadow-sm bg-yellow-50 dark:bg-black;
+}

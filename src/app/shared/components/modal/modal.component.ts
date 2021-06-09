@@ -1,4 +1,4 @@
-import {Component, Directive, HostBinding, Inject, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {Component, Directive, HostBinding, Inject, OnInit, TemplateRef} from '@angular/core';
 import {DIALOG_REF, DialogRef} from '../../../core/dialog';
 import {ModalConfig, ModalType} from './modal.config';
 
@@ -20,15 +20,12 @@ export class ModalHeaderDirective {
 @Component({
   template: `
     <button *ngIf="showCloseButton"
-            sndvll-btn="icon"
-            class="absolute rounded-full -right-2 -top-2 text-white bg-black dark:bg-gray-600 text-white"
+            class="modal-close-button"
             (click)="close()">
       <icon name="x" weight="bolder"></icon>
     </button>
     <ng-container *ngTemplateOutlet="templateRef"></ng-container>
   `,
-  styleUrls: ['./modal.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class ModalComponent implements OnInit {
 
@@ -37,7 +34,7 @@ export class ModalComponent implements OnInit {
   private readonly _modalConfig: ModalConfig;
 
   @HostBinding('class') classList = 'modal';
-  @HostBinding('style.width') width = '400px';
+  @HostBinding('style.width') width = '';
   @HostBinding('class.full-height') fullHeight = false;
   @HostBinding('class.floating') floating = false;
 

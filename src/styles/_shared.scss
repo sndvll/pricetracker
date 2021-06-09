@@ -1,0 +1,250 @@
+// CardComponent classes
+.card {
+ @apply block box-border rounded w-full;
+}
+
+.card-header {
+  @apply flex flex-row pt-1;
+}
+
+.card-content {
+  @apply pb-1;
+}
+
+// DropdownMenuComponent classes
+.dropdown-menu {
+  @apply flex flex-col shadow rounded overflow-y-auto mt-1;
+  > div {
+    @apply border-gray-100;
+  }
+}
+.dropdown-menu-item {
+  @apply flex w-full justify-start cursor-pointer items-center py-2 px-3 border-transparent text-lg bg-white dark:bg-gray-700 border-l-2 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-200 dark:hover:border-gray-400 select-none;
+}
+
+// InputComponent classes
+.input-component {
+  @apply my-2 bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded;
+  > input {
+    border-style: hidden;
+    @apply appearance-none outline-none w-full text-gray-800 placeholder-gray-400 bg-white dark:bg-black text-black dark:text-white;
+    &.sm {
+      @apply text-sm py-px px-2;
+    }
+    &.md {
+      @apply py-1 px-2;
+    }
+    &.lg {
+      @apply text-lg py-2 px-2;
+    }
+  }
+}
+.input-clear-button {
+  @apply cursor-pointer w-6 h-full flex items-center text-gray-400 outline-none ;
+}
+
+// ModalComponent classes
+.modal {
+  @apply relative bg-white dark:bg-black text-black dark:text-white border-0 shadow-lg;
+  &.floating {
+    @apply rounded-xl;
+  }
+  &.full-height {
+    @apply h-full;
+  }
+}
+.modal-header {
+  @apply flex w-full py-4 px-5;
+}
+.modal-content {
+  @apply w-full py-4 px-5;
+}
+.modal-close-button {
+  @apply h-8 w-8 focus:outline-none absolute rounded-full -right-2 -top-2 text-white bg-black dark:bg-gray-600 text-white;
+}
+
+// SelectComponent classes
+.select-component {
+  @apply bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded;
+}
+.select-label {
+  @apply appearance-none outline-none w-full text-gray-800 dark:text-white cursor-pointer;
+  &.sm {
+    @apply text-sm py-px px-2;
+  }
+  &.md {
+    @apply py-1 px-2;
+  }
+  &.lg {
+    @apply text-lg py-2 px-2;
+  }
+}
+.select-chevron-container {
+  @apply  w-8 border-l flex items-center border-gray-200;
+  &.sm {
+    @appl py-px pl-2 pr-1;
+  }
+  &.md {
+    @apply py-1 pl-2 pr-1;
+  }
+  &.lg {
+    @apply py-2 pl-2 pr-2;
+  }
+}
+.select-chevron {
+  @apply cursor-pointer text-gray-600 outline-none text-gray-300 dark:text-white;
+  > icon {
+    @apply align-middle;
+  }
+  &.sm {
+    @apply pl-1.5;
+  }
+  &.md {
+    @apply w-6 h-6;
+  }
+
+}
+.select-placeholder {
+  @apply appearance-none outline-none w-full text-gray-400 cursor-pointer;
+  &.sm {
+    @apply text-sm py-px px-2;
+  }
+  &.md {
+    @apply py-1 px-2;
+  }
+  &.lg {
+    @apply text-lg py-2 px-2;
+  }
+}
+.select-dropdown {
+  @apply flex flex-col shadow rounded overflow-y-auto mt-1;
+}
+.select-option {
+  @apply block cursor-pointer items-center p-2 border-transparent bg-white dark:bg-gray-900 text-black dark:text-white border-l-2 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-200 dark:hover:border-gray-400;
+}
+
+// ToastComponent classes
+.toast-component {
+  @apply flex flex-col rounded shadow-lg cursor-pointer;
+  >.toast-content {
+    @apply px-6 pt-5 flex flex-row content-center;
+  }
+}
+
+// ToggleComponent classes
+label.toggle {
+  @apply inline-flex items-center cursor-pointer;
+  >.toggle-container {
+    @apply relative;
+    >.toggle-bg {
+      @apply block w-10 h-6 bg-gray-200 dark:bg-gray-800 rounded-full shadow-inner;
+    }
+  }
+  &.disabled {
+    @apply cursor-auto;
+  }
+}
+.toggle-label {
+  @apply ml-3;
+}
+.toggle-button {
+  @apply absolute block w-4 h-4 mt-1 ml-1 rounded-full shadow inset-y-0 left-0 transition-transform duration-300 ease-in-out;
+  &.checked {
+    @apply transform translate-x-full;
+  }
+
+  &.unchecked {
+    @apply bg-white dark:bg-black hover:bg-gray-100;
+  }
+
+  &.disabled {
+    @apply bg-gray-100;
+  }
+}
+input.toggle-checkbox {
+  @apply absolute opacity-0 w-0 h-0;
+}
+
+// TooltipComponent classes
+.tooltip-component {
+  @apply py-1 px-3 bg-black rounded text-white text-sm shadow-lg font-bold;
+  >svg {
+    @apply absolute text-black h-2 w-full left-0 top-full;
+  }
+}
+
+// ButtonDirective classes
+
+.button {
+  &.btn {
+    @apply rounded focus:outline-none leading-none;
+    &.primary {
+      @apply bg-blue-300 dark:bg-blue-800 text-white;
+      &.hover {
+        @apply  hover:bg-blue-500 dark:hover:bg-blue-900;
+      }
+    }
+    &.secondary {
+      @apply bg-gray-300 dark:bg-gray-700 text-white;
+      &.hover {
+        @apply hover:bg-gray-600 dark:hover:bg-gray-800;
+      }
+    }
+    &.success {
+      @apply bg-green-300 dark:bg-green-700 text-white;
+      &.hover {
+        @apply hover:bg-green-600 dark:hover:bg-green-800;
+      }
+    }
+    &.danger {
+      @apply bg-red-300 dark:bg-red-800 text-white;
+      &.hover {
+        @apply hover:bg-red-600 dark:hover:bg-red-900;
+      }
+    }
+    &.warning {
+      @apply bg-yellow-300 dark:bg-yellow-500 text-white;
+      &.hover {
+        @apply hover:bg-yellow-600 dark:hover:bg-yellow-600;
+      }
+    }
+    &.light {
+      @apply bg-gray-100 text-black dark:bg-gray-100 dark:text-black;
+      &.hover {
+        @apply hover:bg-gray-300 dark:hover:bg-gray-300;
+      }
+    }
+    &.dark {
+      @apply bg-gray-700 dark:bg-gray-900 text-white dark:text-white;
+      &.hover {
+        @apply hover:bg-gray-800 dark:hover:bg-black;
+      }
+    }
+  }
+
+
+  &.icon {
+    @apply h-8 w-8 rounded focus:outline-none bg-transparent;
+    &.hover {
+      @apply hover:bg-gray-100 dark:hover:bg-gray-700;
+    }
+  }
+
+  &.link {
+    @apply cursor-pointer rounded focus:outline-none leading-none bg-transparent text-indigo-400;
+    &.hover {
+      @apply hover:text-indigo-700;
+    }
+  }
+
+  &.sm {
+    @apply px-3 py-2 text-sm;
+  }
+  &.md {
+    @apply px-4 py-3;
+  }
+  &.lg {
+    @apply px-5 py-4 text-lg;
+  }
+
+}

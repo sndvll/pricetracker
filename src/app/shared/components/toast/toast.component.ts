@@ -12,7 +12,7 @@ export class ToastComponent {
   public icon: string = 'info';
   public timerEnded = false;
 
-  @HostBinding('class') classes = 'flex flex-col rounded shadow-lg cursor-pointer';
+  @HostBinding('class') classList = 'toast-component';
   @HostBinding('class.bg-gray-200') info: boolean;
   @HostBinding('class.bg-green-400') success: boolean;
   @HostBinding('class.bg-yellow-400') warning: boolean;

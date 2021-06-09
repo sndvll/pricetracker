@@ -99,8 +99,6 @@ export class DialogService {
 
     const {component, type, withBackdrop, noScroll} = config;
 
-    console.log(config);
-
     if (type === DialogType.Toast && this._openedToasts()) {
       this._attachedComponents.dialogs.filter(dialog => dialog.instance.role === DialogType.Toast)
         .forEach(dialog => dialog.instance.dialogRef.close());

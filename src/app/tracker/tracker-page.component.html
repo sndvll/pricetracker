@@ -1,51 +1,29 @@
-<div class="p-5 box-border rounded shadow-sm bg-yellow-50 dark:bg-black">
-  <div class="flex flex-row justify-between">
-    <div class="text-sm leading-none">Show holdings in</div>
-    <div class="flex flex-row gap-x-1">
-      <button sndvll-btn="button" size="sm" class="base-currency active">USD</button>
-      <button sndvll-btn="button" size="sm" class="base-currency">EUR</button>
-      <button sndvll-btn="button" size="sm" class="base-currency">BTC</button>
-      <button sndvll-btn="button" size="sm" class="base-currency">ETH</button>
-    </div>
+<div class="sticky top-0 bg-white shadow-sm dark:bg-gray-900 px-2 pt-2">
+  <div class="flex flex-row justify-between px-3 pb-3 pt-1">
+    <h1 class="text-2xl font-bold text-gray-500 dark:text-gray-200">Ett jävla namn</h1>
+    <button sndvll-btn="icon" (click)="openModal(modalTemplate)">
+      <icon name="menu" weight="bold" size="1.5rem"></icon>
+    </button>
   </div>
-  <div class="mt-2 text-3xl font-bold leading-none">
-    {{totalAmount | currency}}
-  </div>
+  <total-amount [totalAmount]="totalAmount"></total-amount>
 </div>
-<div class="mt-2">
-  <button sndvll-btn="button" (click)="add()" color="primary" class="m-1">Add</button>
-  <button sndvll-btn="button" (click)="openModal(modalTemplate)" color="secondary" class="m-1">Modal</button>
-  <button sndvll-btn="button" (click)="openToast()" color="success" class="m-1" tooltip="Öppnar en toast">Toast</button>
-  <button sndvll-btn="button" (click)="openToast()" color="danger" class="m-1" tooltip="Öppnar en toast">Danger</button>
-  <button sndvll-btn="button" (click)="openToast()" color="warning" class="m-1" tooltip="Öppnar en toast">Warning</button>
-  <button sndvll-btn="button" (click)="openToast()" color="light" class="m-1" tooltip="Öppnar en toast">Light</button>
-  <button sndvll-btn="button" (click)="openToast()" color="dark" class="m-1" tooltip="Öppnar en toast">Dark</button>
-  <button sndvll-btn="icon" [hover]="false" tooltip="Ett informativt jävla meddelande">
-    <icon name="info" size="lg"></icon>
-  </button>
-</div>
-<div class="p-2">
-  <p>
-    Hey, <br /> This is a nice text.. <a sndvll-btn="link">and this is a link somewhere</a>
-  </p>
-</div>
-<div class="py-5">
-  <div class="grid grid-cols-7 px-5">
-    <div class="w-14"></div>
-    <div class="text-sm">Name</div>
-    <div class="text-sm text-left">Rate</div>
-    <div class="text-sm text-right col-span-4">Value / Quantity</div>
-  </div>
-  <div>
-    <asset *ngFor="let asset of assets"
-           [name]="asset.name"
-           [shortName]="asset.shortName"
-           [quantity]="asset.quantity"
-           [rate]="asset.rate"
-           [marketChange]="asset.change">
-    </asset>
+<div class="px-2 pb-5">
+  <asset-list *ngFor="let list of lists"
+              [name]="list.name"
+              [assets]="list.assets"></asset-list>
+
+  <div class="flex flex-row justify-center mt-3">
+    <button sndvll-btn="icon"
+            [hover]="false"
+            class="hover:text-gray-400 rounded-full"
+            (click)="add()">
+      <icon name="plus-circle" size="2rem"></icon>
+    </button>
   </div>
 </div>
+
+
+
 
 <ng-template #modalTemplate>
   <div modalContent>

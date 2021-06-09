@@ -19,7 +19,6 @@ export const TOGGLE_VALUE_ACCESSOR = {
 @Component({
   selector: 'sndvll-toggle',
   templateUrl: './toggle.component.html',
-  styleUrls: ['./toggle.component.scss'],
   providers: [TOGGLE_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -76,7 +75,6 @@ export class ToggleComponent implements ControlValueAccessor {
   }
 
   writeValue(value: boolean): void {
-    console.log(this.disabled);
     this._check(value);
   }
 }

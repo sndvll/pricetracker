@@ -20,11 +20,12 @@ export const INPUT_VALUE_ACCESSOR = {
 @Component({
   selector: 'sndvll-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
   providers: [INPUT_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputComponent implements ControlValueAccessor {
+
+  @HostBinding('class') classList = 'input-component';
 
   private _disabled: boolean = false;
   private _showClearButton = false;
@@ -66,8 +67,6 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   @ViewChild('input') input!: ElementRef;
-
-  @HostBinding('class') classList = 'my-2 bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded';
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 

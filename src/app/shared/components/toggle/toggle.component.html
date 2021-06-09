@@ -4,7 +4,7 @@
     <ng-container *ngIf="!disabled && (checked$ | async); else unchecked">
       <span class="toggle-button checked"
             [class]="checkedColor">
-        <input type="checkbox"/>
+        <input class="toggle-checkbox" type="checkbox"/>
       </span>
     </ng-container>
   </span>
@@ -14,6 +14,6 @@
 </label>
 <ng-template #unchecked>
 <span class="toggle-button unchecked" [class.disabled]="disabled" >
-    <input type="checkbox"/>
+    <input class="toggle-checkbox" type="checkbox"/>
   </span>
 </ng-template>

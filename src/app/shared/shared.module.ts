@@ -10,6 +10,8 @@ import {InputModule} from './components/input/input.module';
 import {ToggleModule} from './components/toggle/toggle.module';
 import {DropdownMenuModule} from './components/dropdown-menu/dropdown-menu.module';
 import {TooltipModule} from './components/tooltip/tooltip.module';
+import {CardModule} from './components/card/card.module';
+import {AmountChangePipe} from './pipes/amount-change.pipe';
 
 @NgModule({
   imports: [
@@ -23,9 +25,12 @@ import {TooltipModule} from './components/tooltip/tooltip.module';
     InputModule,
     ToggleModule,
     DropdownMenuModule,
-    TooltipModule
+    TooltipModule,
+    CardModule,
   ],
-  declarations: [],
+  declarations: [
+    AmountChangePipe
+  ],
   exports: [
     ReactiveFormsModule,
     ToastModule,
@@ -36,7 +41,9 @@ import {TooltipModule} from './components/tooltip/tooltip.module';
     InputModule,
     ToggleModule,
     DropdownMenuModule,
-    TooltipModule
+    TooltipModule,
+    CardModule,
+    AmountChangePipe,
   ]
 })
 export class SharedModule {}

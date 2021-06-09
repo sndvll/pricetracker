@@ -1,40 +1,39 @@
-import {Component, Input} from "@angular/core";
+import {Component, HostBinding, Input} from "@angular/core";
+import {Color} from '../../core/utils';
 
 @Component({
   selector: 'asset',
   template: `
-    <div class="grid grid-cols-7 mt-2 py-3 shadow-sm rounded px-3 bg-yellow-50 dark:bg-black">
-      <div class="w-14 h-14 flex items-center justify-center rounded-full text-3xl subpixel-antialiased text-gray-600 dark:text-gray-100 bg-yellow-200 dark:bg-gray-400">
-        <i [classList]="icon"></i>
-      </div>
-      <div class="flex flex-col justify-center">
-        <span class="text-xl font-bold subpixel-antialiased">{{shortName | uppercase}}</span>
-        <span class="text-xs">{{name}}</span>
-      </div>
-      <div class="text-left flex flex-col justify-center">
-       <span class="text-base">{{rate | currency}}</span>
-       <span class="text-sm"
-             [class.text-red-500]="negativeChange"
-             [class.text-green-500]="!negativeChange">{{!negativeChange ? '+' : ''}}{{marketChange}}%</span>
-      </div>
-      <div class="text-lg text-right flex flex-col col-span-4 justify-center">
-        <span class="text-2xl subpixel-antialiased">{{(quantity * rate) | currency : 'USD' }}</span>
-        <span class="text-sm">{{quantity | number : '1.2-6'}}</span>
-      </div>
+    <div class="flex items-center justify-center">
+      <asset-icon [shortName]="shortName" class="text-gray-600 dark:text-gray-100 bg-{{color}}-300 dark:bg-{{color}}-400"></asset-icon>
+    </div>
+    <div class="flex flex-col justify-center ml-2">
+      <span class="text-lg font-bold">{{shortName | uppercase}}</span>
+      <span class="truncate text-xs">{{name}}</span>
+    </div>
+    <div class="pl-2 break-all text-right flex flex-col col-span-3 justify-center">
+      <span class="text-sm">{{rate | currency}}</span>
+      <span class="text-xs font-bold"
+            [class.text-red-500]="negativeChange"
+            [class.text-green-500]="!negativeChange">
+        {{marketChange | change}}
+      </span>
+    </div>
+    <div class="pl-2 break-all text-right flex flex-col col-span-2 justify-center">
+      <span class="text-sm">{{quantity | number : '1.2-6'}}</span>
     </div>
   `
 })
 export class AssetComponent {
+
+  @HostBinding('class') classList = 'px-1 py-1 grid grid-cols-7 grid-flow-col auto-cols-min rounded select-none';
 
   @Input() shortName!: string;
   @Input() name!: string;
   @Input() quantity!: number;
   @Input() rate!: number;
   @Input() marketChange!: number;
-
-  get icon(): string {
-    return `cf cf-${this.shortName.toLowerCase()}`;
-  }
+  @Input() color!: Color;
 
   get negativeChange(): boolean {
     return this.marketChange < 0;

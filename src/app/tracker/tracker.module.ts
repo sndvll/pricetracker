@@ -6,6 +6,9 @@ import {TrackerPageComponent} from "./tracker-page.component";
 import {StateModule} from '../core/state';
 import {AssetStore} from './store';
 import {ButtonModule} from '../shared/directives/button/button.module';
+import {TotalAmountComponent} from './components/total-amount.component';
+import {AssetIconComponent} from './components/asset-icon.component';
+import {AssetListComponent} from './components/asset-list.component';
 
 @NgModule({
     imports: [
@@ -17,6 +20,9 @@ import {ButtonModule} from '../shared/directives/button/button.module';
   declarations: [
     TrackerPageComponent,
     AssetComponent,
+    TotalAmountComponent,
+    AssetIconComponent,
+    AssetListComponent
   ],
   providers: [
     AssetStore

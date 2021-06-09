@@ -5,8 +5,7 @@ import {
   ElementRef,
   forwardRef,
   HostBinding,
-  Input,
-  ViewEncapsulation
+  Input
 } from '@angular/core';
 import {ConnectedDialogConfigBuilder, DialogConnectedPosition, DialogService} from '../../../core/dialog';
 import {BehaviorSubject} from 'rxjs';
@@ -30,8 +29,6 @@ export const SELECT_VALUE_ACCESSOR = {
 @Component({
   selector: 'sndvll-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.scss'],
-  encapsulation: ViewEncapsulation.None,
   providers: [SELECT_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

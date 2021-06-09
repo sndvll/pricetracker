@@ -4,8 +4,7 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  Inject,
-  ViewEncapsulation
+  Inject
 } from '@angular/core';
 import {DialogRef} from './dialog.ref';
 import {DIALOG_REF, DialogConnectedPosition, DialogType, DialogXPosition, DialogYPosition} from './dialog.config';
@@ -46,9 +45,7 @@ export class DialogBackdrop {
     <div class="dialog-content" [class]="dialogRef?.config?.classes">
       <ng-content></ng-content>
     </div>
-  `,
-  styleUrls: ['./dialog.scss'],
-  encapsulation: ViewEncapsulation.None,
+  `
 })
 export class GlobalDialog {
 
@@ -71,9 +68,7 @@ export class GlobalDialog {
 }
 
 @Component({
-  template: '<ng-content></ng-content>',
-  styleUrls: ['./dialog.scss'],
-  encapsulation: ViewEncapsulation.None,
+  template: '<ng-content></ng-content>'
 })
 export class ConnectedDialog implements AfterViewInit {
 

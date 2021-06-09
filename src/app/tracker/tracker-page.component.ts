@@ -5,7 +5,7 @@ import {
   DialogXPosition,
   FiatCurrencyService
 } from "../core";
-import {Asset, AssetStore} from './store';
+import {Asset, AssetList, AssetStore} from './store';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ToastConfigBuilder, ToastService} from '../shared/components/toast';
@@ -23,6 +23,7 @@ import {DropdownMenuService} from '../shared/components/dropdown-menu/dropdown-m
 export class TrackerPageComponent implements OnInit, OnDestroy {
 
   public assets: Asset[] = [];
+  public lists: AssetList[] = [];
   public totalAmount: number = 0;
 
   public options: SelectOption<string>[] = [
@@ -52,14 +53,14 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.selectAssets
+    this.store.selectLists
       .pipe(takeUntil(this._onDestroy))
-      .subscribe(assets => this.assets = assets);
+      .subscribe(lists => this.lists = lists);
     this.store.selectTotalAmount
       .pipe(takeUntil(this._onDestroy))
       .subscribe(amount => this.totalAmount = amount);
     //this.openToast();
-    this.formGroup.valueChanges.subscribe(console.log);
+    //this.formGroup.valueChanges.subscribe(console.log);
   }
 
   ngOnDestroy() {
@@ -80,11 +81,11 @@ export class TrackerPageComponent implements OnInit, OnDestroy {
   }
 
   openModal(templateRef: TemplateRef<any>) {
-    this.modal.open({type: ModalType.Floating, templateRef, width: '600px'});
+    this.modal.open({type: ModalType.Floating, templateRef});
   }
 
   add() {
-    this.store.add({name: 'Nano', shortName: 'nano', quantity: 16, rate: 7.8, change: 10});
+    this.store.add({id: 'nano', name: 'Nano', shortName: 'nano', quantity: 16, rate: 7.8, change: 10, color: 'gray'});
   }
 
 }

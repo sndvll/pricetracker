@@ -6,7 +6,7 @@ import {DialogConfig, RepositionEvent} from './dialog.config';
 /**
  * Dialog reference used to remotely close and dismiss a dialog
  */
-export class DialogRef<T, D> {
+export class DialogRef<T= any, D = any> {
 
   private _onClose = new Subject<any>()
   public onClose$ = this._onClose.asObservable().pipe(take(1));

@@ -13,7 +13,7 @@ export class DropdownMenuService {
   }
 
   private static getDialogConfig(origin: HTMLElement, templateRef: TemplateRef<any>) {
-    return new ConnectedDialogConfigBuilder()
+    return new ConnectedDialogConfigBuilder<DropdownMenuComponent, TemplateRef<any>>()
       .origin(origin)
       .data(templateRef)
       .component(DropdownMenuComponent)

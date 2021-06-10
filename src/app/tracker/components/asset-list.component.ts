@@ -18,9 +18,22 @@ import {DialogRef} from '../../core/dialog';
           <div class="text-right col-span-5">Rate</div>
           <div class="text-right col-span-2">Quantity</div>
         </div>
-        <asset *ngFor="let asset of assets"
-               [asset]="asset"
-        ></asset>
+
+        <sndvll-accordion>
+            <sndvll-accordion-item
+                class="block rounded select-none my-1 px-2 py-1"
+                *ngFor="let asset of assets"
+                [class.bg-gray-100]="item.expanded"
+                [class.dark:bg-gray-800]="item.expanded"
+                #item>
+              <sndvll-accordion-item-header>
+                <asset-header [asset]="asset"></asset-header>
+              </sndvll-accordion-item-header>
+              <sndvll-accordion-item-content>
+                <asset-body [asset]="asset"></asset-body>
+              </sndvll-accordion-item-content>
+            </sndvll-accordion-item>
+        </sndvll-accordion>
       </div>
     </card>
 

@@ -5,9 +5,15 @@
 @import "./styles/tracker";
 @import "./styles/dialog";
 
+html, body {
+  height: 100%;
+  touch-action: manipulation;
+}
 body {
+  margin: 0;
   @apply bg-gray-200 dark:bg-black;
 }
 
-html, body { height: 100%; }
-body { margin: 0; }
+div, span {
+  touch-action: manipulation;
+}

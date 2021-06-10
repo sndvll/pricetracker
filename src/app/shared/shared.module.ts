@@ -12,7 +12,7 @@ import {DropdownMenuModule} from './components/dropdown-menu/dropdown-menu.modul
 import {TooltipModule} from './components/tooltip/tooltip.module';
 import {CardModule} from './components/card/card.module';
 import {AmountChangePipe} from './pipes/amount-change.pipe';
-import {ExpansionModule} from './components/expansion/expansion.module';
+import {AccordionModule} from './components/accordion/accordion.module';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import {ExpansionModule} from './components/expansion/expansion.module';
     DropdownMenuModule,
     TooltipModule,
     CardModule,
-    ExpansionModule
+    AccordionModule
   ],
   declarations: [
     AmountChangePipe
@@ -46,7 +46,7 @@ import {ExpansionModule} from './components/expansion/expansion.module';
     TooltipModule,
     CardModule,
     AmountChangePipe,
-    ExpansionModule
+    AccordionModule
   ]
 })
 export class SharedModule {}

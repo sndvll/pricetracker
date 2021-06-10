@@ -248,3 +248,28 @@ input.toggle-checkbox {
   }
 
 }
+
+.accordion {
+  @apply flex flex-col m-0 overflow-hidden;
+}
+
+.accordion-header {
+  @apply cursor-pointer;
+}
+
+.accordion-body {
+  @apply pt-2;
+}
+
+// Expansion Panel Component
+.expansion-panel-content {
+  @apply pt-2;
+}
+
+.expansion-panel {
+  @apply block m-0 overflow-hidden ;
+}
+
+.expansion-panel-header {
+  @apply cursor-pointer;
+}

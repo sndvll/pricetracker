@@ -1,7 +1,7 @@
 import {Component, Input, TemplateRef} from '@angular/core';
 import {Asset} from '../../store';
-import {ModalService} from '../../../shared/components/modal/modal.service';
-import {ModalType} from '../../../shared/components/modal/modal.config';
+import {ModalService} from '../../shared/components/modal/modal.service';
+import {ModalType} from '../../shared/components/modal/modal.config';
 
 @Component({
   selector: 'asset-body',

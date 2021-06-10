@@ -1,4 +1,4 @@
-import {Directive, HostBinding, Input, OnInit} from '@angular/core';
+import {Directive, HostBinding, HostListener, Input, OnInit} from '@angular/core';
 
 export type ButtonType = 'button' | 'icon' | 'link';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -16,25 +16,28 @@ export class ButtonDirective implements OnInit {
   @Input() color: ButtonColor = 'primary';
   @Input() hover: boolean = true;
 
+  @HostBinding('disabled')
+  @Input() disabled = false;
 
   ngOnInit() {
     if (this.type === 'button') {
       this.classList = `button btn ${this.size} ${this.color}`;
-      if (this.hover) {
+      if (this.hover && !this.disabled) {
         this.classList = `${this.classList} hover`;
       }
     }
     if (this.type === 'icon') {
       this.classList = 'button icon';
-      if (this.hover) {
+      if (this.hover && !this.disabled) {
         this.classList = `${this.classList} hover`;
       }
     }
     if (this.type === 'link') {
       this.classList = 'button link';
-      if (this.hover) {
+      // Todo check what happens here
+      /*if (this.hover && !this.disabled) {
         this.classList = `${this.classList} `;
-      }
+      }*/
     }
   }
 

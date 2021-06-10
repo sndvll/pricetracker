@@ -3,8 +3,10 @@
        class="focus:outline-none focus:border-hidden focus:ring-0"
        [class]="size"
        [type]="type" #input>
-<div *ngIf="showClearButton">
-  <button (click)="clear()" class="input-clear-button focus:outline-none">
-    <icon name="x"></icon>
-  </button>
+<div class="w-8">
+  <ng-container *ngIf="showClearButton">
+    <button (click)="clear()" class="input-clear-button">
+      <icon name="x"></icon>
+    </button>
+  </ng-container>
 </div>

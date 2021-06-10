@@ -16,7 +16,6 @@ export class ModalHeaderDirective {
   @HostBinding('class.modal-header') header = true;
 }
 
-
 @Component({
   template: `
     <button *ngIf="showCloseButton"

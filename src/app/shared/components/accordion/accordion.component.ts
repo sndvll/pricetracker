@@ -105,7 +105,6 @@ export class AccordionComponent implements AfterViewInit, OnDestroy {
       item.onExpandedStateChanges$
         .pipe(
           takeUntil(this._onDestroy),
-          tap(console.log),
           filter(v => v)
         )
         .subscribe(() => this.collapseOthers(item.id))

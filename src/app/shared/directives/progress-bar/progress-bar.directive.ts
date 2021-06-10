@@ -16,7 +16,7 @@ import {filter, map, take} from 'rxjs/operators';
 export class ProgressBarDirective implements OnInit {
 
   @Input() timer: boolean = false;
-  @Input() total!: number;
+  @Input() total: number = 100;
   @Input() time: number = 0;
 
   @Output() onTimeout: EventEmitter<void> = new EventEmitter<void>();
@@ -37,13 +37,17 @@ export class ProgressBarDirective implements OnInit {
   }
 
   private _startTimer() {
-    this.total = this.time * 10;
+    // This does not work when changing time setting..
+    // It depends on that this.total gets to 100%, which it will never when setting
+    // time to let's say 5.
+    // This is a very stupid solution. Fix it. TODO
+    this.total = (this.time * 10);
     interval(100)
       .pipe(
         take(this.time * 10),
         map(time => {
           this.progress = (time + 1);
-          return  time + 1;
+          return time + 1;
         }),
         filter(v => v === (this.total)))
       .subscribe(() => this.onTimeout.emit())

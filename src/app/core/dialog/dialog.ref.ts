@@ -43,7 +43,7 @@ export class DialogRef<T= any, D = any> {
     this._destroy();
   }
 
-  public dismiss(reason?: any) {
+  public dismiss<R = any>(reason?: R) {
     this._destroy(reason);
   }
 

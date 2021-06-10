@@ -3,6 +3,7 @@ import {asyncScheduler, BehaviorSubject, Observable} from 'rxjs';
 import {StateDevTools} from './state.dev-tools';
 import {STORE_CONFIG, StoreConfig} from './state.config';
 import {distinctUntilChanged, map, observeOn} from 'rxjs/operators';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Injectable()
 export abstract class BaseStore<S extends object | Array<any>> implements OnDestroy {
@@ -20,12 +21,14 @@ export abstract class BaseStore<S extends object | Array<any>> implements OnDest
   }
 
   protected constructor(@Inject(Injector) injector: Injector) {
+    const device = injector.get(DeviceDetectorService);
     this._devTools = injector.get(StateDevTools);
     const globalConfig = injector.get(STORE_CONFIG, {});
     const storeConfig = this.storeConfig() || {};
     this._localStoreConfig = {...globalConfig, ...storeConfig};
 
-    this._devToolsIsEnabled = this._localStoreConfig.enableDevTools;
+    this._devToolsIsEnabled = this._localStoreConfig.enableDevTools && device.isDesktop() && device.browser.toLowerCase() === 'chrome';
+    console.log(this._devToolsIsEnabled);
     this._storeName = this._localStoreConfig.storeName || this.constructor.name;
 
     this._firstState = this.initialState();

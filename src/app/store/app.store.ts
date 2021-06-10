@@ -1,20 +1,21 @@
 import {Inject, Injectable, Injector} from '@angular/core';
-import {BaseStore} from '../../core/state';
-import {Asset, AssetList, AssetState} from './interfaces';
+import {BaseStore} from '../core/state';
+import {AppState, Asset, AssetList} from './interfaces';
 import {Observable, of} from 'rxjs';
-import {ToastService} from '../../shared';
+import {ToastService, ToastType} from '../shared';
 import {switchMap} from 'rxjs/operators';
 
 import * as shortid from 'shortid';
+import {DialogXPosition} from '../core/dialog';
 
-@Injectable()
-export class AssetStore extends BaseStore<AssetState>{
+@Injectable({providedIn: 'root'})
+export class AppStore extends BaseStore<AppState>{
 
   constructor(@Inject(Injector) injector: Injector, private toast: ToastService) {
     super(injector);
   }
 
-  protected initialState(): AssetState {
+  protected initialState(): AppState {
     return {
       lists: [
         {
@@ -46,6 +47,26 @@ export class AssetStore extends BaseStore<AssetState>{
     } else {
       this.toast.open(ToastConfigBuilder.info({time: 0, message: 'Asset already added'}));
     }*/
+  }
+
+  editList(name: string, id: string) {
+    const lists = this.currentState.lists.map(list => {
+      if (list.id === id) {
+        return { ...list, name }
+      }
+      return list;
+    });
+    this.setState(() => ({lists}));
+  }
+
+  removeList(id: string) {
+    const filteredLists = this.currentState.lists.filter(list => list.id !== id);
+    this.setState(() => ({lists: filteredLists}));
+    this.toast.open({
+      type: ToastType.Warning,
+      message: 'List deleted',
+      time: 5
+    });
   }
 
   get selectLists(): Observable<AssetList[]> {

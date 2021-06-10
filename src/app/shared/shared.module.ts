@@ -13,6 +13,8 @@ import {TooltipModule} from './components/tooltip/tooltip.module';
 import {CardModule} from './components/card/card.module';
 import {AmountChangePipe} from './pipes/amount-change.pipe';
 import {AccordionModule} from './components/accordion/accordion.module';
+import {ButtonModule} from './directives/button/button.module';
+import {AlertModule} from './components/alert/alert.module';
 
 @NgModule({
   imports: [
@@ -28,7 +30,9 @@ import {AccordionModule} from './components/accordion/accordion.module';
     DropdownMenuModule,
     TooltipModule,
     CardModule,
-    AccordionModule
+    AccordionModule,
+    ButtonModule,
+    AlertModule
   ],
   declarations: [
     AmountChangePipe
@@ -46,7 +50,9 @@ import {AccordionModule} from './components/accordion/accordion.module';
     TooltipModule,
     CardModule,
     AmountChangePipe,
-    AccordionModule
+    AccordionModule,
+    ButtonModule,
+    AlertModule
   ]
 })
 export class SharedModule {}

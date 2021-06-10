@@ -5,7 +5,8 @@ export enum DialogType {
   Full = 'full',
   Modal = 'modal',
   Toast = 'toast',
-  Connected = 'connected'
+  Connected = 'connected',
+  Alert = 'alert'
 }
 
 export enum DialogConnectedPosition {
@@ -36,7 +37,6 @@ export  interface RepositionEvent {
   position: DialogConnectedPosition;
   parentWide?: boolean;
 }
-
 
 export const DIALOG_REF = new InjectionToken<any>('DIALOG_REF');
 

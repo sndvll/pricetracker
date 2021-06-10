@@ -1,4 +1,46 @@
-<!--<sndvll-top-bar></sndvll-top-bar>-->
-<div class="main">
-  <tracker></tracker>
+<div class="sticky top-0 bg-white shadow-sm dark:bg-gray-900 px-2 pt-2 ">
+  <div class="flex flex-row justify-end px-3 pb-3 pt-1">
+    <button sndvll-btn="icon" (click)="openModal(modalTemplate)">
+      <icon name="menu" weight="bold" size="1.5rem"></icon>
+    </button>
+  </div>
+  <total-amount [totalAmount]="totalAmount"></total-amount>
 </div>
+<div class="px-2 pb-5 flex flex-col md:flex-row justify-center">
+  <asset-list *ngFor="let list of lists"
+              class="md:mx-2 mb-2 w-full md:w-50"
+              [id]="list.id"
+              [name]="list.name"
+              [assets]="list.assets"></asset-list>
+
+  <!--<div class="flex flex-row justify-center mt-3">
+    <button sndvll-btn="icon"
+            [hover]="false"
+            class="hover:text-gray-400 rounded-full"
+            (click)="add()">
+      <icon name="plus-circle" size="2rem"></icon>
+    </button>
+  </div>-->
+</div>
+
+
+<ng-template #modalTemplate>
+  <div modalContent>
+    <button sndvll-btn="button" (click)="openToast()">Toast</button>
+    <form [formGroup]="formGroup">
+      <sndvll-select class="my-2"
+                     formControlName="select"
+                     [options]="options" placeholder="select component">
+      </sndvll-select>
+      <sndvll-input class="my-2"
+                    formControlName="input"
+                    placeholder="input component">
+      </sndvll-input>
+      <sndvll-toggle class="my-2"
+                     formControlName="toggle">
+        Toggle label
+      </sndvll-toggle>
+    </form>
+    <pre>{{formGroup.value | json}}</pre>
+  </div>
+</ng-template>

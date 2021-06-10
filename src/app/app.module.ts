@@ -3,11 +3,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from './shared';
-import {TrackerModule} from './tracker/tracker.module';
 import {HttpClientModule} from '@angular/common/http';
 import {StateModule} from './core/state';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import {TotalAmountModule} from './total-amount/total-amount.module';
+import {AssetsModule} from './assets';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @NgModule({
   declarations: [
@@ -17,10 +19,11 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     AppRoutingModule,
     SharedModule,
-    TrackerModule,
+    TotalAmountModule,
+    AssetsModule,
     HttpClientModule,
     StateModule.forRoot({
-      enableDevTools: true
+      enableDevTools: false
     }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
@@ -33,4 +36,6 @@ import { environment } from '../environments/environment';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

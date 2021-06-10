@@ -1,4 +1,4 @@
-import {Color} from '../../core/utils';
+import {Color} from '../core/utils';
 
 export interface Asset {
   id: string;
@@ -15,7 +15,7 @@ export interface AssetList {
   assets: Asset[];
 }
 
-export interface AssetState {
+export interface AppState {
   lists: AssetList[];
 }
 

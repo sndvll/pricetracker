@@ -21,7 +21,6 @@ export class DialogBackdrop {
 
   constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef<any, any>) {
     this.classList = `backdrop ${this.dialogRef.config.backdropClass ?? 'bg-black'} opacity-${this.dialogRef.config.backdropOpacity ?? '50'}`;
-    console.log(this.classList);
   }
 
   @HostListener('click') onBackdropClick() {

@@ -1,27 +1,36 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input} from '@angular/core';
-import {SelectOption} from './select.component';
+import {ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef, ViewChild} from '@angular/core';
+import {Subject} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {SelectLabelDirective} from './select-label.directive';
+
+let nextUniqueId = 0;
 
 @Component({
   selector: 'sndvll-select-option',
-  templateUrl: './select-option.component.html',
+  template: `
+    <ng-template>
+      <div class="select-option" (click)="select()">
+        <ng-container *ngIf="label" [ngTemplateOutlet]="label.template"></ng-container>
+      </div>
+    </ng-template>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectOptionComponent {
 
-  private _option!: SelectOption;
+  private _uniqueId = `sndvll-select-${nextUniqueId++}`;
+  @Input() id: string = this._uniqueId;
 
-  @HostBinding('class') classList = 'select-option';
-  @HostBinding('class.border-blue-200') isSelected = false;
+  private _onSelect = new Subject<SelectOptionComponent>();
+  public onSelect$ = this._onSelect.asObservable()
+    .pipe(take(1));
 
-  @Input() set option(option: SelectOption) {
-    this._option = option;
-    this.isSelected = this._option.selected ?? false;
-    this.changeDetectorRef.markForCheck();
+  @ViewChild(TemplateRef) optionContent!: TemplateRef<any>;
+  @ContentChild(SelectLabelDirective) label!: SelectLabelDirective;
+
+  @Input() value: any;
+
+  select() {
+    this._onSelect.next(this);
   }
-  get option(): SelectOption {
-    return this._option;
-  }
-
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
-
 }

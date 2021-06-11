@@ -1,6 +1,21 @@
-export type Color = 'red' | 'blue' | 'yellow' | 'indigo' | 'green' | 'gray' | 'purple' | 'pink' | 'black' | 'white' | 'transparent';
 export type ColorHue = '' | '50' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
 export type Opacity = '0' | '5' | '10' | '20' | '25' | '30' | '40' | '50' | '60' | '70' | '72' | '80' | '90' | '95' | '100';
+
+export enum Color {
+  red = 'red',
+  blue = 'blue',
+  yellow = 'yellow',
+  indigo = 'indigo',
+  green = 'green',
+  gray = 'gray',
+  purple = 'purple',
+  pink = 'pink',
+  black = 'black',
+  white = 'white',
+  transparent = 'transparent'
+}
+
+export const Colors: Color[] = Object.values(Color);
 
 export class ColorUtils {
 

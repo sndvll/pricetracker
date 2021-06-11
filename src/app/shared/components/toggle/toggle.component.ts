@@ -30,7 +30,7 @@ export class ToggleComponent implements ControlValueAccessor {
 
   @HostBinding('class') classList = 'mb-3';
 
-  @Input() color: Color = 'blue';
+  @Input() color: Color = Color.blue;
   @Input() hue: ColorHue = '400';
   get checkedColor(): string {
     return `${ColorUtils.color(this.color, this.hue)} ${ColorUtils.color(this.color, this.hue, true)}`;

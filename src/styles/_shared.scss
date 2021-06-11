@@ -24,7 +24,7 @@
 
 // InputComponent classes
 .input-component {
-  @apply my-2 bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded;
+  @apply bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded;
   > input {
     border-style: hidden;
     @apply appearance-none outline-none w-full text-gray-800 placeholder-gray-400 bg-white dark:bg-black text-black dark:text-white;
@@ -44,21 +44,25 @@
 }
 
 // ModalComponent classes
-.modal {
-  @apply relative bg-white dark:bg-black text-black dark:text-white border-0 shadow-lg;
+.modal-component {
+  @apply block shadow bg-white dark:bg-black text-black dark:text-white select-none p-6 w-96 max-w-xs;
   &.floating {
-    @apply rounded-xl;
+    @apply rounded;
   }
   &.full-height {
     @apply h-full;
   }
 }
 .modal-header {
-  @apply flex w-full py-4 px-5;
+  @apply flex flex-row;
 }
 .modal-content {
-  @apply w-full py-4 px-5;
+  @apply mt-5;
 }
+.modal-footer {
+  @apply flex flex-row mt-3;
+}
+
 .modal-close-button {
   @apply h-8 w-8 focus:outline-none absolute rounded-full -right-2 -top-2 text-white bg-black dark:bg-gray-600 text-white;
 }
@@ -68,7 +72,7 @@
   @apply bg-white dark:bg-black text-black dark:text-white p-1 flex border border-gray-200 rounded;
 }
 .select-label {
-  @apply appearance-none outline-none w-full text-gray-800 dark:text-white cursor-pointer;
+  @apply appearance-none outline-none w-full text-gray-800 dark:text-white cursor-pointer capitalize flex flex-row w-full justify-between;
   &.sm {
     @apply text-sm py-px px-2;
   }
@@ -105,7 +109,7 @@
 
 }
 .select-placeholder {
-  @apply appearance-none outline-none w-full text-gray-400 cursor-pointer;
+  @apply appearance-none outline-none w-full text-gray-300 cursor-pointer select-none;
   &.sm {
     @apply text-sm py-px px-2;
   }
@@ -117,10 +121,13 @@
   }
 }
 .select-dropdown {
-  @apply flex flex-col shadow rounded overflow-y-auto mt-1;
+  @apply bg-white dark:bg-black flex flex-col shadow rounded overflow-y-auto overflow-x-hidden mt-1 max-h-60;
 }
 .select-option {
-  @apply block cursor-pointer items-center p-2 border-transparent bg-white dark:bg-gray-900 text-black dark:text-white border-l-2 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-200 dark:hover:border-gray-400;
+  @apply block cursor-pointer items-center p-2 border-transparent bg-white dark:bg-gray-900 text-black dark:text-white border-l-2 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-200 dark:hover:border-gray-400 capitalize;
+}
+.select-clear-button {
+  @apply h-6 w-6 rounded focus:outline-none bg-transparent text-gray-700 dark:text-gray-100 outline-none;
 }
 
 // ToastComponent classes
@@ -252,27 +259,32 @@ input.toggle-checkbox {
 
 }
 
+// Accordion component
+
 .accordion {
+  @apply flex flex-col;
+}
+.accordion-item {
   @apply flex flex-col m-0 overflow-hidden;
 }
-
 .accordion-header {
   @apply cursor-pointer;
 }
-
 .accordion-body {
   @apply pt-2;
 }
 
-// Expansion Panel Component
-.expansion-panel-content {
-  @apply pt-2;
-}
+// Alert component
 
-.expansion-panel {
-  @apply block m-0 overflow-hidden ;
+.alert {
+  @apply block rounded shadow bg-white dark:bg-black text-black dark:text-white select-none p-6 w-96 max-w-xs;
 }
-
-.expansion-panel-header {
-  @apply cursor-pointer;
+.alert-header {
+  @apply flex flex-row justify-between;
+}
+.alert-content {
+  @apply flex mt-5;
+}
+.alert-footer {
+  @apply flex flex-row justify-between mt-5;
 }

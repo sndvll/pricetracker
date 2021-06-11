@@ -4,7 +4,6 @@ import {ToastModule} from './components/toast';
 import {IconsModule} from './icons.module';
 import {ModalModule} from './components/modal/modal.module';
 import {ProgressBarModule} from './directives/progress-bar/progress-bar.module';
-import {SelectModule} from './components/select/select.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {InputModule} from './components/input/input.module';
 import {ToggleModule} from './components/toggle/toggle.module';
@@ -15,6 +14,7 @@ import {AmountChangePipe} from './pipes/amount-change.pipe';
 import {AccordionModule} from './components/accordion/accordion.module';
 import {ButtonModule} from './directives/button/button.module';
 import {AlertModule} from './components/alert/alert.module';
+import {Select2Module} from './components/select/select.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import {AlertModule} from './components/alert/alert.module';
     ModalModule,
     IconsModule,
     ProgressBarModule,
-    SelectModule,
+    Select2Module,
     InputModule,
     ToggleModule,
     DropdownMenuModule,
@@ -43,7 +43,7 @@ import {AlertModule} from './components/alert/alert.module';
     ModalModule,
     IconsModule,
     ProgressBarModule,
-    SelectModule,
+    Select2Module,
     InputModule,
     ToggleModule,
     DropdownMenuModule,

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ModalComponent, ModalContentDirective, ModalHeaderDirective} from './modal.component';
+import {ModalComponent, ModalContentDirective, ModalFooterDirective, ModalHeaderDirective} from './modal.component';
 import {IconsModule} from '../../icons.module';
 import {ButtonModule} from '../../directives/button/button.module';
 
@@ -13,11 +13,13 @@ import {ButtonModule} from '../../directives/button/button.module';
   declarations: [
     ModalComponent,
     ModalHeaderDirective,
-    ModalContentDirective
+    ModalContentDirective,
+    ModalFooterDirective
   ],
   exports: [
     ModalHeaderDirective,
-    ModalContentDirective
+    ModalContentDirective,
+    ModalFooterDirective
   ]
 })
 export class ModalModule {}

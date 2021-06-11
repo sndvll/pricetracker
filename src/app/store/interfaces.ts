@@ -3,7 +3,7 @@ import {Color} from '../core/utils';
 export interface Asset {
   id: string;
   name: string;
-  shortName: string;
+  shortname: string;
   quantity: number;
   rate: number;
   marketChange: number
@@ -18,6 +18,4 @@ export interface AssetList {
 export interface AppState {
   lists: AssetList[];
 }
-
-
 

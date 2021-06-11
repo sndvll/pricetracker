@@ -5,12 +5,13 @@ import {Asset} from '../../store';
   selector: 'asset-header',
   template: `
     <div class="flex items-center justify-start">
-      <asset-icon [shortName]="asset.shortName" class="text-gray-600 dark:text-gray-100 bg-{{asset.color}}-300 dark:bg-{{asset.color}}-400"></asset-icon>
+      <asset-icon [shortName]="asset.shortname"
+                  class="text-gray-600 dark:text-gray-100 bg-{{asset.color}}-300 dark:bg-{{asset.color}}-400"></asset-icon>
     </div>
 
     <div class="grid grid-2 grid-flow-row col-span-4">
       <div class="grid grid-2 grid-flow-col">
-        <span class="text-lg font-bold">{{asset.shortName | uppercase}}</span>
+        <span class="text-lg font-bold">{{asset.shortname | uppercase}}</span>
         <span class="text-lg text-right">{{asset.rate | currency}}</span>
       </div>
       <div class="grid grid-2 grid-flow-col">

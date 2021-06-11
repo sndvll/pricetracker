@@ -28,7 +28,7 @@ export abstract class BaseStore<S extends object | Array<any>> implements OnDest
     this._localStoreConfig = {...globalConfig, ...storeConfig};
 
     this._devToolsIsEnabled = this._localStoreConfig.enableDevTools && device.isDesktop() && device.browser.toLowerCase() === 'chrome';
-    console.log(this._devToolsIsEnabled);
+    console.log('dev-tool enabled', this._devToolsIsEnabled);
     this._storeName = this._localStoreConfig.storeName || this.constructor.name;
 
     this._firstState = this.initialState();

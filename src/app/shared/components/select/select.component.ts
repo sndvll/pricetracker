@@ -1,24 +1,23 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ContentChildren,
   ElementRef,
   forwardRef,
   HostBinding,
-  Input
+  Input, OnDestroy, QueryList, TemplateRef
 } from '@angular/core';
-import {ConnectedDialogConfigBuilder, DialogConnectedPosition, DialogService} from '../../../core/dialog';
-import {BehaviorSubject} from 'rxjs';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {
+  ConnectedDialogConfigBuilder,
+  DialogConnectedPosition,
+  DialogService
+} from '../../../core/dialog';
+import {Observable, race, Subject} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {SelectOptionComponent} from './select-option.component';
 import {SelectDropdownComponent} from './select-dropdown.component';
-
-export interface SelectOption<T = any> {
-  label: string;
-  value: T;
-  selected?: boolean;
-}
-
-let nextUniqueId = 0;
 
 export const SELECT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -26,90 +25,138 @@ export const SELECT_VALUE_ACCESSOR = {
   multi: true
 }
 
+let nextUniqueId = 0;
+
 @Component({
   selector: 'sndvll-select',
-  templateUrl: './select.component.html',
+  template: `
+    <div class="select-label" [class]="size" (click)="open(dropdown)">
+      <ng-container *ngIf="selectedOption" [ngTemplateOutlet]="selectedOption.label.template"></ng-container>
+      <ng-container *ngIf="!selectedOption">
+        <span class="select-placeholder">{{placeholder}}</span>
+      </ng-container>
+      <ng-container *ngIf="clearable && selectedOption && !opened">
+        <button (click)="clear($event)" class="select-clear-button">
+          <icon name="x" weight="bold"></icon>
+        </button>
+      </ng-container>
+    </div>
+    <div class="select-chevron-container" [class]="size">
+      <button class="select-chevron focus:outline-none focus:cursor-pointer" [class]="size" (click)="open(dropdown)">
+        <icon [name]="opened ? 'chevron-up' : 'chevron-down'" [size]="'sm'" weight="bold"></icon>
+      </button>
+    </div>
+    <ng-template #dropdown>
+      <div class="rounded bg-white dark:bg-black">
+        <ng-container *ngFor="let option of options">
+          <ng-container [ngTemplateOutlet]="option.optionContent"></ng-container>
+        </ng-container>
+      </div>
+    </ng-template>
+  `,
   providers: [SELECT_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectComponent implements ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor, AfterContentInit, OnDestroy {
 
-  private _options: SelectOption[] = [];
-  private _selected = new BehaviorSubject<Partial<SelectOption> | undefined>({});
+  private _onDestroy = new Subject<void>();
   private _uniqueId = `sndvll-select-${nextUniqueId++}`;
   private _disabled: boolean = false;
-  public selectedChanges = this._selected.asObservable();
+  private _selectedValue: any;
+  private _selectedOption!: SelectOptionComponent | null;
+
+  private _valueChanges: Subject<any> = new Subject<any>();
+  public valueChanges$ = this._valueChanges.asObservable();
 
   public opened = false;
-  @Input() placeholder: string = '';
 
+  @ContentChildren(SelectOptionComponent) options!: QueryList<SelectOptionComponent>;
+
+  @HostBinding('class') classList = 'select-component';
+
+  @Input() placeholder: String = '';
+  @Input() clearable = true;
+
+  @Input() size: 'sm' | 'md' | 'lg' = 'md';
   @Input() id: string = this._uniqueId;
-  @Input() set options(options: SelectOption[]) {
-    if (options) {
-      this._options = options;
-      this._setSelected();
-    }
-  }
-
-  @Input() set selected(selected: SelectOption) {
-    if (selected && this._options) {
-      this.options = this._options.map(option => option === selected ?
-        {...option, selected: true} : {...option, selected: false});
-      this._setSelected();
-    }
-  }
-
   @Input() set disabled(value: boolean) {
     this._disabled = value != null && `${value} ` !== 'false';
   }
   get disabled(): boolean {
     return this._disabled;
   }
+  @Input() set selected(value: any) {
+    if (value) {
+      this._selectedValue = value;
+      this._controlValueAccessorChangeFn(value);
+      this._valueChanges.next(value);
+    }
+  }
 
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  get value() {
+    return this._selectedValue;
+  }
 
-  @HostBinding('class') classList = 'select-component';
+  set selectedOption(option: SelectOptionComponent | null) {
+    if (option) {
+      this._selectedOption = option;
+      this.selected = option.value;
+    }
+    this.changeDetectorRef.markForCheck();
+  }
+  get selectedOption(): SelectOptionComponent | null {
+    return this._selectedOption;
+  }
 
   constructor(private elementRef: ElementRef,
               private changeDetectorRef: ChangeDetectorRef,
               private dialog: DialogService) {
   }
 
-  private _onTouched: () => any = () => {};
-  private _controlValueAccessorChangeFn: (value: any) => void = () => {};
+  ngAfterContentInit() {
+    this.selectedOption = this.options.find(option => option.value === this._selectedValue)!;
+  }
 
-  public open() {
+  open(optionsTemplate: TemplateRef<any>) {
     this.opened = true;
-
-    const config = new ConnectedDialogConfigBuilder<SelectDropdownComponent, SelectOption[]>()
-      .data(this._options)
+    const config = new ConnectedDialogConfigBuilder<SelectDropdownComponent, TemplateRef<any>>()
+      .data(optionsTemplate)
       .origin(this.elementRef.nativeElement)
       .component(SelectDropdownComponent)
       .parentWide(true)
       .preferredConnectedPosition(DialogConnectedPosition.BottomLeft)
       .config;
 
-    const dialogRef = this.dialog.open<SelectDropdownComponent, SelectOption[]>(config);
+    const dialogRef = this.dialog.open(config);
+
+    const onSelect: Observable<any>[] = this.options.map(item => item.onSelect$);
+    race(onSelect)
+      .pipe(take(1))
+      .subscribe((option: SelectOptionComponent) => {
+        this.selectedOption = option;
+        dialogRef.close();
+      });
+
     dialogRef.onClose$
-      .subscribe((options: SelectOption[]) => {
-        if (options) {
-          this.options = options;
-        }
+      .subscribe(() => {
         this.opened = false;
         this.changeDetectorRef.markForCheck();
       });
+
   }
 
-  private _setSelected() {
-    if (this._options.some(option => option.selected)) {
-      const selectedIndex = this._options.findIndex(option => option.selected);
-      const selected = this._options[selectedIndex];
-      this._selected.next(selected);
-      const {label, value} = selected;
-      this._controlValueAccessorChangeFn({label, value});
+  clear(event: Event) {
+    if (this.clearable) {
+      event.stopPropagation();
+      this._selectedOption = null;
+      this._selectedValue = null;
+      this._controlValueAccessorChangeFn(null);
+      this._valueChanges.next();
     }
-    this.changeDetectorRef.markForCheck();
   }
+
+  private _onTouched: () => any = () => {};
+  private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   registerOnChange(fn: any): void {
     this._controlValueAccessorChangeFn = fn;
@@ -130,8 +177,10 @@ export class SelectComponent implements ControlValueAccessor {
     }
     this.changeDetectorRef.markForCheck();
   }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
 }
-
-
-
-

@@ -13,7 +13,6 @@ export interface ModalConfig<T = any> {
   backdropClass?: string,
   backdropOpacity?: Opacity
   closeOnBackdropClick?: boolean;
-  width?: string;
   closable?: boolean
   data?: T
 }

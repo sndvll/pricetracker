@@ -24,18 +24,14 @@ let uniqueItemId = 0;
   template: `
     <ng-content></ng-content>`
 })
-export class AccordionItemHeaderComponent {
-
-}
+export class AccordionItemHeaderComponent {}
 
 @Component({
   selector: 'sndvll-accordion-item-content',
   template: `
     <ng-content></ng-content>`
 })
-export class AccordionItemContentComponent {
-
-}
+export class AccordionItemContentComponent {}
 
 
 @Component({
@@ -57,7 +53,7 @@ export class AccordionItemComponent {
   @Output() onExpandedStateChanges: EventEmitter<boolean> = new EventEmitter<boolean>();
   public onExpandedStateChanges$ = this.onExpandedStateChanges.asObservable();
 
-  @HostBinding('class') classList = 'accordion';
+  @HostBinding('class') classList = 'accordion-item';
 
   @Input() id = uniqueItemId++;
 
@@ -96,7 +92,7 @@ export class AccordionComponent implements AfterViewInit, OnDestroy {
 
   private _onDestroy = new Subject<void>();
 
-  @HostBinding('class') classList = 'flex flex-col';
+  @HostBinding('class') classList = 'accordion';
 
   @ContentChildren(AccordionItemComponent) items!: QueryList<AccordionItemComponent>;
 

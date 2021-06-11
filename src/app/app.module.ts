@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from './shared';
 import {HttpClientModule} from '@angular/common/http';
-import {StateModule} from './core/state';
+import {StateModule} from './core/store';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {TotalAmountModule} from './total-amount/total-amount.module';

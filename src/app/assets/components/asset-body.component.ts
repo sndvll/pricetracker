@@ -1,38 +1,67 @@
-import {Component, Input, TemplateRef} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef
+} from '@angular/core';
 import {Asset} from '../../store';
 import {ModalService} from '../../shared/components/modal/modal.service';
-import {ModalType} from '../../shared/components/modal/modal.config';
+import {ModalConfig, ModalType} from '../../shared/components/modal/modal.config';
+import {ModalComponent} from '../../shared/components/modal/modal.component';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {initialValueChangedValidator, Colors, DialogRef} from '../../core';
 
 @Component({
   selector: 'asset-body',
-  template: `
-    <div class="grid grid-cols-7 grid-flow-col auto-cols-min text-xs font-bold">
-      <div class="text-right col-span-5">Amount</div>
-      <div class="text-right col-span-2 pr-1"></div>
-    </div>
-    <div class="grid grid-cols-7 grid-flow-col auto-cols-min">
-      <div class="col-span-5 text-right text-lg font-bold">
-        {{asset.quantity * asset.rate | currency}}
-      </div>
-      <div class="col-span-2 text-right">
-        <button sndvll-btn="icon" (click)="openModal(editModal)">
-          <icon name="edit"></icon>
-        </button>
-      </div>
-    </div>
-
-    <ng-template #editModal>
-      Lets edit!
-    </ng-template>
-  `
+  templateUrl: './asset-body.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssetBodyComponent {
+export class AssetBodyComponent implements OnInit {
 
   @Input() asset!: Asset;
+  @Output() onSave = new EventEmitter<Omit<Asset, 'rate' | 'name' | 'shortname' | 'marketChange'>>();
 
-  constructor(private modal: ModalService) {}
+  private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
+
+  public formGroup!: FormGroup;
+
+  constructor(private modal: ModalService,
+              private formBuilder: FormBuilder) {
+  }
+
+  ngOnInit() {
+    this.formGroup = this.formBuilder.group({
+      quantity: [this.asset.quantity, Validators.required],
+      color: [this.asset.color, Validators.required]
+    });
+    this.formGroup.setValidators(initialValueChangedValidator(this.formGroup.value));
+  }
 
   public openModal(templateRef: TemplateRef<any>) {
-    this.modal.open({templateRef, type: ModalType.Floating, data: this.asset})
+    this._modalRef = this.modal.open({
+      templateRef, type: ModalType.Floating, data: this.asset
+    })
   }
+
+  save() {
+    const { id } = this.asset;
+    const { color, quantity } = this.formGroup.value;
+    this.onSave.emit({id, color, quantity});
+    this.close();
+  }
+
+  close() {
+    if (this._modalRef) {
+      this._modalRef.close();
+      this._modalRef = null;
+    }
+  }
+
+  get colors() {
+    return Colors;
+  }
+
 }

@@ -21,8 +21,7 @@ export class ModalService {
 
     const modalTypeConfigs = {
       [ModalType.Floating]: ModalService.getDialogConfig(config)
-        .position(DialogXPosition.Center, DialogYPosition.Top)
-        .classes('mt-24'),
+        .position(DialogXPosition.Center, DialogYPosition.Middle),
       [ModalType.Left]: ModalService.getDialogConfig(config)
         .position(DialogXPosition.Left, DialogYPosition.Top)
         .fullHeight(true),
@@ -38,6 +37,7 @@ export class ModalService {
   private static getDialogConfig(config: ModalConfig) {
     return new GlobalDialogConfigBuilder<ModalComponent, ModalConfig>()
       .component(ModalComponent)
+      .classes('w-96 max-w-xs')
       .data(config)
       .type(DialogType.Modal)
       .isClosable(config.closable ?? true)

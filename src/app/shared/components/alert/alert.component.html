@@ -1,25 +1,36 @@
-<div class="flex flex-row justify-between">
-  <div class="text-lg break">{{alertConfig.message}}</div>
+<div class="alert-header">
+  <div class="text-lg">{{alertConfig.message}}</div>
   <div>
-    <icon [name]="icon" size="2rem" class="{{iconColor}} ml-2"></icon>
+    <icon [name]="icon" size="2rem" class="{{iconColor}}"></icon>
   </div>
 </div>
 <ng-container [ngSwitch]="alertConfig.type">
   <ng-container *ngSwitchCase="'warning'">
-    <div class="flex flex-row justify-between mt-5">
-      <button sndvll-btn="button" class="button btn danger" (click)="close(true)">OK</button>
-      <button sndvll-btn="button" class="button btn secondary" (click)="close(false)">Abort</button>
+    <div class="alert-content">
+      <sndvll-toggle [formControl]="toggleControl">I understand that this can not be undone!</sndvll-toggle>
+    </div>
+    <div class="alert-footer">
+      <button sndvll-btn="button" class="button btn secondary"
+              (click)="close(false)">Close</button>
+      <button sndvll-btn="button" class="button btn danger"
+              [disabled]="disabledButton"
+              (click)="close(true)">OK</button>
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'input'">
-    <sndvll-input placeholder="Name" [formControl]="formControl"></sndvll-input>
-    <div class="flex flex-row justify-between mt-5">
-      <button sndvll-btn="button" class="button btn secondary" (click)="close()">Abort</button>
-      <button sndvll-btn="button" class="button btn success" [disabled]="disabledButton" (click)="close(formControl.value)">Save</button>
+    <div class="alert-content flex-col">
+      <div class="text-xs font-bold">Name</div>
+      <sndvll-input placeholder="Name" class="w-full" [formControl]="inputControl"></sndvll-input>
+    </div>
+    <div class="alert-footer">
+      <button sndvll-btn="button" class="button btn secondary" (click)="close()">Close</button>
+      <button sndvll-btn="button" class="button btn success"
+              [disabled]="disabledButton"
+              (click)="close(inputControl.value)">Save</button>
     </div>
   </ng-container>
   <ng-container *ngSwitchDefault>
-    <div class="flex flex-row justify-end mt-5">
+    <div class="alert-footer">
       <button sndvll-btn="button" class="button btn secondary" (click)="close()">OK</button>
     </div>
   </ng-container>

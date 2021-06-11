@@ -1,37 +1,53 @@
-import {Component, HostBinding, TemplateRef} from '@angular/core';
+import {Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
 import {Asset, AssetList, AppStore} from './store';
-import {SelectOption} from './shared/components/select/select.component';
 import {Subject} from 'rxjs';
-import {FormBuilder, FormGroup} from '@angular/forms';
 import {FiatCurrencyService} from './core/fiat';
 import {CryptoCurrencyService} from './core/crypto';
 import {ToastConfigBuilder, ToastService} from './shared/components/toast';
 import {ModalService} from './shared/components/modal/modal.service';
 import {DropdownMenuService} from './shared/components/dropdown-menu/dropdown-menu.service';
-import {DialogService, DialogXPosition} from './core/dialog';
+import {DialogXPosition} from './core/dialog';
 import {takeUntil} from 'rxjs/operators';
-import {ModalType} from './shared/components/modal/modal.config';
+import {Color} from './core/utils';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
  //@HostBinding('class') classList = 'bg-gray-200 dark:bg-gray-900 text-black dark:text-white max-w-screen-sm min-h-screen container';
  @HostBinding('class') classList = 'text-black dark:text-white';
 
+  public testOptions = ['Test1','Test2','Test3','Test4','Test5','Test6','Test7','Test8','Test9','Test10','Test11','Test12'];
+  public moreTestOptions = [
+    {
+      id: 1,
+      name: 'bitcoin',
+      shortname: 'btc'
+    },
+    {
+      id: 2,
+      name: 'dogecoin',
+      shortname: 'doge'
+    },
+    {
+      id: 3,
+      name: 'ether',
+      shortname: 'eth'
+    },
+    {
+      id: 4,
+      name: 'cardano',
+      shortname: 'ada'
+    }
+  ];
 
   public assets: Asset[] = [];
   public lists: AssetList[] = [];
   public totalAmount: number = 0;
-
-  public options: SelectOption<string>[] = [
-    {label: 'Hej', value: 'heeej'},
-    {label: 'Ett värde', value: 'värdet'},
-    {label: 'Ett till värde', value: 'ännu ett värde'}
-  ];
 
   private _onDestroy = new Subject<void>();
 
@@ -48,14 +64,12 @@ export class AppComponent {
     private toast: ToastService,
     private modal: ModalService,
     private dropdown: DropdownMenuService,
-    private dialog: DialogService,
     private formBuilder: FormBuilder) {
-
-    console.log('app initiated')
 
   }
 
   ngOnInit() {
+    console.log('app initiating');
     this.store.selectLists
       .pipe(takeUntil(this._onDestroy))
       .subscribe(lists => this.lists = lists);
@@ -83,12 +97,8 @@ export class AppComponent {
     }));
   }
 
-  openModal(templateRef: TemplateRef<any>) {
-    this.modal.open({type: ModalType.Floating, templateRef});
-  }
-
   add() {
-    this.store.add({id: 'nano', name: 'Nano', shortName: 'nano', quantity: 16, rate: 7.8, marketChange: 10, color: 'gray'});
+    this.store.add({id: 'nano', name: 'Nano', shortname: 'nano', quantity: 16, rate: 7.8, marketChange: 10, color: Color.gray});
   }
 
 }

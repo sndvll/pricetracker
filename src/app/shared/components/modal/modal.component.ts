@@ -3,28 +3,28 @@ import {DIALOG_REF, DialogRef} from '../../../core/dialog';
 import {ModalConfig, ModalType} from './modal.config';
 
 @Directive({
-  selector: '[modalContent]'
+  selector: 'div[modalContent]'
 })
 export class ModalContentDirective {
-  @HostBinding('class.modal-content') header = true;
+  @HostBinding('class') classList = 'modal-content';
 }
 
 @Directive({
-  selector: '[modalHeader]'
+  selector: 'div[modalHeader]'
 })
 export class ModalHeaderDirective {
-  @HostBinding('class.modal-header') header = true;
+  @HostBinding('class') classList = 'modal-header';
+}
+
+@Directive({
+  selector: 'div[modalFooter]'
+})
+export class ModalFooterDirective {
+  @HostBinding('class') classList = 'modal-footer';
 }
 
 @Component({
-  template: `
-    <button *ngIf="showCloseButton"
-            class="modal-close-button"
-            (click)="close()">
-      <icon name="x" weight="bolder"></icon>
-    </button>
-    <ng-container *ngTemplateOutlet="templateRef"></ng-container>
-  `,
+  template: `<ng-container *ngTemplateOutlet="templateRef"></ng-container>`,
 })
 export class ModalComponent implements OnInit {
 
@@ -32,8 +32,7 @@ export class ModalComponent implements OnInit {
 
   private readonly _modalConfig: ModalConfig;
 
-  @HostBinding('class') classList = 'modal';
-  @HostBinding('style.width') width = '';
+  @HostBinding('class') classList = 'modal-component';
   @HostBinding('class.full-height') fullHeight = false;
   @HostBinding('class.floating') floating = false;
 
@@ -43,10 +42,9 @@ export class ModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    const {type, width} = this._modalConfig;
+    const {type} = this._modalConfig;
     this.floating = type === ModalType.Floating;
     this.fullHeight = this.dialogRef.config.fullHeight ?? false;
-    this.width = width ?? this.width;
   }
 
 

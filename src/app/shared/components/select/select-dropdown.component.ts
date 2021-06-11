@@ -1,25 +1,17 @@
-import {ChangeDetectionStrategy, Component, HostBinding, Inject} from '@angular/core';
-import {SelectOption} from './select.component';
+import {ChangeDetectionStrategy, Component, HostBinding, Inject, TemplateRef} from '@angular/core';
 import {DIALOG_REF, DialogRef} from '../../../core/dialog';
 
 @Component({
-  templateUrl: './select-dropdown.component.html',
+  template: `<ng-container [ngTemplateOutlet]="template"></ng-container>`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectDropdownComponent {
 
-  public options: SelectOption[] = [];
-
   @HostBinding('class') classList = 'select-dropdown';
+  public template: TemplateRef<any>;
 
-  select(selected: SelectOption) {
-    const options = this.options.map(option => option === selected ?
-      {...option, selected: true} : {...option, selected: false});
-    this.dialogRef.dismiss(options);
-  }
-
-  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<SelectDropdownComponent, SelectOption[]>) {
-    this.options = dialogRef.config.data!;
+  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<SelectDropdownComponent, TemplateRef<any>>) {
+    this.template = dialogRef.config.data!;
   }
 
 }

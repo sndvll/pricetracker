@@ -4,19 +4,23 @@ import {SelectComponent} from './select.component';
 import {IconsModule} from '../../icons.module';
 import {SelectOptionComponent} from './select-option.component';
 import {SelectDropdownComponent} from './select-dropdown.component';
+import {SelectLabelDirective} from './select-label.directive';
 
 @NgModule({
   imports: [
     CommonModule,
-    IconsModule
+    IconsModule,
   ],
   declarations: [
     SelectComponent,
-    SelectDropdownComponent,
-    SelectOptionComponent
+    SelectOptionComponent,
+    SelectLabelDirective,
+    SelectDropdownComponent
   ],
   exports: [
-    SelectComponent
+    SelectComponent,
+    SelectOptionComponent,
+    SelectLabelDirective
   ]
 })
-export class SelectModule {}
+export class Select2Module {}

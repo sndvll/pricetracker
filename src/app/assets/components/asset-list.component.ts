@@ -2,9 +2,12 @@ import {ChangeDetectionStrategy, Component, Input, TemplateRef} from '@angular/c
 import {AppStore, Asset} from '../../store';
 import {DropdownMenuService} from '../../shared/components/dropdown-menu/dropdown-menu.service';
 import {DialogRef} from '../../core/dialog';
-import {AlertConfig, AlertService, AlertType} from '../../shared/components/alert/alert.service';
+import {AlertService, AlertType} from '../../shared/components/alert/alert.service';
 import {filter} from 'rxjs/operators';
-import {config} from 'rxjs';
+import {ModalService} from '../../shared/components/modal/modal.service';
+import {ModalComponent} from '../../shared/components/modal/modal.component';
+import {ModalConfig, ModalType} from '../../shared/components/modal/modal.config';
+
 
 @Component({
   selector: 'asset-list',
@@ -13,7 +16,8 @@ import {config} from 'rxjs';
 })
 export class AssetListComponent {
 
-  private _dropdownRef!: DialogRef;
+  private _contextMenuRef!: DialogRef;
+  private _addAssetModalRef!: DialogRef<ModalComponent, ModalConfig> | null;
 
   @Input() id!: string;
   @Input() assets!: Asset[];
@@ -21,44 +25,64 @@ export class AssetListComponent {
 
   constructor(private dropdown: DropdownMenuService,
               private alert: AlertService,
+              private modal: ModalService,
               private store: AppStore) {}
 
-  openMenu(origin: HTMLElement, dropdown: TemplateRef<any>) {
-    this._dropdownRef = this.dropdown.open(origin, dropdown);
+  public openContextMenu(origin: HTMLElement, dropdown: TemplateRef<any>) {
+    this._contextMenuRef = this.dropdown.open(origin, dropdown);
   }
 
-  remove() {
-    this.close();
-    this.alert
-      .open<boolean>({
-        type: AlertType.Warning,
-        message: 'Do you really want to delete this list?'
-      })
+  public openDeleteListAlert(): void {
+    this.closeContextMenu();
+    this.alert.open<boolean>({
+      type: AlertType.Warning,
+      message: 'Do you really want to delete this list?'
+    })
       .onClose$
       .pipe(filter(v => v))
       .subscribe(() => this.store.removeList(this.id));
   }
 
-  changeName() {
-    this.close();
-    this.alert
-      .open<string>({
-        type: AlertType.Input,
-        message: 'Provide a new name',
-        data: this.name
-      })
+  public openChangeNameAlert() {
+    this.closeContextMenu();
+    this.alert.open<string>({
+      type: AlertType.Input,
+      message: 'Enter a new name',
+      data: this.name
+    })
       .onClose$
-      .pipe(
-        filter(v => v)
-      )
-      .subscribe(name => {
-        this.store.editList(name, this.id);
-      })
+      .pipe(filter(v => v))
+      .subscribe(name => this.store.editList(name, this.id));
   }
 
-  close() {
-    if (this._dropdownRef) {
-      this._dropdownRef.close();
+  public openAddAssetModal(templateRef: TemplateRef<any>) {
+    this._addAssetModalRef = this.modal.open({
+      templateRef, type: ModalType.Floating
+    });
+    this._addAssetModalRef.onClose$
+      .subscribe((v) => {
+        console.log(v);
+      })
+    this.closeContextMenu();
+  }
+
+  public saveNewAsset() {
+
+  }
+
+  public editAsset(asset: Partial<Asset>){
+    this.store.editAsset(asset, this.id);
+  }
+
+  public closeAddAssetModal() {
+    if (this._addAssetModalRef) {
+      this._addAssetModalRef.close();
+    }
+  }
+
+  public closeContextMenu() {
+    if (this._contextMenuRef) {
+      this._contextMenuRef.close();
     }
   }
 

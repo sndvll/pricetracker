@@ -27,7 +27,6 @@ export class AlertService {
       .type(DialogType.Alert)
       .isClosable(true)
       .withBackdrop(true)
-      .closeOnBackdropClick(false)
       .backdropOpacity('30')
       .backdropClass('bg-white dark:bg-gray-700')
       .noScroll(true)

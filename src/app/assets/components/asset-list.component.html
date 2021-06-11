@@ -1,7 +1,7 @@
 <card class="bg-white dark:bg-black px-2 py-1 shadow">
   <div class="justify-between" cardHeader>
     <span class="font-bold text-sm">{{name}}</span>
-    <button sndvll-btn="icon" #dropdownOrigin (click)="openMenu(dropdownOrigin, dropdown)">
+    <button sndvll-btn="icon" #dropdownOrigin (click)="openContextMenu(dropdownOrigin, dropdown)">
       <icon name="more-vertical"></icon>
     </button>
   </div>
@@ -22,7 +22,8 @@
           <asset-header [asset]="asset"></asset-header>
         </sndvll-accordion-item-header>
         <sndvll-accordion-item-content>
-          <asset-body [asset]="asset"></asset-body>
+          <asset-body [asset]="asset"
+                      (onSave)="editAsset($event)"></asset-body>
         </sndvll-accordion-item-content>
       </sndvll-accordion-item>
     </sndvll-accordion>
@@ -30,16 +31,31 @@
 </card>
 
 <ng-template #dropdown>
-  <button sndvll-dropdown-item (click)="close()" class="text-black dark:text-white">
+  <button sndvll-dropdown-item (click)="openAddAssetModal(addAssetModal)" class="text-black dark:text-white">
     <icon name="plus-circle"></icon>
-    <span class="ml-1">Add asset</span>
+    <span class="ml-2">Add asset</span>
   </button>
-  <button sndvll-dropdown-item (click)="changeName()" class="text-black dark:text-white">
+  <button sndvll-dropdown-item (click)="openChangeNameAlert()" class="text-black dark:text-white">
     <icon name="edit"></icon>
-    <span class="ml-1">Change name</span>
+    <span class="ml-2">Change name</span>
   </button>
-  <button sndvll-dropdown-item (click)="remove()" class="text-red-400 dark:text-red-400">
+  <button sndvll-dropdown-item (click)="openDeleteListAlert()" class="text-red-400 dark:text-red-400">
     <icon name="trash-2"></icon>
-    <span class="ml-1">Delete List</span>
+    <span class="ml-2">Delete List</span>
   </button>
+</ng-template>
+
+<ng-template #addAssetModal>
+  <div class="justify-between" modalHeader>
+    <span class="text-lg font-bold">Add asset</span>
+  </div>
+  <div modalContent>
+    <div class="text-xs font-bold">Name</div>
+    <div class="text-xs font-bold">Quantity</div>
+    <div class="text-xs font-bold">Color</div>
+  </div>
+  <div class="justify-between" modalFooter>
+    <button sndvll-btn="button" class="secondary" (click)="closeAddAssetModal()">Close</button>
+    <button sndvll-btn="button" class="success" [disabled]="false" (click)="saveNewAsset()">Save</button>
+  </div>
 </ng-template>

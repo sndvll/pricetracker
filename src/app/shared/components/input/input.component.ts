@@ -29,16 +29,20 @@ export class InputComponent implements ControlValueAccessor {
 
   private _disabled: boolean = false;
   private _showClearButton = false;
-  private _value = new BehaviorSubject<string>('');
-
+  private _value = new BehaviorSubject< string | number>('');
   public value$ = this._value.asObservable();
 
   @Input() placeholder: string = '';
-  @Input() type: 'text' | 'password' = 'text';
+  @Input() type: 'text' | 'password' | 'number' = 'text';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
 
-  @Input() set value(value: string) {
+  @Input() set value(value: string | number) {
     if (value) {
+      // Hey Typescript. If i want to check if a value is NaN or not,
+      // please don't say that the variable "is not a number" when trying to input it
+      // into isNaN.. ffs.
+      // @ts-ignore
+      value = isNaN(value) ? value : Number(value);
       this._value.next(value);
       this.showClearButton = true;
       this._controlValueAccessorChangeFn(value);
@@ -76,7 +80,7 @@ export class InputComponent implements ControlValueAccessor {
     this.input.nativeElement.value = '';
   }
 
-  public change(value: string) {
+  public change(value:  string | number) {
     this.value = value;
   }
 
@@ -96,7 +100,7 @@ export class InputComponent implements ControlValueAccessor {
     this.changeDetectorRef.markForCheck();
   }
 
-  writeValue(value: string): void {
+  writeValue(value: string | number): void {
     if (value) {
       this.value = value;
     }

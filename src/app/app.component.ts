@@ -1,13 +1,13 @@
-import {Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
+import {ChangeDetectorRef, Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
 import {Asset, AssetList, AppStore} from './store';
 import {Subject} from 'rxjs';
 import {FiatCurrencyService} from './core/fiat';
-import {CryptoCurrencyService} from './core/crypto';
+import {AvailableCryptoCurrency, CryptoCurrencyService} from './core/crypto';
 import {ToastConfigBuilder, ToastService} from './shared/components/toast';
 import {ModalService} from './shared/components/modal/modal.service';
 import {DropdownMenuService} from './shared/components/dropdown-menu/dropdown-menu.service';
 import {DialogXPosition} from './core/dialog';
-import {takeUntil} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, take, takeUntil} from 'rxjs/operators';
 import {Color} from './core/utils';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
@@ -22,28 +22,7 @@ export class AppComponent implements OnInit {
  @HostBinding('class') classList = 'text-black dark:text-white';
 
   public testOptions = ['Test1','Test2','Test3','Test4','Test5','Test6','Test7','Test8','Test9','Test10','Test11','Test12'];
-  public moreTestOptions = [
-    {
-      id: 1,
-      name: 'bitcoin',
-      shortname: 'btc'
-    },
-    {
-      id: 2,
-      name: 'dogecoin',
-      shortname: 'doge'
-    },
-    {
-      id: 3,
-      name: 'ether',
-      shortname: 'eth'
-    },
-    {
-      id: 4,
-      name: 'cardano',
-      shortname: 'ada'
-    }
-  ];
+  public options: AvailableCryptoCurrency[] = [];
 
   public assets: Asset[] = [];
   public lists: AssetList[] = [];
@@ -76,6 +55,7 @@ export class AppComponent implements OnInit {
     this.store.selectTotalAmount
       .pipe(takeUntil(this._onDestroy))
       .subscribe(amount => this.totalAmount = amount);
+
     //this.openToast();
     //this.formGroup.valueChanges.subscribe(console.log);
   }
@@ -96,6 +76,29 @@ export class AppComponent implements OnInit {
       x: DialogXPosition.Right
     }));
   }
+
+/*  onSelectSearch(searchPhrase: string) {
+    if (searchPhrase) {
+      this.crypto.search(searchPhrase.trim(), 'name', 100)
+        .pipe(
+          take(1),
+          debounceTime(50)
+        )
+        .subscribe(currencies => {
+          if (currencies.length) {
+            this.options = currencies;
+          } else {
+            this.options = [];
+          }
+        });
+    } else {
+      this.options = [];
+    }
+  }
+
+  onSelectClose() {
+    this.options = [];
+  }*/
 
   add() {
     this.store.add({id: 'nano', name: 'Nano', shortname: 'nano', quantity: 16, rate: 7.8, marketChange: 10, color: Color.gray});

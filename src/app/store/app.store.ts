@@ -1,6 +1,6 @@
 import {Inject, Injectable, Injector} from '@angular/core';
 import {BaseStore} from '../core/store';
-import {AppState, Asset, AssetList} from './interfaces';
+import {AppState, Asset, AssetList, AssetsType} from './interfaces';
 import {Observable, of} from 'rxjs';
 import {ToastService, ToastType} from '../shared';
 import {switchMap} from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class AppStore extends BaseStore<AppState>{
       lists: [
         {
           name: 'Crypto',
+          type: AssetsType.Crypto,
           id: shortid.generate(),
           assets: [
             {id: shortid.generate(), name: 'Bitcoin', shortname: 'btc', quantity: 1.00144781, rate: 33482.30, marketChange: 56, color: Color.red},
@@ -31,6 +32,7 @@ export class AppStore extends BaseStore<AppState>{
         },
         {
           name: 'Stable',
+          type: AssetsType.Crypto,
           id: shortid.generate(),
           assets: [
             {id: shortid.generate(), name: 'TetherUSD', shortname: 'usdt', quantity: 5, rate: 1, marketChange: 0, color: Color.green},

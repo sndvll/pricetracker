@@ -40,7 +40,17 @@
   }
 }
 .input-clear-button {
-  @apply h-8 w-8 rounded focus:outline-none bg-transparent text-gray-400 outline-none;
+  @apply rounded focus:outline-none bg-transparent text-gray-400 outline-none;
+  &.sm {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+  &.md {
+    @apply h-8 w-8;
+  }
+  &.lg {
+    @apply h-10 w-10;
+  }
 }
 
 // ModalComponent classes

@@ -12,7 +12,7 @@ import {ModalService} from '../../shared/components/modal/modal.service';
 import {ModalConfig, ModalType} from '../../shared/components/modal/modal.config';
 import {ModalComponent} from '../../shared/components/modal/modal.component';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {initialValueChangedValidator, Colors, DialogRef} from '../../core';
+import {initialValueChangedValidator, Colors, DialogRef, Color} from '../../core';
 
 @Component({
   selector: 'asset-body',
@@ -61,7 +61,7 @@ export class AssetBodyComponent implements OnInit {
   }
 
   get colors() {
-    return Colors;
+    return Colors.filter(color => color !== Color.transparent);
   }
 
 }

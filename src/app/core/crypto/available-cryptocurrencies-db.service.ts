@@ -18,8 +18,20 @@ export class AvailableCryptocurrenciesDbService extends AbstractDbService<Availa
     this.table.bulkPut(coins);
   }
 
-  public search(phrase: string, key: string) {
-    return from(this.table.where(key).startsWithAnyOfIgnoreCase(phrase).toArray());
+  public search(phrase: string, key: string, limit: number | null) {
+    if (limit) {
+      return from(this.table
+        .where(key)
+        .startsWithAnyOfIgnoreCase(phrase)
+        .limit(limit)
+        .sortBy(key)
+      );
+    }
+    return from(this.table
+      .where(key)
+      .startsWithAnyOfIgnoreCase(phrase)
+      .sortBy(key)
+    );
   }
 
   public findBySymbol(symbol: string): Observable<AvailableCryptoCurrency | undefined> {

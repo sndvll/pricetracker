@@ -1,5 +1,9 @@
 import {Color} from '../core/utils';
 
+export enum AssetsType {
+  Crypto = 'crypto'
+}
+
 export interface Asset {
   id: string;
   name: string;
@@ -11,6 +15,7 @@ export interface Asset {
 }
 export interface AssetList {
   id: string;
+  type: AssetsType,
   name: string;
   assets: Asset[];
 }

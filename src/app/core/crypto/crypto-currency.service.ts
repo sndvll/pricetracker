@@ -29,8 +29,8 @@ export class CryptoCurrencyService {
       .subscribe(coins => this.available.bulkAdd(coins))
   }
 
-  public search(phrase: string, key: string) {
-    return this.available.search(phrase, key);
+  public search(phrase: string, key: string, limit: number | null = 20) {
+    return this.available.search(phrase, key, limit);
   }
 
   public getBySymbol(symbol: string) {

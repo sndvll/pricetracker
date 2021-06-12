@@ -5,8 +5,9 @@ import {
   ElementRef,
   forwardRef,
   HostBinding,
-  Input,
-  ViewChild
+  Input, Output,
+  ViewChild,
+  EventEmitter, HostListener
 } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -32,23 +33,33 @@ export class InputComponent implements ControlValueAccessor {
   private _value = new BehaviorSubject< string | number>('');
   public value$ = this._value.asObservable();
 
+  @Output() public onValueChanges = new EventEmitter<any>();
+
   @Input() placeholder: string = '';
   @Input() type: 'text' | 'password' | 'number' = 'text';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
 
   @Input() set value(value: string | number) {
+
     if (value) {
       // Hey Typescript. If i want to check if a value is NaN or not,
       // please don't say that the variable "is not a number" when trying to input it
       // into isNaN.. ffs.
       // @ts-ignore
       value = isNaN(value) ? value : Number(value);
-      this._value.next(value);
-      this.showClearButton = true;
-      this._controlValueAccessorChangeFn(value);
     } else {
+      value = '';
+    }
+
+    this._value.next(value);
+    this.onValueChanges.emit(value);
+    this.showClearButton = true;
+    this._controlValueAccessorChangeFn(value);
+
+    if (!value) {
       this.showClearButton = false;
     }
+
     this.changeDetectorRef.markForCheck();
   }
   get value() {

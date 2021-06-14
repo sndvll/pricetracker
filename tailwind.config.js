@@ -3,10 +3,11 @@ module.exports = {
   purge: {
     enabled: false,
     content: [
-      './src/**/*.{html,ts}',
-    ]
+      './src/**/*.{html,ts,scss}',
+      './purgecss-safelist.txt'
+    ],
   },
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     container: {
       center: true

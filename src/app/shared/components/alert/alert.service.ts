@@ -19,7 +19,7 @@ export class AlertService {
 
   constructor(private dialog: DialogService) {}
 
-  open<D>(config: AlertConfig): DialogRef<AlertComponent<D>> {
+  public open<D>(config: AlertConfig): DialogRef<AlertComponent<D>> {
 
     const dialogConfig = new GlobalDialogConfigBuilder<AlertComponent<D>, AlertConfig>()
       .data(config)

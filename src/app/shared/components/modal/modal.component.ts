@@ -41,20 +41,13 @@ export class ModalComponent implements OnInit {
     this.templateRef = this._modalConfig.templateRef;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const {type} = this._modalConfig;
     this.floating = type === ModalType.Floating;
     this.fullHeight = this.dialogRef.config.fullHeight ?? false;
   }
 
-
-  get showCloseButton(): boolean {
-    const {closable} = this.dialogRef.config;
-    const {type} = this._modalConfig;
-    return type === ModalType.Floating && closable!;
-  }
-
-  close() {
+  public close() {
     if (this.dialogRef.config.closable) {
       this.dialogRef.close();
     }

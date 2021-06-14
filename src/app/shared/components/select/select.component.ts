@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,10 +15,10 @@ import {
   DialogService
 } from '../../../core/dialog';
 import {Observable, race, Subject} from 'rxjs';
-import {take, takeUntil, tap} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {SelectOptionComponent} from './select-option.component';
 import {SelectDropdownComponent} from './select-dropdown.component';
-import {InputComponent} from '../input/input.component';
+import {InputComponent} from '../input';
 
 export const SELECT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -31,58 +30,17 @@ let nextUniqueId = 0;
 
 @Component({
   selector: 'sndvll-select',
-  template: `
-    <div class="select-label" [class]="size" (click)="open(dropdown)">
-      <ng-container *ngIf="selectedOption" [ngTemplateOutlet]="selectedOption.label.template"></ng-container>
-      <ng-container *ngIf="!selectedOption">
-        <span class="select-placeholder">{{placeholder}}</span>
-      </ng-container>
-      <ng-container *ngIf="clearable && selectedOption && !opened">
-        <button (click)="clear($event)" class="select-clear-button">
-          <icon name="x" weight="bold"></icon>
-        </button>
-      </ng-container>
-    </div>
-    <div class="select-chevron-container" [class]="size">
-      <button class="select-chevron focus:outline-none focus:cursor-pointer" [class]="size" (click)="open(dropdown)">
-        <icon [name]="opened ? 'chevron-up' : 'chevron-down'" [size]="'sm'" weight="bold"></icon>
-      </button>
-    </div>
-    <ng-template #dropdown>
-      <div class="rounded bg-white dark:bg-gray-900">
-        <ng-container *ngIf="searchable">
-          <div class="text-white p-2">
-            <sndvll-input placeholder="Search" size="sm" (onValueChanges)="search($event)"></sndvll-input>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="options?.length">
-          <ng-container *ngFor="let option of options">
-            <ng-container [ngTemplateOutlet]="option.optionContent"></ng-container>
-          </ng-container>
-        </ng-container>
-        <ng-container *ngIf="!options?.length">
-          <div class="text-black dark:text-white text-center w-full px-2 py-5 text-lg">
-            <ng-container *ngIf="searchStatus === 'pristine'">
-              Please search for something
-            </ng-container>
-            <ng-container *ngIf="searchStatus === 'noresult'">
-              No results
-            </ng-container>
-          </div>
-        </ng-container>
-      </div>
-    </ng-template>
-  `,
+  templateUrl: './select.component.html',
   providers: [SELECT_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectComponent implements ControlValueAccessor, AfterContentInit, OnDestroy {
+export class SelectComponent<T = any> implements ControlValueAccessor, AfterContentInit, OnDestroy {
 
   private _onDestroy = new Subject<void>();
   private _uniqueId = `sndvll-select-${nextUniqueId++}`;
   private _disabled: boolean = false;
   private _selectedValue: any;
-  private _selectedOption!: SelectOptionComponent | null;
+  private _selectedOption!: SelectOptionComponent<T> | null;
 
   public searchStatus: 'pristine' | 'result' | 'noresult' = 'pristine';
 
@@ -94,7 +52,7 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit, 
 
   public opened = false;
 
-  @ContentChildren(SelectOptionComponent) options!: QueryList<SelectOptionComponent>;
+  @ContentChildren(SelectOptionComponent) options!: QueryList<SelectOptionComponent<T>>;
   @ViewChild(InputComponent) searchField!: InputComponent;
 
   @HostBinding('class') classList = 'select-component';
@@ -123,14 +81,14 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit, 
     return this._selectedValue;
   }
 
-  set selectedOption(option: SelectOptionComponent | null) {
+  set selectedOption(option: SelectOptionComponent<T> | null) {
     if (option) {
       this._selectedOption = option;
       this.selected = option.value;
     }
     this.changeDetectorRef.markForCheck();
   }
-  get selectedOption(): SelectOptionComponent | null {
+  get selectedOption(): SelectOptionComponent<T> | null {
     return this._selectedOption;
   }
 
@@ -166,7 +124,7 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit, 
       const onSelect: Observable<any>[] = this.options.map(item => item.onSelect$);
       race(onSelect)
         .pipe(take(1))
-        .subscribe((option: SelectOptionComponent) => {
+        .subscribe((option: SelectOptionComponent<T>) => {
           this.selectedOption = option;
           dialogRef.close();
         });
@@ -188,32 +146,33 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit, 
     // This happens when a select is searchable (duh..!) but it's
     // doing some specific stuff because the options change when searching.
 
-    // This firs subject is just a destroyer, that unsubscribing the race observables
-    // a bit down. So on every change of the options (ie when searching and new results comes in)
+    // This first subject is just a destroyer, that unsubscribing the race observables
+    // a bit down. So on every change of the options (ie when searching and new results as options comes in)
     // we're just killing those subscriptions. From what i (quickly) gathered online race is just unsubscribing
     // when a value is emitted from one of the observables, and we don't want those stacking up when we have
     // large result set. (If anyone else is planning on using this, please use caution and maybe limit the amount
-    // of options to 30-40 at most.
+    // of options to 30-40 at most. I have tested it with about 800, and it can handle that but that is probably not the best UX).
     let onChangeDestroyer: Subject<void>;
 
     // Subscribing to changes of the options, ie result set changes (to more or less) and handle stuff when that happens.
     // Unsubscribing when closing the dropdown.
     this.options.changes
       .pipe(takeUntil(this.onClose))
-      .subscribe((options: QueryList<SelectOptionComponent>) => {
+      .subscribe((options: QueryList<SelectOptionComponent<T>>) => {
+
+        // If we have a previous destroyer, next it to unsubscribe to previous race.
         if (onChangeDestroyer) {
-          // If we have a previous destroyer, next it to unsubscribe to previous race.
           onChangeDestroyer.next();
           onChangeDestroyer.complete();
         }
-        // And always create a new one for the new set.
+        // And always create a new one for the new set comning in.
         onChangeDestroyer = new Subject<void>();
 
         // No options? Set status accordingly to show a message depending on the search inputs value.
         if (!options.length) {
           this.searchStatus = this.searchField.value ? 'noresult' : 'pristine';
         } else {
-          // Status says we have result, actually not that useful but just good to indicate that something is found..
+          // Status says we have result, actually not that useful but just good way to indicate here that something is found..
           this.searchStatus = 'result';
 
           // Map out onSelect observables from the options.
@@ -226,7 +185,7 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit, 
           // Close the dialog.
           race(onSelect)
             .pipe(takeUntil(onChangeDestroyer))
-            .subscribe((option: SelectOptionComponent) => {
+            .subscribe((option: SelectOptionComponent<T>) => {
               this.selectedOption = option;
               onChangeDestroyer.next();
               onChangeDestroyer.complete();

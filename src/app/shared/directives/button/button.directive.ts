@@ -1,4 +1,4 @@
-import {Directive, HostBinding, HostListener, Input, OnInit} from '@angular/core';
+import {Directive, HostBinding, Input, OnInit} from '@angular/core';
 
 export type ButtonType = 'button' | 'icon' | 'link';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -19,7 +19,7 @@ export class ButtonDirective implements OnInit {
   @HostBinding('disabled')
   @Input() disabled = false;
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.type === 'button') {
       this.classList = `button btn ${this.size} ${this.color}`;
       if (this.hover && !this.disabled) {

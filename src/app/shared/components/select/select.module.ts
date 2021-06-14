@@ -5,7 +5,7 @@ import {IconsModule} from '../../icons.module';
 import {SelectOptionComponent} from './select-option.component';
 import {SelectDropdownComponent} from './select-dropdown.component';
 import {SelectLabelDirective} from './select-label.directive';
-import {InputModule} from '../input/input.module';
+import {InputModule} from '../input';
 
 @NgModule({
   imports: [

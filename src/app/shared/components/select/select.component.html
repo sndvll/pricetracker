@@ -1,0 +1,40 @@
+<div class="select-label" [class]="size" (click)="open(dropdown)">
+  <ng-container *ngIf="selectedOption" [ngTemplateOutlet]="selectedOption.label.template"></ng-container>
+  <ng-container *ngIf="!selectedOption">
+    <span class="select-placeholder">{{placeholder}}</span>
+  </ng-container>
+  <ng-container *ngIf="clearable && selectedOption && !opened">
+    <button (click)="clear($event)" class="select-clear-button">
+      <icon name="x" weight="bold"></icon>
+    </button>
+  </ng-container>
+</div>
+<div class="select-chevron-container" [class]="size">
+  <button class="select-chevron focus:outline-none focus:cursor-pointer" [class]="size" (click)="open(dropdown)">
+    <icon [name]="opened ? 'chevron-up' : 'chevron-down'" [size]="'sm'" weight="bold"></icon>
+  </button>
+</div>
+<ng-template #dropdown>
+  <div class="rounded bg-white dark:bg-gray-900">
+    <ng-container *ngIf="searchable">
+      <div class="text-white p-2">
+        <sndvll-input placeholder="Search" size="sm" (onValueChanges)="search($event)"></sndvll-input>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="options?.length">
+      <ng-container *ngFor="let option of options">
+        <ng-container [ngTemplateOutlet]="option.optionContent"></ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!options?.length">
+      <div class="text-black dark:text-white text-center w-full px-2 py-5 text-lg">
+        <ng-container *ngIf="searchStatus === 'pristine'">
+          Please search for something
+        </ng-container>
+        <ng-container *ngIf="searchStatus === 'noresult'">
+          No results
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

@@ -1,15 +1,13 @@
-import {ChangeDetectorRef, Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
+import {Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
 import {Asset, AssetList, AppStore} from './store';
 import {Subject} from 'rxjs';
 import {FiatCurrencyService} from './core/fiat';
-import {AvailableCryptoCurrency, CryptoCurrencyService} from './core/crypto';
-import {ToastConfigBuilder, ToastService} from './shared/components/toast';
-import {ModalService} from './shared/components/modal/modal.service';
-import {DropdownMenuService} from './shared/components/dropdown-menu/dropdown-menu.service';
-import {DialogXPosition} from './core/dialog';
-import {debounceTime, distinctUntilChanged, filter, take, takeUntil} from 'rxjs/operators';
+import {CryptoCurrencyService} from './core/crypto';
+import {ToastService} from './shared/components/toast';
+import {ModalService} from './shared/components/modal';
+import {DropdownMenuService} from './shared/components/dropdown-menu';
+import {takeUntil} from 'rxjs/operators';
 import {Color} from './core/utils';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -21,20 +19,13 @@ export class AppComponent implements OnInit {
  //@HostBinding('class') classList = 'bg-gray-200 dark:bg-gray-900 text-black dark:text-white max-w-screen-sm min-h-screen container';
  @HostBinding('class') classList = 'text-black dark:text-white';
 
-  public testOptions = ['Test1','Test2','Test3','Test4','Test5','Test6','Test7','Test8','Test9','Test10','Test11','Test12'];
-  public options: AvailableCryptoCurrency[] = [];
-
   public assets: Asset[] = [];
   public lists: AssetList[] = [];
   public totalAmount: number = 0;
+  public averageMarketChange: number = 0;
 
   private _onDestroy = new Subject<void>();
-
-  public formGroup: FormGroup = this.formBuilder.group({
-    select: [''],
-    input: [''],
-    toggle: [{value: false, disabled: false}]
-  });
+  public Color = Color;
 
   constructor(
     private fiat: FiatCurrencyService,
@@ -42,8 +33,7 @@ export class AppComponent implements OnInit {
     private store: AppStore,
     private toast: ToastService,
     private modal: ModalService,
-    private dropdown: DropdownMenuService,
-    private formBuilder: FormBuilder) {
+    private dropdown: DropdownMenuService) {
 
   }
 
@@ -55,9 +45,9 @@ export class AppComponent implements OnInit {
     this.store.selectTotalAmount
       .pipe(takeUntil(this._onDestroy))
       .subscribe(amount => this.totalAmount = amount);
-
-    //this.openToast();
-    //this.formGroup.valueChanges.subscribe(console.log);
+    this.store.selectAverageMarketChange
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(averageMarketChange => this.averageMarketChange = averageMarketChange);
   }
 
   ngOnDestroy() {
@@ -67,41 +57,6 @@ export class AppComponent implements OnInit {
 
   openDropdown(origin: HTMLElement, templateRef: TemplateRef<any>) {
     this.dropdown.open(origin, templateRef)
-  }
-
-  openToast() {
-    this.toast.open(ToastConfigBuilder.success({
-      time: 10,
-      message: 'Detta är ett meddelande',
-      x: DialogXPosition.Right
-    }));
-  }
-
-/*  onSelectSearch(searchPhrase: string) {
-    if (searchPhrase) {
-      this.crypto.search(searchPhrase.trim(), 'name', 100)
-        .pipe(
-          take(1),
-          debounceTime(50)
-        )
-        .subscribe(currencies => {
-          if (currencies.length) {
-            this.options = currencies;
-          } else {
-            this.options = [];
-          }
-        });
-    } else {
-      this.options = [];
-    }
-  }
-
-  onSelectClose() {
-    this.options = [];
-  }*/
-
-  add() {
-    this.store.add({id: 'nano', name: 'Nano', shortname: 'nano', quantity: 16, rate: 7.8, marketChange: 10, color: Color.gray});
   }
 
 }

@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ButtonModule} from '../../directives/button/button.module';
+import {ButtonModule} from '../../directives/button';
 import {AlertComponent} from './alert.component';
 import {IconsModule} from '../../icons.module';
-import {InputModule} from '../input/input.module';
+import {InputModule} from '../input';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ToggleModule} from '../toggle/toggle.module';
+import {ToggleModule} from '../toggle';
 
 @NgModule({
   imports: [

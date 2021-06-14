@@ -20,8 +20,14 @@ import {takeUntil} from 'rxjs/operators';
 export class AlertComponent<D = any> implements OnInit, OnDestroy {
 
   private _onDestroy = new Subject<void>();
-
   private _disabledButton = true;
+
+  public inputControl: FormControl;
+  public toggleControl: FormControl;
+  public alertConfig!: AlertConfig;
+
+  @HostBinding('class') classList = 'alert';
+
   set disabledButton(value: boolean) {
     this._disabledButton = value;
     this.changeDetectorRef.markForCheck();
@@ -32,30 +38,6 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
         this.inputControl.value.toLowerCase() === this.alertConfig.data?.toLowerCase();
     }
     return this._disabledButton;
-  }
-
-  @HostBinding('class') classList = 'alert';
-
-  public inputControl: FormControl;
-  public toggleControl: FormControl;
-
-  public alertConfig!: AlertConfig;
-
-  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<AlertComponent<D>, AlertConfig>,
-              private changeDetectorRef: ChangeDetectorRef) {
-    this.alertConfig = dialogRef.config.data!;
-    this.inputControl = new FormControl(this.alertConfig.data ?? '');
-    this.toggleControl = new FormControl(false);
-  }
-
-  ngOnInit() {
-    this.toggleControl.valueChanges
-      .pipe(takeUntil(this._onDestroy))
-      .subscribe(value => this.disabledButton = !value);
-  }
-
-  close<D>(reason?: D) {
-    this.dialogRef.dismiss<D>(reason);
   }
 
   get iconColor(): string {
@@ -75,7 +57,24 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
     }[this.alertConfig.type];
   }
 
-  ngOnDestroy() {
+  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<AlertComponent<D>, AlertConfig>,
+              private changeDetectorRef: ChangeDetectorRef) {
+    this.alertConfig = dialogRef.config.data!;
+    this.inputControl = new FormControl(this.alertConfig.data ?? '');
+    this.toggleControl = new FormControl(false);
+  }
+
+  public ngOnInit() {
+    this.toggleControl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(value => this.disabledButton = !value);
+  }
+
+  public close<D>(reason?: D) {
+    this.dialogRef.dismiss<D>(reason);
+  }
+
+  public ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

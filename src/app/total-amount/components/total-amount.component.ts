@@ -3,10 +3,10 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'total-amount',
   template: `
-    <card class="bg-white dark:bg-black mb-2 p-2">
+    <card class="bg-white dark:bg-black p-2">
       <div class="text-sm justify-between" cardHeader>
         <span>Total asset amount</span>
-        <span>24h</span>
+<!--        <span>24h</span>-->
       </div>
       <div class="flex justify-between content-center" cardContent>
         <div class="font-bold"
@@ -16,18 +16,18 @@ import {Component, Input} from '@angular/core';
         </div>
         <div class="self-center text-lg font-bold"
              [class.text-red-500]="negativeChange"
-             [class.text-green-500]="!negativeChange">{{totalAmountChange | change}}</div>
+             [class.text-green-500]="!negativeChange">{{(averageAmountChange | number : '1.2-2') | change}}</div>
       </div>
     </card>
   `
 })
 export class TotalAmountComponent {
 
-  @Input() totalAmount = 0;
-  @Input() totalAmountChange = -2.4;
+  @Input() totalAmount: number = 0;
+  @Input() averageAmountChange: number = 0;
 
   get negativeChange(): boolean {
-    return this.totalAmountChange < 0;
+    return this.averageAmountChange < 0;
   }
 
   get veryLargeAmount(): boolean {

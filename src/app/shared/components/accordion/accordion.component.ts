@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {expansionAnimations} from './expansion.animations';
 import {Subject} from 'rxjs';
-import {filter, takeUntil, tap} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 
 type ExpandedState = 'expanded' | 'collapsed';
@@ -55,7 +55,7 @@ export class AccordionItemComponent {
 
   @HostBinding('class') classList = 'accordion-item';
 
-  @Input() id = uniqueItemId++;
+  @Input() id: any = uniqueItemId++;
 
   private _expanded: boolean = false;
   @Input()
@@ -66,20 +66,26 @@ export class AccordionItemComponent {
       this.changeDetectorRef.markForCheck();
     }
   }
-
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
-  }
-
   get expanded() {
     return this._expanded;
   }
 
-  toggle() {
+  get expandedState(): ExpandedState {
+    return this.expanded ? 'expanded' : 'collapsed';
+  }
+
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
+  public toggle() {
     this.expanded = !this.expanded;
   }
 
-  get expandedState(): ExpandedState {
-    return this.expanded ? 'expanded' : 'collapsed';
+  public expand() {
+    this.expanded = true;
+  }
+
+  public collapse() {
+    this.expanded = false;
   }
 }
 
@@ -88,7 +94,7 @@ export class AccordionItemComponent {
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccordionComponent implements AfterViewInit, OnDestroy {
+export class AccordionComponent implements AfterViewInit,  OnDestroy {
 
   private _onDestroy = new Subject<void>();
 
@@ -96,7 +102,7 @@ export class AccordionComponent implements AfterViewInit, OnDestroy {
 
   @ContentChildren(AccordionItemComponent) items!: QueryList<AccordionItemComponent>;
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.items.forEach((item) => {
       item.onExpandedStateChanges$
         .pipe(
@@ -107,12 +113,12 @@ export class AccordionComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  collapseOthers(id: number) {
+  public collapseOthers(id: any) {
     this.items.filter(item => id !== item.id && item.expanded)
-      .forEach(item => item.toggle())
+      .forEach(item => item.collapse())
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

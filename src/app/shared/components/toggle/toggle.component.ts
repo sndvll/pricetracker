@@ -62,19 +62,19 @@ export class ToggleComponent implements ControlValueAccessor {
   private _onTouched: () => any = () => {};
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
-  registerOnChange(fn: any): void {
+  public registerOnChange(fn: any): void {
     this._controlValueAccessorChangeFn = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  public registerOnTouched(fn: any): void {
     this._onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  writeValue(value: boolean): void {
+  public writeValue(value: boolean): void {
     this._check(value);
   }
 }

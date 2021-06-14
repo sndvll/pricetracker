@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {TotalAmountModule} from './total-amount/total-amount.module';
 import {AssetsModule} from './assets';
-import {DeviceDetectorService} from 'ngx-device-detector';
+import {CryptoSearchbarModule} from './crypto-searchbar';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,7 @@ import {DeviceDetectorService} from 'ngx-device-detector';
     SharedModule,
     TotalAmountModule,
     AssetsModule,
+    CryptoSearchbarModule,
     HttpClientModule,
     StateModule.forRoot({
       enableDevTools: false

@@ -24,4 +24,4 @@ import {AssetIconComponent} from './components/asset-icon.component';
     AssetIconComponent
   ],
 })
-export class AssetsModule {}
+export class AssetListModule {}

@@ -7,7 +7,7 @@ export enum AssetsType {
 export interface Asset {
   id: string;
   name: string;
-  shortname: string;
+  symbol: string;
   quantity: number;
   rate: number;
   marketChange: number

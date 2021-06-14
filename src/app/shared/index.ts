@@ -1,2 +1,5 @@
 export * from './shared.module';
-export * from './components/toast';
+export * from './icons.module';
+export * from './components';
+export * from './directives'
+export * from './pipes';

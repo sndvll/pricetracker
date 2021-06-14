@@ -15,13 +15,13 @@ import {filter, map, take} from 'rxjs/operators';
 })
 export class ProgressBarDirective implements OnInit {
 
-  @Input() timer: boolean = false;
-  @Input() total: number = 100;
-  @Input() time: number = 0;
-
   @Output() onTimeout: EventEmitter<void> = new EventEmitter<void>();
 
   @HostBinding('style.width') private _progress = '0%';
+
+  @Input() timer: boolean = false;
+  @Input() total: number = 100;
+  @Input() time: number = 0;
 
   @Input() set progress(value: number) {
     this._progress = value + '%';
@@ -30,7 +30,7 @@ export class ProgressBarDirective implements OnInit {
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.timer && this.time) {
       this._startTimer();
     }

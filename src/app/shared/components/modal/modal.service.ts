@@ -17,7 +17,7 @@ export class ModalService {
 
   constructor(private dialog: DialogService) {}
 
-  open(config: ModalConfig): DialogRef<ModalComponent, ModalConfig> {
+  public open(config: ModalConfig): DialogRef<ModalComponent, ModalConfig> {
 
     const modalTypeConfigs = {
       [ModalType.Floating]: ModalService.getDialogConfig(config)

@@ -7,7 +7,7 @@ import {
   HostBinding,
   Input, Output,
   ViewChild,
-  EventEmitter, HostListener
+  EventEmitter
 } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -26,12 +26,14 @@ export const INPUT_VALUE_ACCESSOR = {
 })
 export class InputComponent implements ControlValueAccessor {
 
-  @HostBinding('class') classList = 'input-component';
-
   private _disabled: boolean = false;
   private _showClearButton = false;
   private _value = new BehaviorSubject< string | number>('');
   public value$ = this._value.asObservable();
+
+  @ViewChild('input') input!: ElementRef;
+
+  @HostBinding('class') classList = 'input-component';
 
   @Output() public onValueChanges = new EventEmitter<any>();
 
@@ -81,8 +83,6 @@ export class InputComponent implements ControlValueAccessor {
     return this._disabled;
   }
 
-  @ViewChild('input') input!: ElementRef;
-
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   public clear() {
@@ -98,20 +98,20 @@ export class InputComponent implements ControlValueAccessor {
   private _onTouched: () => any = () => {};
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
-  registerOnChange(fn: any): void {
+  public registerOnChange(fn: any): void {
     this._controlValueAccessorChangeFn = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  public registerOnTouched(fn: any): void {
     this._onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  public setDisabledState(isDisabled: boolean): void {
     this._disabled = isDisabled;
     this.changeDetectorRef.markForCheck();
   }
 
-  writeValue(value: string | number): void {
+  public writeValue(value: string | number): void {
     if (value) {
       this.value = value;
     }

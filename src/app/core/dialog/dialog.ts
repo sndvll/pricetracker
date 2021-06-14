@@ -19,7 +19,7 @@ export class DialogBackdrop {
   @HostBinding('class.pointer-events-none') pointerEventsNone = this.dialogRef.config.backdropClickThrough;
   @HostBinding('class.pointer-events-auto') pointerEventsAuto = !this.dialogRef.config.backdropClickThrough;
 
-  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef<any, any>) {
+  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {
     this.classList = `backdrop ${this.dialogRef.config.backdropClass ?? 'bg-black'} opacity-${this.dialogRef.config.backdropOpacity ?? '50'}`;
   }
 
@@ -62,7 +62,7 @@ export class GlobalDialog {
   @HostBinding('class.full-height') fullHeight = this.dialogRef.config.fullHeight;
   @HostBinding('role') role: DialogType = DialogType.Modal;
 
-  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef<any, any>) {
+  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef) {
     this.role = dialogRef.config.type!;
   }
 }
@@ -74,7 +74,7 @@ export class ConnectedDialog implements AfterViewInit {
 
   @HostBinding('class') classList = 'connected-dialog';
 
-  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef<any, any>,
+  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef,
               private elementRef: ElementRef) {
   }
 

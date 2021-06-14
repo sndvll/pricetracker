@@ -15,7 +15,7 @@ export class TooltipComponent {
 
   @HostBinding('class') classList = 'tooltip-component'
 
-  constructor(@Inject(DIALOG_REF) public dialogRef: DialogRef<TooltipComponent, string>) {
+  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<TooltipComponent, string>) {
     this.message = dialogRef.config.data!;
   }
 

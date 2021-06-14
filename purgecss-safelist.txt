@@ -1,0 +1,12 @@
+bg-pink-300
+dark:bg-pink-400
+bg-indigo-300
+dark:bg-indigo-400
+bg-purple-300
+dark:bg-purple-400
+bg-blue-400
+dark:bg-blue-500
+bg-red-400
+dark:bg-red-500
+opacity-30
+opacity-60

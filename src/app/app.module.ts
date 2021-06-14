@@ -1,15 +1,17 @@
-import { NgModule } from '@angular/core';
+import {Inject, NgModule} from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from './shared';
 import {HttpClientModule} from '@angular/common/http';
-import {StateModule} from './core/store';
+import {StateModule} from './core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {TotalAmountModule} from './total-amount/total-amount.module';
-import {AssetsModule} from './assets';
 import {CryptoSearchbarModule} from './crypto-searchbar';
+import {AssetListModule} from './assets-list';
+import {DeviceDetectorService} from 'ngx-device-detector';
+import {DOCUMENT} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,7 @@ import {CryptoSearchbarModule} from './crypto-searchbar';
     AppRoutingModule,
     SharedModule,
     TotalAmountModule,
-    AssetsModule,
+    AssetListModule,
     CryptoSearchbarModule,
     HttpClientModule,
     StateModule.forRoot({
@@ -38,5 +40,19 @@ import {CryptoSearchbarModule} from './crypto-searchbar';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
+  constructor(private device: DeviceDetectorService,
+              @Inject(DOCUMENT) private document: Document) {
+    console.log('app initiating');
+
+    // Check if app is on ios
+    const mobileSafari = this.device.isMobile() && this.device.browser.toLowerCase() === 'safari';
+    if (mobileSafari) {
+      // If so add this attribute to the meta-element to prevent safari to zoom in on focused
+      // inputs etc. hackityhack..
+      const metaEl = this.document.querySelector('meta[name=viewport]')!;
+      metaEl.setAttribute('content', "width=device-width, initial-scale=1, maximum-scale=1");
+    }
+  }
 
 }

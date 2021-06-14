@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IconsModule} from '../../icons.module';
 import {SearchbarComponent} from './searchbar.component';
-import {ButtonModule} from '../../directives/button';
+import {ButtonModule} from '../../directives';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SearchbarResultComponent, SearchbarResultItemComponent} from './searchbar-result.component';
 

@@ -1,5 +1,5 @@
 import {Injectable, TemplateRef} from '@angular/core';
-import {ConnectedDialogConfigBuilder, DialogConnectedPosition, DialogService} from '../../../core/dialog';
+import {ConnectedDialogConfigBuilder, DialogConnectedPosition, DialogService} from '../../../core';
 import {DropdownMenuComponent} from './dropdown-menu.component';
 
 @Injectable({providedIn: 'root'})

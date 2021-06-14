@@ -1,4 +1,4 @@
-import {DialogXPosition, DialogYPosition} from '../../../core/dialog';
+import {DialogXPosition, DialogYPosition} from '../../../core';
 
 export enum ToastType {
   Info = 'info',

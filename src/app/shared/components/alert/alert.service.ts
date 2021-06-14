@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {DialogRef, DialogService, DialogType, GlobalDialogConfigBuilder} from '../../../core/dialog';
+import {DialogRef, DialogService, DialogType, GlobalDialogConfigBuilder} from '../../../core';
 import {AlertComponent} from './alert.component';
 
 export enum AlertType {

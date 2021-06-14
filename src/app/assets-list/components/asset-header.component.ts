@@ -1,6 +1,6 @@
 import {Component, HostBinding, Input} from '@angular/core';
 import {Asset} from '../../store';
-import {Color} from '../../core/utils';
+import {Color} from '../../core';
 
 @Component({
   selector: 'asset-header',

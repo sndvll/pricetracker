@@ -1,5 +1,5 @@
 import {Component, HostBinding, Inject, TemplateRef} from '@angular/core';
-import {DIALOG_REF, DialogRef} from '../../../core/dialog';
+import {DIALOG_REF, DialogRef} from '../../../core';
 
 export interface SearchbarResultConfig<T = any> {
   templateRef: TemplateRef<any>;

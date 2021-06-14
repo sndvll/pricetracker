@@ -7,7 +7,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import {DIALOG_REF, DialogRef} from '../../../core/dialog';
+import {DIALOG_REF, DialogRef} from '../../../core';
 import {AlertConfig, AlertType} from './alert.service';
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';

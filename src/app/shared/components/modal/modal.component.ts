@@ -1,5 +1,5 @@
 import {Component, Directive, HostBinding, Inject, OnInit, TemplateRef} from '@angular/core';
-import {DIALOG_REF, DialogRef} from '../../../core/dialog';
+import {DIALOG_REF, DialogRef} from '../../../core';
 import {ModalConfig, ModalType} from './modal.config';
 
 @Directive({

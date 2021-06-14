@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, HostBinding, HostListener, Inject} from '@angular/core';
-import {DIALOG_REF, DialogRef} from '../../../core/dialog';
+import {DIALOG_REF, DialogRef} from '../../../core';
 import {ToastConfig, ToastType} from './toast.config';
 
 @Component({

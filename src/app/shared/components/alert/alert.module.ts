@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ButtonModule} from '../../directives/button';
+import {ButtonModule} from '../../directives';
 import {AlertComponent} from './alert.component';
 import {IconsModule} from '../../icons.module';
 import {InputModule} from '../input';

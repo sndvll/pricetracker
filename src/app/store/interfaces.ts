@@ -1,4 +1,4 @@
-import {Color} from '../core/utils';
+import {Color} from '../core';
 
 export enum AssetsType {
   Crypto = 'crypto'

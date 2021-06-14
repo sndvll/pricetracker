@@ -1,5 +1,5 @@
 import {Component, HostBinding, Inject} from '@angular/core';
-import {DIALOG_REF, DialogRef} from '../../../core/dialog';
+import {DIALOG_REF, DialogRef} from '../../../core';
 
 @Component({
   template: `

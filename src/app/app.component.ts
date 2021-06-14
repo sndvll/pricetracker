@@ -1,13 +1,15 @@
-import {Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
+import {Component, HostBinding, Inject, OnInit, TemplateRef} from '@angular/core';
 import {Asset, AssetList, AppStore} from './store';
 import {Subject} from 'rxjs';
-import {FiatCurrencyService} from './core/fiat';
-import {CryptoCurrencyService} from './core/crypto';
-import {ToastService} from './shared/components/toast';
-import {ModalService} from './shared/components/modal';
-import {DropdownMenuService} from './shared/components/dropdown-menu';
+import {FiatCurrencyService} from './core';
+import {CryptoCurrencyService} from './core';
+import {ToastService} from './shared';
+import {ModalService} from './shared';
+import {DropdownMenuService} from './shared';
 import {takeUntil} from 'rxjs/operators';
-import {Color} from './core/utils';
+import {Color} from './core';
+import {DOCUMENT} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,6 @@ export class AppComponent implements OnInit {
  //@HostBinding('class') classList = 'bg-gray-200 dark:bg-gray-900 text-black dark:text-white max-w-screen-sm min-h-screen container';
  @HostBinding('class') classList = 'text-black dark:text-white';
 
-  public assets: Asset[] = [];
   public lists: AssetList[] = [];
   public totalAmount: number = 0;
   public averageMarketChange: number = 0;
@@ -31,14 +32,14 @@ export class AppComponent implements OnInit {
     private fiat: FiatCurrencyService,
     private crypto: CryptoCurrencyService,
     private store: AppStore,
-    private toast: ToastService,
-    private modal: ModalService,
-    private dropdown: DropdownMenuService) {
+    private dropdown: DropdownMenuService,
+    private device: DeviceDetectorService,
+    @Inject(DOCUMENT) private document: Document) {
 
   }
 
   ngOnInit() {
-    console.log('app initiating');
+    // Init subscriptions from store.
     this.store.selectLists
       .pipe(takeUntil(this._onDestroy))
       .subscribe(lists => this.lists = lists);

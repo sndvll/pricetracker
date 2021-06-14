@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {Asset} from '../../store';
-import {ModalService} from '../../shared/components/modal';
-import {ModalConfig, ModalType} from '../../shared/components/modal';
-import {ModalComponent} from '../../shared/components/modal';
+import {ModalService} from '../../shared';
+import {ModalConfig, ModalType} from '../../shared';
+import {ModalComponent} from '../../shared';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Color, Colors, DialogRef, initialValueChangedValidator} from '../../core';
-import {AlertService, AlertType} from '../../shared/components/alert';
+import {AlertService, AlertType} from '../../shared';
 import {filter} from 'rxjs/operators';
 
 @Component({

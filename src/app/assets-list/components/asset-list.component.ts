@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild} from '@angular/core';
 import {AppStore, Asset} from '../../store';
-import {DropdownMenuService} from '../../shared/components/dropdown-menu';
-import {DialogRef} from '../../core/dialog';
-import {AlertService, AlertType} from '../../shared/components/alert';
+import {DropdownMenuService} from '../../shared';
+import {DialogRef} from '../../core';
+import {AlertService, AlertType} from '../../shared';
 import {debounceTime, filter, take} from 'rxjs/operators';
-import {ModalService, ModalComponent, ModalConfig, ModalType} from '../../shared/components/modal';
-import {AccordionComponent} from '../../shared/components/accordion';
-import {AvailableCryptoCurrency, CryptoCurrencyService} from '../../core/crypto';
+import {ModalService, ModalComponent, ModalConfig, ModalType} from '../../shared';
+import {AccordionComponent} from '../../shared';
+import {AvailableCryptoCurrency, CryptoCurrencyService} from '../../core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {Color, Colors} from '../../core/utils';
+import {Color, Colors} from '../../core';
 
 
 

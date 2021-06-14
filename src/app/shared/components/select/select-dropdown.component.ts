@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, HostBinding, Inject, TemplateRef} from '@angular/core';
-import {DIALOG_REF, DialogRef} from '../../../core/dialog';
+import {DIALOG_REF, DialogRef} from '../../../core';
 
 @Component({
   template: `<ng-container [ngTemplateOutlet]="template"></ng-container>`,

@@ -1,12 +1,12 @@
 import {Inject, Injectable, Injector} from '@angular/core';
-import {BaseStore} from '../core/store';
+import {BaseStore} from '../core';
 import {AppState, Asset, AssetList, AssetsType} from './interfaces';
 import {Observable, of} from 'rxjs';
 import {ToastConfigBuilder, ToastService, ToastType} from '../shared';
 import {map, switchMap} from 'rxjs/operators';
 
 import * as shortid from 'shortid';
-import {Color} from '../core/utils';
+import {Color} from '../core';
 
 @Injectable({providedIn: 'root'})
 export class AppStore extends BaseStore<AppState>{

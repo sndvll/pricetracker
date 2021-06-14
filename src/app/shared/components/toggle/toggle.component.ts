@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BehaviorSubject} from 'rxjs';
-import {ColorHue, Color, ColorUtils} from '../../../core/utils';
+import {ColorHue, Color, ColorUtils} from '../../../core';
 
 export const TOGGLE_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,

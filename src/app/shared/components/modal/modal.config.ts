@@ -1,5 +1,5 @@
 import {TemplateRef} from '@angular/core';
-import {Opacity} from '../../../core/utils';
+import {Opacity} from '../../../core';
 
 export enum ModalType {
   Floating,

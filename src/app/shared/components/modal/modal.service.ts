@@ -7,7 +7,7 @@ import {
   DialogXPosition,
   DialogYPosition,
   GlobalDialogConfigBuilder
-} from '../../../core/dialog';
+} from '../../../core';
 import {ModalComponent} from './modal.component';
 import {ModalConfig, ModalType} from './modal.config';
 

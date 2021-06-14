@@ -4,7 +4,7 @@ import {
   DialogConnectedPosition,
   DialogRef,
   DialogService
-} from '../../../core/dialog';
+} from '../../../core';
 import {TooltipComponent} from './tooltip.component';
 
 @Directive({

@@ -13,7 +13,7 @@ import {
   ConnectedDialogConfigBuilder,
   DialogConnectedPosition, DialogRef,
   DialogService
-} from '../../../core/dialog';
+} from '../../../core';
 import {Observable, race, Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {SelectOptionComponent} from './select-option.component';

@@ -20,7 +20,7 @@ export class CryptoSearchbarComponent {
   @Output() addCurrency = new EventEmitter<AvailableCryptoCurrency>();
 
   public searchResult: AvailableCryptoCurrency[] = [];
-  public searchStatus: 'result' | 'noresult' | 'empty' = 'empty';
+  public searchStatus: 'result' | 'noresult' | null = null;
   public isOpen: boolean = false;
 
   private _dialogRef!: DialogRef;
@@ -60,7 +60,8 @@ export class CryptoSearchbarComponent {
         });
     } else {
       this.searchResult = [];
-      this.searchStatus = 'empty';
+      this.searchStatus = null;
+      this._close();
     }
   }
 
@@ -73,6 +74,15 @@ export class CryptoSearchbarComponent {
   public add(currency: AvailableCryptoCurrency) {
     this.addCurrency.emit(currency);
     this.searchbar.clear();
+    this._close();
+  }
+
+  get count() {
+    return this.crypto.count;
+  }
+
+  public reloadCurrencyDatabase() {
+    this.crypto.loadAvailableCurrencies();
     this._close();
   }
 

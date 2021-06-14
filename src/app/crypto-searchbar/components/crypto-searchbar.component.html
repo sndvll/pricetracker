@@ -1,6 +1,7 @@
 <sndvll-searchbar class="mb-2"
                   size="sm"
-                  (valueChanges)="onSearch($event)"></sndvll-searchbar>
+                  placeholder="Search for any crypto currency"
+                  (valueChanges)="onSearch($event)" xmlns="http://www.w3.org/1999/html"></sndvll-searchbar>
 
 <ng-template #searchResultRef>
   <ng-container *ngIf="searchStatus === 'result'">
@@ -15,14 +16,11 @@
       </button>
     </searchbar-result-item>
   </ng-container>
-  <ng-container *ngIf="searchStatus === 'empty'">
-    <div class="w-full text-center">
-      Search for any coin.
-    </div>
-  </ng-container>
   <ng-container *ngIf="searchStatus === 'noresult'">
-    <div class="w-full text-center">
-      No results, try something else.
+    <div class="w-full text-center py-5">
+      <div>No results, try something else.</div>
+      <div>There is {{count}} available currencies.</div>
+      <button sndvll-btn="link" (click)="reloadCurrencyDatabase()">Reload database</button>
     </div>
   </ng-container>
 </ng-template>

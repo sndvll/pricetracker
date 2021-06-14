@@ -16,25 +16,10 @@
 </div>
 <ng-template #dropdown>
   <div class="rounded bg-white dark:bg-gray-900">
-    <ng-container *ngIf="searchable">
-      <div class="text-white p-2">
-        <sndvll-input placeholder="Search" size="sm" (onValueChanges)="search($event)"></sndvll-input>
-      </div>
-    </ng-container>
     <ng-container *ngIf="options?.length">
       <ng-container *ngFor="let option of options">
         <ng-container [ngTemplateOutlet]="option.optionContent"></ng-container>
       </ng-container>
-    </ng-container>
-    <ng-container *ngIf="!options?.length">
-      <div class="text-black dark:text-white text-center w-full px-2 py-5 text-lg">
-        <ng-container *ngIf="searchStatus === 'pristine'">
-          Please search for something
-        </ng-container>
-        <ng-container *ngIf="searchStatus === 'noresult'">
-          No results
-        </ng-container>
-      </div>
     </ng-container>
   </div>
 </ng-template>

@@ -15,7 +15,8 @@ export class AvailableCryptocurrenciesDbService extends AbstractDbService<Availa
   }
 
   public bulkAdd(coins: AvailableCryptoCurrency[]) {
-    this.table.bulkPut(coins);
+    console.log(`Adding ${coins.length} into database`);
+    this.table.bulkAdd(coins);
   }
 
   public search(phrase: string, key: string, limit: number | null) {

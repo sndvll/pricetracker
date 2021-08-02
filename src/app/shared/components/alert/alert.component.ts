@@ -7,7 +7,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import {DIALOG_REF, DialogRef} from '../../../core';
+import {DIALOG_REF, DialogRef, Color} from '../../../core';
 import {AlertConfig, AlertType} from './alert.service';
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
@@ -25,6 +25,8 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
   public inputControl: FormControl;
   public toggleControl: FormControl;
   public alertConfig!: AlertConfig;
+
+  public Color = Color;
 
   @HostBinding('class') classList = 'alert';
 

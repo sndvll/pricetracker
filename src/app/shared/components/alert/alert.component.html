@@ -8,7 +8,7 @@
 <ng-container [ngSwitch]="alertConfig.type">
   <ng-container *ngSwitchCase="'warning'">
     <div class="alert-content">
-      <sndvll-toggle [formControl]="toggleControl">{{'COMPONENTS.ALERT.WARNING_MESSAGE' | translate}}</sndvll-toggle>
+      <sndvll-toggle [formControl]="toggleControl" [color]="Color.red">{{'COMPONENTS.ALERT.WARNING_MESSAGE' | translate}}</sndvll-toggle>
     </div>
     <div class="alert-footer">
       <button sndvll-btn="button" class="button btn secondary"

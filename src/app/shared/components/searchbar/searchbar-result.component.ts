@@ -14,7 +14,7 @@ export class SearchbarResultComponent {
 
   public templateRef: TemplateRef<any>;
 
-  @HostBinding('class') classList = 'dropdown-menu bg-white dark:bg-black flex flex-col max-h-96'
+  @HostBinding('class') classList = 'dropdown-menu bg-white dark:bg-black dark:text-white flex flex-col max-h-96'
   @HostBinding('style.width') width = '';
 
   constructor(@Inject(DIALOG_REF) dialogRef: DialogRef<SearchbarResultComponent, SearchbarResultConfig>) {

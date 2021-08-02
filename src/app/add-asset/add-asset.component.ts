@@ -19,7 +19,7 @@ export class AddAssetComponent implements OnInit {
 
   public createList = false;
 
-  @HostBinding('class') classList = 'bg-gray-100 dark:bg-black flex flex-col overflow-hidden pb-10';
+  @HostBinding('class') classList = 'bg-gray-100 dark:bg-black dark:text-white flex flex-col overflow-hidden pb-10';
 
   constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<AddAssetComponent, AvailableCryptoCurrency>,
               private store: AppStore,

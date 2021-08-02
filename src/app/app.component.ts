@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   public totalAmount: number = 0;
   public averageMarketChange: number = 0;
 
-  public togglePriceControl = new FormControl(true);
+  public togglePriceControl = new FormControl(false);
 
   private _onDestroy = new Subject<void>();
   public Color = Color;
@@ -41,10 +41,15 @@ export class AppComponent implements OnInit {
     // Init subscriptions from store.
     this.store.selectLists
       .pipe(takeUntil(this._onDestroy))
-      .subscribe(lists => this.lists = lists);
+      .subscribe(lists => {
+        this.lists = lists;
+        this.togglePriceControl.setValue(!!lists.length);
+      });
 
     this._handlePrices();
     this._handleEvents();
+
+    this.store.init();
 
     this.event.next(EventType.INIT);
   }
@@ -93,7 +98,7 @@ export class AppComponent implements OnInit {
           quantity,
           color,
           name,
-          symbol
+          symbol,
         }, listId);
       })
   }

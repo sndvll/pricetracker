@@ -38,4 +38,8 @@ export abstract class AbstractDbService<T> {
     this.table.bulkAdd(data);
   }
 
+  public add(data: T) {
+    this.table.put(data);
+  }
+
 }

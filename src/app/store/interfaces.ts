@@ -11,6 +11,8 @@ export interface AssetList {
   name: string;
   assets: AssetModel[];
 }
+export type AssetListModel = Omit<AssetList, 'assets'>
+
 
 export interface AppState {
   lists: AssetList[];
@@ -24,5 +26,6 @@ export interface AssetModel {
   name: string;
   symbol: string;
   quantity: number;
-  color: Color
+  color: Color;
+  list: string;
 }

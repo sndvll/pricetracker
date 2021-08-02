@@ -30,7 +30,7 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
   private _onDestroy = new Subject();
 
   @Input() asset!: AssetModel;
-  @Output() onSave = new EventEmitter<Omit<AssetModel, 'name' | 'symbol'>>();
+  @Output() onSave = new EventEmitter<Omit<AssetModel, 'name' | 'symbol' | 'list'>>();
   @Output() onDelete = new EventEmitter<string>();
 
   public rate!: number;

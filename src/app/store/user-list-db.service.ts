@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {AbstractDbService} from '../core/persistence/abstract-db.service';
-import {AssetPrice} from '../store';
+import {AssetListModel} from './interfaces';
 import {DexieService} from '../core/persistence/dexie.service';
 import {AppConfig} from '../../app.config';
 
 @Injectable({providedIn: 'root'})
-export class PriceDbService extends AbstractDbService<AssetPrice>{
+export class UserListDbService extends AbstractDbService<AssetListModel>{
   constructor(private dexieService: DexieService) {
-    // TODO move assetprice interface
-    super(dexieService.table<AssetPrice>(AppConfig.tables.asset_price));
+    super(dexieService.table<AssetListModel>(AppConfig.tables.user_lists));
   }
 }

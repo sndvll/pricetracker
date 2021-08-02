@@ -198,31 +198,31 @@ input.toggle-checkbox {
   &.btn {
     @apply rounded focus:outline-none leading-none;
     &.primary {
-      @apply bg-blue-300 dark:bg-blue-800 text-white;
+      @apply bg-blue-300 dark:bg-blue-800 text-black dark:text-white;
       &.hover {
         @apply  hover:bg-blue-500 dark:hover:bg-blue-900;
       }
     }
     &.secondary {
-      @apply bg-gray-300 dark:bg-gray-500 text-black;
+      @apply bg-gray-300 dark:bg-gray-500 text-black dark:text-white;
       &.hover {
         @apply hover:bg-gray-600 dark:hover:bg-gray-600;
       }
     }
     &.success {
-      @apply bg-green-300 dark:bg-green-500 text-white;
+      @apply bg-green-300 dark:bg-green-500 text-black dark:text-white;
       &.hover {
         @apply hover:bg-green-400 dark:hover:bg-green-600;
       }
     }
     &.danger {
-      @apply bg-red-300 dark:bg-red-800 text-white;
+      @apply bg-red-300 dark:bg-red-800 text-black dark:text-white;
       &.hover {
         @apply hover:bg-red-600 dark:hover:bg-red-900;
       }
     }
     &.warning {
-      @apply bg-yellow-300 dark:bg-yellow-500 text-white;
+      @apply bg-yellow-300 dark:bg-yellow-500 text-black dark:text-white;
       &.hover {
         @apply hover:bg-yellow-600 dark:hover:bg-yellow-600;
       }

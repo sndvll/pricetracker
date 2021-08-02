@@ -1,6 +1,6 @@
 <sndvll-searchbar class="mb-2"
                   size="sm"
-                  placeholder="Search for any crypto currency"
+                  placeholder="{{'CRYPTO_SEARCH_BAR.PLACEHOLDER' | translate}}"
                   (valueChanges)="onSearch($event)" xmlns="http://www.w3.org/1999/html"></sndvll-searchbar>
 
 <ng-template #searchResultRef>
@@ -18,9 +18,9 @@
   </ng-container>
   <ng-container *ngIf="searchStatus === 'noresult'">
     <div class="w-full text-center py-5">
-      <div>No results, try something else.</div>
-      <div>There is {{count}} available currencies.</div>
-      <button sndvll-btn="link" (click)="reloadCurrencyDatabase()">Reload database</button>
+      <div>{{'CRYPTO_SEARCH_BAR.NO_RESULT' | translate}}</div>
+      <div>{{'CRYPTO_SEARCH_BAR.AVAILABLE' | translate : {count: count} }}</div>
+      <button sndvll-btn="link" (click)="reloadCurrencyDatabase()">{{'CRYPTO_SEARCH_BAR.RELOAD' | translate}}</button>
     </div>
   </ng-container>
 </ng-template>

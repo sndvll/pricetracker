@@ -1,23 +1,39 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
-import {Asset} from '../../store';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef
+} from '@angular/core';
 import {ModalService} from '../../shared';
 import {ModalConfig, ModalType} from '../../shared';
 import {ModalComponent} from '../../shared';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Color, Colors, DialogRef, initialValueChangedValidator} from '../../core';
 import {AlertService, AlertType} from '../../shared';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CurrencyDetailsService} from '../../currency-details/currency-details.service';
+import {AppStore, AssetModel} from '../../store';
+import {EventBusService, EventType} from '../../core/event/event-bus.service';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'asset-body',
   templateUrl: './asset-body.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssetBodyComponent implements OnInit {
+export class AssetBodyComponent implements OnInit, OnDestroy {
 
-  @Input() asset!: Asset;
-  @Output() onSave = new EventEmitter<Omit<Asset, 'rate' | 'name' | 'symbol' | 'marketChange'>>();
+  private _onDestroy = new Subject();
+
+  @Input() asset!: AssetModel;
+  @Output() onSave = new EventEmitter<Omit<AssetModel, 'name' | 'symbol'>>();
   @Output() onDelete = new EventEmitter<string>();
+
+  public rate!: number;
 
   private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
 
@@ -25,7 +41,11 @@ export class AssetBodyComponent implements OnInit {
 
   constructor(private modal: ModalService,
               private alert: AlertService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private details: CurrencyDetailsService,
+              private event: EventBusService,
+              private changeDetectorRef: ChangeDetectorRef,
+              private store: AppStore) {
   }
 
   public ngOnInit() {
@@ -34,6 +54,20 @@ export class AssetBodyComponent implements OnInit {
       color: [this.asset.color, Validators.required]
     });
     this.editModalForm.setValidators(initialValueChangedValidator(this.editModalForm.value));
+
+    this.event.on([EventType.PRICE])
+      .pipe(
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(() => {
+        this.rate = this.store.getCurrentRate(this.asset.id);
+        this.changeDetectorRef.markForCheck();
+      });
+  }
+
+  public ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
   public openEditModal(templateRef: TemplateRef<any>) {
@@ -67,8 +101,12 @@ export class AssetBodyComponent implements OnInit {
     }
   }
 
+  public openDetails() {
+    const {id, name, symbol} = this.asset;
+    this.details.open({id, name, symbol})
+  }
+
   get colors() {
     return Colors.filter(color => color !== Color.transparent);
   }
-
 }

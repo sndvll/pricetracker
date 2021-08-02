@@ -6,6 +6,7 @@ import {IconsModule} from '../../icons.module';
 import {InputModule} from '../input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ToggleModule} from '../toggle';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {ToggleModule} from '../toggle';
     IconsModule,
     InputModule,
     ReactiveFormsModule,
-    ToggleModule
+    ToggleModule,
+    TranslateModule
   ],
   declarations: [
     AlertComponent

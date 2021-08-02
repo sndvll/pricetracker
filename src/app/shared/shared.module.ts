@@ -16,6 +16,7 @@ import {ButtonModule} from './directives';
 import {AlertModule} from './components';
 import {Select2Module} from './components';
 import {SearchbarModule} from './components';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -34,7 +35,7 @@ import {SearchbarModule} from './components';
     AccordionModule,
     ButtonModule,
     AlertModule,
-    SearchbarModule
+    SearchbarModule,
   ],
   declarations: [
     AmountChangePipe
@@ -55,7 +56,8 @@ import {SearchbarModule} from './components';
     AccordionModule,
     ButtonModule,
     AlertModule,
-    SearchbarModule
+    SearchbarModule,
+    TranslateModule
   ]
 })
 export class SharedModule {}

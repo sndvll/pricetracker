@@ -6,14 +6,14 @@
 <div class="grid grid-2 grid-flow-row col-span-4">
   <div class="grid grid-2 grid-flow-col">
     <span class="text-lg font-bold">{{asset.symbol | uppercase}}</span>
-    <span class="text-lg text-right">{{asset.rate | currency}}</span>
+    <span class="text-lg text-right">{{rate | currency}}</span>
   </div>
   <div class="grid grid-2 grid-flow-col">
     <div class="text-xs">{{asset.name}}</div>
     <div class="text-xs font-bold text-right"
          [class.text-red-500]="negativeChange"
          [class.text-green-500]="!negativeChange">
-      {{asset.marketChange | number : '1.2-2' | change}}
+      {{marketChange | number : '1.2-2' | change}}
     </div>
   </div>
 </div>

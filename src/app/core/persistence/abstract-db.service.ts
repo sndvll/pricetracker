@@ -5,7 +5,7 @@ import {take} from 'rxjs/operators';
 export abstract class AbstractDbService<T> {
 
   protected constructor(public table: Dexie.Table<T, string>,
-                        public keys ='') {}
+                        public keys = '') {}
 
   public findAll():  Observable<T[] | undefined> {
     return from(this.table.toArray()).pipe(take(1));
@@ -32,6 +32,10 @@ export abstract class AbstractDbService<T> {
   public count(): Observable<number> {
     return from(this.table.toCollection().count())
       .pipe(take(1));
+  }
+
+  public bulkAdd(data: T[]) {
+    this.table.bulkAdd(data);
   }
 
 }

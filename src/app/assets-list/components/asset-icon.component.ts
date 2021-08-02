@@ -8,7 +8,7 @@ export class AssetIconComponent {
 
   private _symbol!: string;
 
-  @HostBinding('class') classList = 'asset-icon';
+  @HostBinding('class') classList = 'w-10 h-10 flex items-center justify-center rounded-full text-2xl';
   @Input()
   set symbol(value: string) {
     this._symbol = `cf-${value}`;

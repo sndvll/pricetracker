@@ -14,11 +14,6 @@ export class AvailableCryptocurrenciesDbService extends AbstractDbService<Availa
     super(dexieService.table<AvailableCryptoCurrency>(AppConfig.tables.available_crypto));
   }
 
-  public bulkAdd(coins: AvailableCryptoCurrency[]) {
-    console.log(`Adding ${coins.length} into database`);
-    this.table.bulkAdd(coins);
-  }
-
   public search(phrase: string, key: string, limit: number | null) {
     if (limit) {
       return from(this.table
@@ -38,5 +33,4 @@ export class AvailableCryptocurrenciesDbService extends AbstractDbService<Availa
   public findBySymbol(symbol: string): Observable<AvailableCryptoCurrency | undefined> {
     return from(this.table.where('symbol').equals(symbol).first());
   }
-
 }

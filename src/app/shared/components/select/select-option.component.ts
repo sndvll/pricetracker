@@ -31,7 +31,6 @@ export class SelectOptionComponent<T> {
   @Input() id: string = this._uniqueId;
 
   public select() {
-    console.log('here');
     this._onSelect.next(this);
   }
 }

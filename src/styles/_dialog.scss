@@ -10,8 +10,7 @@
 }
 
 .dialog {
-  @apply flex fixed h-full w-full top-0 left-0 z-20 pointer-events-none;
-
+  @apply absolute flex top-0 left-0 bottom-0 right-0 z-20 pointer-events-none;
   > .dialog-content {
     @apply z-30 pointer-events-none flex flex-col flex-none;
     > .dialog-component {
@@ -21,12 +20,11 @@
 
   &.full {
     >.dialog-content {
-      @apply flex-grow top-0 left-0;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: none;
+      @apply flex-grow top-0 left-0 overflow-hidden;
       > .dialog-component {
         @apply flex flex-grow;
-        > div {
-          @apply w-full;
-        }
       }
     }
   }

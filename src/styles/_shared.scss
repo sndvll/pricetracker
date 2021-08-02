@@ -1,6 +1,6 @@
 // CardComponent classes
 .card {
- @apply block box-border rounded w-full;
+  @apply block box-border rounded w-full bg-white dark:bg-black shadow;
 }
 
 .card-header {
@@ -96,7 +96,7 @@
 .select-chevron-container {
   @apply  w-8 border-l flex items-center border-gray-200;
   &.sm {
-    @appl py-px pl-2 pr-1;
+    @apply py-px pl-2 pr-1;
   }
   &.md {
     @apply py-1 pl-2 pr-1;
@@ -118,7 +118,7 @@
   }
 }
 .select-placeholder {
-  @apply appearance-none outline-none w-full text-gray-300 cursor-pointer select-none;
+  @apply appearance-none outline-none w-full text-gray-400 cursor-pointer select-none;
   &.sm {
     @apply text-sm py-px px-2;
   }
@@ -204,7 +204,7 @@ input.toggle-checkbox {
       }
     }
     &.secondary {
-      @apply bg-gray-300 dark:bg-gray-500 text-white;
+      @apply bg-gray-300 dark:bg-gray-500 text-black;
       &.hover {
         @apply hover:bg-gray-600 dark:hover:bg-gray-600;
       }
@@ -228,7 +228,7 @@ input.toggle-checkbox {
       }
     }
     &.light {
-      @apply bg-gray-100 text-black dark:bg-gray-100 dark:text-black;
+      @apply bg-gray-200 text-black dark:bg-gray-100 dark:text-black;
       &.hover {
         @apply hover:bg-gray-300 dark:hover:bg-gray-300;
       }
@@ -243,7 +243,7 @@ input.toggle-checkbox {
 
 
   &.icon {
-    @apply h-8 w-8 rounded focus:outline-none bg-transparent;
+    @apply h-8 w-8 rounded focus:outline-none bg-transparent flex justify-center items-center;
     &.hover {
       @apply hover:bg-gray-100 dark:hover:bg-gray-700;
     }
@@ -252,11 +252,15 @@ input.toggle-checkbox {
   &.link {
     @apply cursor-pointer rounded focus:outline-none leading-none bg-transparent text-indigo-400;
     &.box {
-      @apply h-8 w-8;
+      @apply h-8 w-8 flex justify-center items-center;
     }
     &.hover {
       @apply hover:text-indigo-700;
     }
+  }
+
+  &.xs {
+    @apply px-2 py-1 text-xs font-bold;
   }
 
   &.sm {

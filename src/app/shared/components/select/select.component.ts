@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterContentChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component, ContentChildren,
@@ -18,7 +18,6 @@ import {Observable, race, Subject} from 'rxjs';
 import {SelectOptionComponent} from './select-option.component';
 import {SelectDropdownComponent} from './select-dropdown.component';
 import {InputComponent} from '../input';
-import {take} from 'rxjs/operators';
 
 export const SELECT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -34,7 +33,7 @@ let nextUniqueId = 0;
   providers: [SELECT_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectComponent<T = any> implements ControlValueAccessor, AfterContentInit, OnDestroy {
+export class SelectComponent<T = any> implements ControlValueAccessor, AfterContentChecked, OnDestroy {
 
   private _onDestroy = new Subject<void>();
   private _uniqueId = `sndvll-select-${nextUniqueId++}`;
@@ -72,6 +71,7 @@ export class SelectComponent<T = any> implements ControlValueAccessor, AfterCont
       this._controlValueAccessorChangeFn(value);
       this._valueChanges.next(value);
     }
+    this.changeDetectorRef.markForCheck();
   }
 
   get value() {
@@ -94,9 +94,11 @@ export class SelectComponent<T = any> implements ControlValueAccessor, AfterCont
               private dialog: DialogService) {
   }
 
-  public ngAfterContentInit() {
-    this.selectedOption = this.options
-      .find(option => option.value === this._selectedValue)!;
+  ngAfterContentChecked() {
+    const selectedOption = this.options.find(option => option.value === this._selectedValue);
+    if (!this.selectedOption && selectedOption) {
+      this.selectedOption = selectedOption;
+    }
   }
 
   public open(optionsTemplate: TemplateRef<any>) {
@@ -112,8 +114,8 @@ export class SelectComponent<T = any> implements ControlValueAccessor, AfterCont
       .config;
 
     const dialogRef = this.dialog.open(config);
-
     const onSelect: Observable<SelectOptionComponent<T>>[] = this.options.map(item => item.onSelect$);
+
     race(onSelect)
       .subscribe((option: SelectOptionComponent<T>) => {
         this.selectedOption = option;
@@ -159,7 +161,6 @@ export class SelectComponent<T = any> implements ControlValueAccessor, AfterCont
     if (selected) {
       this.selected = selected;
     }
-    this.changeDetectorRef.markForCheck();
   }
 
   public ngOnDestroy() {

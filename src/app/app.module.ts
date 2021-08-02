@@ -12,6 +12,9 @@ import {CryptoSearchbarModule} from './crypto-searchbar';
 import {AssetListModule} from './assets-list';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {DOCUMENT} from '@angular/common';
+import {AddAssetModule} from './add-asset/add-asset.module';
+import {CurrencyDetailsModule} from './currency-details/currency-details.module';
+import {LanguageModule} from './core/language';
 
 @NgModule({
   declarations: [
@@ -23,10 +26,12 @@ import {DOCUMENT} from '@angular/common';
     SharedModule,
     TotalAmountModule,
     AssetListModule,
+    AddAssetModule,
+    CurrencyDetailsModule,
     CryptoSearchbarModule,
     HttpClientModule,
     StateModule.forRoot({
-      enableDevTools: false
+      enableDevTools: true
     }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
@@ -34,7 +39,7 @@ import {DOCUMENT} from '@angular/common';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-
+    LanguageModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -43,16 +48,20 @@ export class AppModule {
 
   constructor(private device: DeviceDetectorService,
               @Inject(DOCUMENT) private document: Document) {
-    console.log('app initiating');
 
-    // Check if app is on ios
-    const mobileSafari = this.device.isMobile() && this.device.browser.toLowerCase() === 'safari';
-    if (mobileSafari) {
-      // If so add this attribute to the meta-element to prevent safari to zoom in on focused
-      // inputs etc. hackityhack..
-      const metaEl = this.document.querySelector('meta[name=viewport]')!;
+    console.log('app initiating');
+    const metaEl = this.document.querySelector('meta[name=viewport]')!;
+    if (this.device.device.toLowerCase() === 'iphone' || this.document.defaultView!.matchMedia('(display-mode: standalone)').matches) {
+      console.log('standalone/iphone mode.')
+      // If device is iphone, or installed as a pwa add this attribute to the meta-element to prevent safari to zoom in on focused inputs etc.
       metaEl.setAttribute('content', "width=device-width, initial-scale=1, maximum-scale=1");
+    } else {
+      console.log('non iphone/browser mode')
+      // this is is for other devices. On Android maximum-scale=1 disables zoom completely so if using the app
+      // in the browser the user still have the ability to zoom in.
+      metaEl.setAttribute('content', "width=device-width, initial-scale=1");
     }
+
   }
 
 }

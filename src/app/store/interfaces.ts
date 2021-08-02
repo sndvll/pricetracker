@@ -1,26 +1,28 @@
 import {Color} from '../core';
+import {CoinGeckoMarketDataResponse} from '../core/api/api-response.interfaces';
 
 export enum AssetsType {
   Crypto = 'crypto'
 }
 
-export interface Asset {
-  id: string;
-  name: string;
-  symbol: string;
-  quantity: number;
-  rate: number;
-  marketChange: number
-  color: Color;
-}
 export interface AssetList {
   id: string;
   type: AssetsType,
   name: string;
-  assets: Asset[];
+  assets: AssetModel[];
 }
 
 export interface AppState {
   lists: AssetList[];
+  prices: AssetPrice[];
 }
 
+export interface AssetPrice extends CoinGeckoMarketDataResponse {}
+
+export interface AssetModel {
+  id: string;
+  name: string;
+  symbol: string;
+  quantity: number;
+  color: Color
+}

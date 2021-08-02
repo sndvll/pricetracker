@@ -11,6 +11,7 @@ export enum AlertType {
 export interface AlertConfig {
   type: AlertType,
   message: string,
+  editValueName?: string,
   data?: string
 }
 

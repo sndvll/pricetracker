@@ -1,0 +1,50 @@
+<div class="w-full items-center p-2">
+  <div class="px-2  flex flex-row justify-between">
+    <h1 class="text-2xl font-bold">{{currency.name}} details</h1>
+    <button sndvll-btn="button" color="light" (click)="close()">Close</button>
+  </div>
+</div>
+<ng-container *ngIf="isLoaded; else loading">
+
+  <div class="overflow-y-scroll w-screen px-2 overflow-touch pb-2">
+
+    <chart-card [chart]="priceChart"
+                [type]="ChartType.Price"
+                [timeSpan]="priceTimeSpan"
+                (onTimeSpanChange)="timeSpanChange($event)"
+                (onDailyToggle)="hourlyChange($event)"
+                [daily]="daily"
+                header="Price"></chart-card>
+
+    <chart-card [chart]="marketCapChart"
+                [type]="ChartType.Market"
+                [timeSpan]="marketCapTimeSpan"
+                (onTimeSpanChange)="timeSpanChange($event)"
+                (onDailyToggle)="hourlyChange($event)"
+                [daily]="daily"
+                header="Market cap"></chart-card>
+
+    <chart-card [chart]="volumeChart"
+                [type]="ChartType.Volume"
+                [timeSpan]="volumeTimeSpan"
+                (onTimeSpanChange)="timeSpanChange($event)"
+                (onDailyToggle)="hourlyChange($event)"
+                [daily]="daily"
+                header="Total volume"></chart-card>
+
+      <!--Description-->
+      <card class="px-3 mt-2 pb-2">
+        <div cardHeader>
+          <h2 class="font-bold text-xl">Description</h2>
+        </div>
+        <div cardContent>
+          <div [innerHTML]="details.description.en"
+               class="break-normal w-full text-sm"></div>
+        </div>
+      </card>
+    </div>
+</ng-container>
+
+<ng-template #loading>
+  Loading...
+</ng-template>

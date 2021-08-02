@@ -1,0 +1,61 @@
+<div class="w-full items-center p-2">
+  <div class="px-2  flex flex-row justify-between">
+    <h1 class="text-2xl font-bold">Add {{asset.name}}</h1>
+    <button sndvll-btn="button" color="light" (click)="close()">Close</button>
+  </div>
+</div>
+<div class="p-2">
+  <form [formGroup]="addAssetForm">
+    <card class="px-2 py-3">
+      <div cardContent>
+        <div class="flex justify-between text-xs mt-2 font-bold">
+          <div>List</div>
+          <div>
+            <button sndvll-btn="link" class="font-bold"
+                    *ngIf="!noAvailableLists"
+                    (click)="toggleCreateList()">
+              {{createList ? 'Select' : 'Create'}}
+            </button>
+          </div>
+        </div>
+        <ng-container *ngIf="!createList">
+          <sndvll-select formControlName="list"
+                         class="w-full my-1"
+                         placeholder="Select existing list">
+            <sndvll-select-option *ngFor="let list of availableLists"
+                                  [value]="list">
+              <div *selectLabel>{{list.name}}</div>
+            </sndvll-select-option>
+          </sndvll-select>
+        </ng-container>
+        <ng-container *ngIf="createList">
+          <sndvll-input formControlName="list"
+                        type="text"
+                        placeholder="New list name"
+                        class="w-full my-1"></sndvll-input>
+        </ng-container>
+
+        <div class="text-xs font-bold mt-2">Quantity</div>
+        <sndvll-input formControlName="quantity"
+                      type="number"
+                      placeholder="Quantity"
+                      class="w-full my-1"></sndvll-input>
+        <div class="text-xs font-bold mt-2">Color</div>
+        <sndvll-select formControlName="color"
+                       class="my-1"
+                       placeholder="Color"
+                       [clearable]="false">
+          <sndvll-select-option *ngFor="let color of colors"
+                                [value]="color">
+            <div *selectLabel>
+              {{color}}
+            </div>
+          </sndvll-select-option>
+        </sndvll-select>
+      </div>
+      <div cardFooter>
+        <button type="button" sndvll-btn="button" class="w-full success" [disabled]="addAssetForm.invalid" (click)="save()">Save</button>
+      </div>
+    </card>
+  </form>
+</div>

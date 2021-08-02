@@ -1,13 +1,16 @@
 <div class="sticky top-0 bg-white shadow-sm dark:bg-gray-900 px-2 pt-2 pb-1 ">
   <div class="flex flex-row justify-between px-3 pb-3 pt-1">
-    <sndvll-toggle class="active:bg-transparent focus:bg-transparent" [color]="Color.green"></sndvll-toggle>
+    <sndvll-toggle class="active:bg-transparent focus:bg-transparent"
+                   [formControl]="togglePriceControl"
+                   [color]="Color.green"></sndvll-toggle>
     <button sndvll-btn="icon">
       <icon name="menu" weight="bold" size="1.5rem"></icon>
     </button>
   </div>
   <total-amount [totalAmount]="totalAmount"
                 [averageAmountChange]="averageMarketChange"></total-amount>
-  <crypto-searchbar></crypto-searchbar>
+  <crypto-searchbar (addCurrency)="addCurrency($event)"
+                    (openCurrencyDetails)="openDetails($event)"></crypto-searchbar>
 </div>
 <div class="px-2 pt-2 pb-5 flex flex-col md:flex-row justify-center">
 
@@ -16,7 +19,6 @@
               [id]="list.id"
               [name]="list.name"
               [assets]="list.assets"></asset-list>
-
 
   <!--<div class="flex flex-row justify-center mt-3">
     <button sndvll-btn="icon"

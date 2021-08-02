@@ -166,6 +166,17 @@ export class GlobalDialogConfigBuilder<T, D = any> extends DialogConfigBuilder<T
     this._config.noScroll = noScroll;
     return this;
   }
+
+  static full<T, D>(component: Type<T>): GlobalDialogConfigBuilder<T, D> {
+    return new GlobalDialogConfigBuilder<T, D>()
+      .component(component)
+      .type(DialogType.Full)
+      .fullHeight(true)
+      .noScroll(true)
+      .fullWidth(true)
+      .isClosable(true)
+      .withBackdrop(true);
+  }
 }
 
 export class ConnectedDialogConfigBuilder<T, D> extends DialogConfigBuilder<T, D> {

@@ -2,12 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "./styles/shared";
-@import "./styles/tracker";
 @import "./styles/dialog";
 
 html, body {
   height: 100%;
-  touch-action: manipulation;
 }
 
 body {
@@ -15,13 +13,13 @@ body {
   @apply bg-gray-200 dark:bg-gray-900;
 }
 
-div, span {
-  touch-action: manipulation;
-}
-
 * {
   -webkit-touch-callout:none;                /* prevent callout to copy image, etc when tap to hold */
   -webkit-text-size-adjust:none;             /* prevent webkit from resizing text to fit */
   -webkit-tap-highlight-color:rgba(0,0,0,0); /* prevent tap highlight color / shadow */
   //-webkit-user-select:none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+}
+
+.overflow-touch {
+  -webkit-overflow-scrolling : touch !important;
 }

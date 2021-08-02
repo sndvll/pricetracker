@@ -1,19 +1,56 @@
-import {Component, HostBinding, Input} from '@angular/core';
-import {Asset} from '../../store';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+import {AppStore, AssetModel} from '../../store';
 import {Color} from '../../core';
+import {EventBusService, EventType} from '../../core/event/event-bus.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'asset-header',
-  templateUrl: './asset-header.component.html'
+  templateUrl: './asset-header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssetHeaderComponent {
+export class AssetHeaderComponent implements OnInit, OnDestroy {
+
+  private _onDestroy = new Subject();
 
   @HostBinding('class') classList = 'grid grid-cols-7 grid-flow-col auto-cols-min';
 
-  @Input() asset!: Asset;
+  @Input() asset!: AssetModel;
 
-  get negativeChange(): boolean {
-    return this.asset.marketChange < 0;
+  public rate!: number;
+  public marketChange!: number;
+  public negativeChange!: boolean;
+
+  constructor(private store: AppStore,
+              private event: EventBusService,
+              private changeDetectorRef: ChangeDetectorRef) {}
+
+
+  ngOnInit() {
+    this.event.on([EventType.PRICE])
+      .pipe(
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(() => {
+        this.rate = this.store.getCurrentRate(this.asset.id);
+        this.marketChange = this.store.getCurrentPriceChangePercentage(this.asset.id);
+        this.negativeChange = this.marketChange < 0
+        this.changeDetectorRef.markForCheck();
+      });
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
   get iconTextColor() {

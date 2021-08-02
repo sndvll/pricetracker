@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "icons:build": "ng build icons",
-    "start:network": "ng serve --host 192.168.1.131"
+    "start:network": "ng serve --host 10.0.1.15",
+    "start:prod": "npm run build && serve -l tcp://192.168.1.131:3000 dist/pricetrckr-poc"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +22,10 @@
     "@angular/platform-browser-dynamic": "~12.0.1",
     "@angular/router": "~12.0.1",
     "@angular/service-worker": "~12.0.1",
+    "@ngx-translate/core": "^13.0.0",
+    "@swimlane/ngx-charts": "^18.0.1",
     "@types/shortid": "^0.0.29",
+    "body-scroll-lock": "^3.1.5",
     "dexie": "^3.0.3",
     "ngx-device-detector": "^2.1.1",
     "rxjs": "~6.6.0",
@@ -35,6 +39,7 @@
     "@angular/compiler-cli": "~12.0.1",
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/typography": "^0.4.1",
+    "@types/body-scroll-lock": "^2.6.1",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "autoprefixer": "^10.2.5",

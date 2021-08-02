@@ -1,7 +1,7 @@
 import {Directive, HostBinding, Input, OnInit} from '@angular/core';
 
 export type ButtonType = 'button' | 'icon' | 'link';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 export type ButtonColor = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'light' | 'dark';
 
 @Directive({

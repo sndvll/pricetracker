@@ -1,5 +1,6 @@
+<!-- TODO MAKE ALL LABELS CONFIGURABLE FROM CONFIG OBJECT -->
 <div class="alert-header">
-  <div class="text-lg">{{alertConfig.message}}</div>
+  <div class="text-lg">{{alertConfig.message | translate}}</div>
   <div>
     <icon [name]="icon" size="2rem" class="{{iconColor}}"></icon>
   </div>
@@ -7,31 +8,31 @@
 <ng-container [ngSwitch]="alertConfig.type">
   <ng-container *ngSwitchCase="'warning'">
     <div class="alert-content">
-      <sndvll-toggle [formControl]="toggleControl">I understand that this can not be undone!</sndvll-toggle>
+      <sndvll-toggle [formControl]="toggleControl">{{'COMPONENTS.ALERT.WARNING_MESSAGE' | translate}}</sndvll-toggle>
     </div>
     <div class="alert-footer">
       <button sndvll-btn="button" class="button btn secondary"
-              (click)="close(false)">Close</button>
+              (click)="close(false)">{{'COMPONENTS.ALERT.BUTTON.CLOSE' | translate}}</button>
       <button sndvll-btn="button" class="button btn danger"
               [disabled]="disabledButton"
-              (click)="close(true)">OK</button>
+              (click)="close(true)">{{'COMPONENTS.ALERT.BUTTON.OK' | translate}}</button>
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'input'">
     <div class="alert-content flex-col">
-      <div class="text-xs font-bold">Name</div>
+      <div class="text-xs font-bold mb-1">{{alertConfig.editValueName! | translate}}</div>
       <sndvll-input placeholder="Name" class="w-full" [formControl]="inputControl"></sndvll-input>
     </div>
     <div class="alert-footer">
-      <button sndvll-btn="button" class="button btn secondary" (click)="close()">Close</button>
+      <button sndvll-btn="button" class="button btn secondary" (click)="close()">{{'COMPONENTS.ALERT.BUTTON.CLOSE' | translate}}</button>
       <button sndvll-btn="button" class="button btn success"
               [disabled]="disabledButton"
-              (click)="close(inputControl.value)">Save</button>
+              (click)="close(inputControl.value)">{{'COMPONENTS.ALERT.BUTTON.SAVE' | translate}}</button>
     </div>
   </ng-container>
   <ng-container *ngSwitchDefault>
     <div class="alert-footer">
-      <button sndvll-btn="button" class="button btn secondary" (click)="close()">OK</button>
+      <button sndvll-btn="button" class="button btn secondary" (click)="close()">{{'COMPONENTS.ALERT.BUTTON.OK' | translate}}</button>
     </div>
   </ng-container>
 </ng-container>

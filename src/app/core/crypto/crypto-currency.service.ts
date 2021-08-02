@@ -3,7 +3,8 @@ import {CoinGeckoApiService} from '../api/coingecko-api.service';
 import {
   AvailableCryptocurrenciesDbService,
 } from './available-cryptocurrencies-db.service';
-import {filter, map, tap} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
+import {AvailableCryptoCurrency} from './interfaces';
 
 
 @Injectable({providedIn: 'root'})
@@ -47,5 +48,30 @@ export class CryptoCurrencyService {
 
   public getBySymbol(symbol: string) {
     return this.available.findBySymbol(symbol);
+  }
+
+  public fetchDetails(id: string) {
+    return this.api.coinDetails(id);
+  }
+
+  public pollPrice(ids: string[], baseCurrency: string) {
+    return this.api.markets(ids, baseCurrency);
+  }
+
+  public chartData(currency: AvailableCryptoCurrency, counterCurrency: string, days: number, daily?: boolean) {
+    return this.api.coinChartData(currency.id, counterCurrency, days, daily)
+      .pipe(map(chartData => ({
+          marketCap: this._mapChartData(chartData.market_caps),
+          price: this._mapChartData(chartData.prices),
+          volume: this._mapChartData(chartData.total_volumes),
+        })
+      ));
+  }
+
+  private _mapChartData(data: number[][]) {
+    return data.map((values: number[]) => ({
+      name: new Date(values[0]),
+      value: values[1]
+    }))
   }
 }

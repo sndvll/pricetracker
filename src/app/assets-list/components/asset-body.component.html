@@ -1,24 +1,24 @@
 <div class="grid grid-cols-7 grid-flow-col auto-cols-min text-xs font-bold">
   <div class="text-right col-span-2 pr-1"></div>
-  <div class="text-right col-span-5">Amount</div>
+  <div class="text-right col-span-5">{{'ASSET_BODY.HEADER.AMOUNT' | translate}}</div>
 </div>
 <div class="grid grid-cols-7 grid-flow-col auto-cols-min">
-  <div class="col-span-2 flex justify-between">
+  <div class="col-span-3 flex flex-row">
     <button sndvll-btn="icon" (click)="openEditModal(editWindow)">
       <icon name="edit"></icon>
     </button>
     <button sndvll-btn="icon" [disabled]="true">
       <icon name="list"></icon>
     </button>
-    <button sndvll-btn="icon" [disabled]="true">
+    <button sndvll-btn="icon" (click)="openDetails()">
       <icon name="info"></icon>
     </button>
-    <a sndvll-btn="link" class="flex justify-center items-center h-8 w-8" href="https://www.coingecko.com/en/coins/{{asset.id}}" target="_blank">
+    <a sndvll-btn="link" class="box" href="https://www.coingecko.com/en/coins/{{asset.id}}" target="_blank">
       <icon name="external-link"></icon>
     </a>
   </div>
-  <div class="col-span-5 text-right text-lg font-bold">
-    {{asset.quantity * asset.rate | currency}}
+  <div class="col-span-4 text-right text-lg font-bold">
+    {{ asset.quantity * rate | currency}}
   </div>
 </div>
 
@@ -29,12 +29,12 @@
   </div>
   <div modalContent>
     <form [formGroup]="editModalForm">
-      <div class="text-xs font-bold">Quantity</div>
+      <div class="text-xs font-bold">{{'ASSET_BODY.HEADER.QUANTITY' | translate}}</div>
       <sndvll-input formControlName="quantity"
                     type="number"
                     class="mb-2 my-1"
                     placeholder="Quantity" ></sndvll-input>
-      <div class="text-xs font-bold">Color</div>
+      <div class="text-xs font-bold">{{'ASSET_BODY.HEADER.COLOR' | translate}}</div>
       <sndvll-select formControlName="color"
                      class="my-1"
                      placeholder="Color"
@@ -48,10 +48,8 @@
     </form>
   </div>
   <div class="justify-between flex-col" modalFooter>
-    <button sndvll-btn="button" class="success mb-2" [disabled]="!editModalForm.invalid" (click)="save()">Save</button>
-    <button sndvll-btn="button" class="danger mb-2" (click)="delete()">
-      <icon name="trash-2" weight="bold"></icon>
-    </button>
-    <button sndvll-btn="button" class="secondary" (click)="close()">Close</button>
+    <button sndvll-btn="button" class="success mb-2" [disabled]="!editModalForm.invalid" (click)="save()">{{'ASSET_BODY.BUTTON.SAVE' | translate}}</button>
+    <button sndvll-btn="button" class="danger mb-2" (click)="delete()">{{'ASSET_BODY.BUTTON.DELETE' | translate}}</button>
+    <button sndvll-btn="button" class="secondary" (click)="close()">{{'ASSET_BODY.BUTTON.CLOSE' | translate}}</button>
   </div>
 </ng-template>

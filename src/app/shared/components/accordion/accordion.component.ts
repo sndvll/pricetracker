@@ -22,14 +22,16 @@ let uniqueItemId = 0;
 @Component({
   selector: 'sndvll-accordion-item-header',
   template: `
-    <ng-content></ng-content>`
+    <ng-content></ng-content>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccordionItemHeaderComponent {}
 
 @Component({
   selector: 'sndvll-accordion-item-content',
   template: `
-    <ng-content></ng-content>`
+    <ng-content></ng-content>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccordionItemContentComponent {}
 

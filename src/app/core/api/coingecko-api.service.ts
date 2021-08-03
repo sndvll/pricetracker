@@ -21,7 +21,7 @@ export class CoinGeckoApiService {
   }
 
   markets(ids: string[], baseCurrency: string) {
-    return this.http.get<CoinGeckoMarketDataResponse[]>(`${ApiSettings.url}/coins/markets?vs_currency=${baseCurrency}&order=market_cap_desc&per_page=100&page=1&sparkline=false&ids=${ids.toString()}`)
+    return this.http.get<CoinGeckoMarketDataResponse[]>(`${ApiSettings.url}/coins/markets?vs_currency=${baseCurrency}&order=market_cap_desc&per_page=100&page=1&sparkline=false&ids=${ids.toString()}&price_change_percentage=1h,24h,7d,14d,30d,200,1y`)
   }
 
 

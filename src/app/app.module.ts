@@ -15,6 +15,9 @@ import {DOCUMENT} from '@angular/common';
 import {AddAssetModule} from './add-asset/add-asset.module';
 import {CurrencyDetailsModule} from './currency-details/currency-details.module';
 import {LanguageModule} from './core/language';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import {LanguageModule} from './core/language';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    LanguageModule
+    LanguageModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

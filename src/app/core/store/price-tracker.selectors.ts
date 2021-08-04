@@ -2,6 +2,7 @@ import {AssetList, AssetModel, AssetPrice, IPriceTrackerStore} from '../model';
 import {createSelector} from '@ngrx/store';
 
 export const selectLists = ({priceTrackerState}: IPriceTrackerStore) => priceTrackerState.lists;
+export const selectIsLoading = ({priceTrackerState}: IPriceTrackerStore) => priceTrackerState.isLoading;
 
 export const selectAllAssets = createSelector(
   selectLists,

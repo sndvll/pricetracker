@@ -2,7 +2,12 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AssetList, AssetModel, IPriceTrackerStore, NewAssetModel2} from '../model';
 import {Store} from '@ngrx/store';
-import {selectLists, selectTotalAverageMarketChangePercentage, selectTotalAmount} from './price-tracker.selectors';
+import {
+  selectLists,
+  selectTotalAverageMarketChangePercentage,
+  selectTotalAmount,
+  selectIsLoading
+} from './price-tracker.selectors';
 import {PriceTrackerActions} from './price-tracker.actions';
 
 @Injectable({providedIn: 'root'})
@@ -12,12 +17,14 @@ export class PriceTrackerStore {
   public lists$: Observable<AssetList[]>;
   public totalAmount$: Observable<number>;
   public totalAverageMarketChangePercentage$: Observable<number>;
+  public isLoading$: Observable<boolean>;
 
   constructor(private store: Store<IPriceTrackerStore>) {
     //this.state$ = this.store.select(({priceTrackerState}) => priceTrackerState);
     this.lists$ = this.store.select(selectLists);
     this.totalAmount$ = this.store.select(selectTotalAmount);
     this.totalAverageMarketChangePercentage$ = this.store.select(selectTotalAverageMarketChangePercentage);
+    this.isLoading$ = this.store.select(selectIsLoading);
     this.store.dispatch(PriceTrackerActions.initializeStarted());
   }
 

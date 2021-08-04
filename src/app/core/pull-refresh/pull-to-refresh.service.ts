@@ -23,7 +23,7 @@ export class PullToRefreshService {
               tap(p => (pos = p)),
               takeUntil(this.touchEnd$))
         }),
-        takeWhile(p => p < window.innerHeight / 2),
+        takeWhile(p => p < window.innerHeight / 6),
         last(),
         repeat()
       );

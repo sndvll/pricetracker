@@ -30,6 +30,7 @@ export enum PriceTrackerActionTypes {
   RefreshPricesStarted = '[trckr] refresh prices started',
   RefreshPricesDone = '[trckr] refresh prices done',
   RefreshPricesError = '[trckr] refresh prices error',
+  RefreshPricesCanceled = '[trckr] refresh prices canceled',
 
   PricePollingStarted = '[trckr] price polling started',
   PricePollingStartedDone = '[trckr] price polling started done',
@@ -66,6 +67,7 @@ const deleteAssetDone = createAction(PriceTrackerActionTypes.DeleteAssetDone, pr
 
 const refreshPrices = createAction(PriceTrackerActionTypes.RefreshPricesStarted);
 const refreshPricesDone = createAction(PriceTrackerActionTypes.RefreshPricesDone, props<{lists: AssetList[]}>());
+const refreshPricesCanceled = createAction(PriceTrackerActionTypes.RefreshPricesCanceled);
 const refreshPricesError = createAction(PriceTrackerActionTypes.RefreshPricesError, props<{error: any}>());
 
 const startPricePolling = createAction(PriceTrackerActionTypes.PricePollingStarted);
@@ -97,5 +99,6 @@ export const PriceTrackerActions = {
   startPricePolling,
   startPricePollingDone,
   stopPricePolling,
-  stopPricePollingDone
+  stopPricePollingDone,
+  refreshPricesCanceled
 }

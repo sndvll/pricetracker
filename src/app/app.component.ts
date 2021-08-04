@@ -4,6 +4,7 @@ import {AssetList, AssetModel, AvailableCryptoCurrency, Color, PriceTrackerStore
 import {takeUntil} from 'rxjs/operators';
 import {AddAssetService} from './add-asset';
 import {CurrencyDetailsService} from './currency-details';
+import {LoaderService} from './shared/components/loader/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,8 @@ export class AppComponent implements OnInit {
     private addAsset: AddAssetService,
     private details: CurrencyDetailsService,
     private store: PriceTrackerStore,
-    private pullToRefreshService: PullToRefreshService) {
+    private pullToRefreshService: PullToRefreshService,
+    private loader: LoaderService) {
   }
 
   public ngOnInit() {
@@ -37,6 +39,13 @@ export class AppComponent implements OnInit {
       .subscribe(() => {
         console.log('NOW');
         this.refresh();
+      });
+
+    this.store.isLoading$
+      .pipe(
+        takeUntil(this._onDestroy),)
+      .subscribe(isLoading => {
+        isLoading ? this.loader.show(true, '50') : this.loader.dismiss();
       });
 
     this.store.lists$

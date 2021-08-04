@@ -10,6 +10,7 @@ export class CurrencyDetailsService {
   public open(currency: AvailableCryptoCurrency) {
     const dialogConfig = GlobalDialogConfigBuilder
       .full<CurrencyDetailsComponent, AvailableCryptoCurrency>(CurrencyDetailsComponent)
+      .withBackdrop(false)
       .data(currency)
       .config;
 

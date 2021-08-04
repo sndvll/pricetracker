@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {FiatRatesDbService} from './fiat-rates-db.service';
+import {FiatRatesDbService} from '../persistence';
 import {FreeCurrencyApiService} from '../api/free-currency-api.service';
 import {DateUtils} from '../utils';
-import {CurrencyModel} from './interfaces';
 import {catchError, map, switchMap} from 'rxjs/operators';
-import {NEVER, Observable, Subject} from 'rxjs';
-import {FiatCurrencyResponse} from '../api/api-response.interfaces';
+import {NEVER, Observable, of, Subject} from 'rxjs';
+import {FiatCurrencyResponse, CurrencyModel} from '../model';
 
 @Injectable({providedIn: 'root'})
 export class FiatCurrencyService {
@@ -20,9 +19,12 @@ export class FiatCurrencyService {
   constructor(
     private db: FiatRatesDbService,
     private api: FreeCurrencyApiService) {
+  }
+
+  public init() {
     this.db.exists(DateUtils.today(), this.baseCurrency)
       .pipe(switchMap(exists => {
-        if(!exists) {
+        if (!exists) {
           return this.loadFiatRates(this.baseCurrency);
         }
         console.log(`Fetching fiat rates from db`);
@@ -35,24 +37,24 @@ export class FiatCurrencyService {
     console.log(`Fetching fiat rates, base: ${baseCurrency}, date: ${date}`);
     return this.api.getCurrencies(date, baseCurrency)
       .pipe(catchError((err) => {
-        return this._handleError(err, baseCurrency, date);
-      }))
-      .pipe(switchMap(res => {
-        console.log(res);
-        const data = res.data;
-        // The reason for this responseDate is because the api
-        // can response with yesterdays-date, but to keep things sane
-        // the key to lookup in the database should be today, when things got fetched.
-        const dates = Object.keys(data);
-        const responseDate = dates[dates.length - 1];
-        const currencyModel: CurrencyModel = {
-          baseCurrency,
-          currencies: data[responseDate]
-        }
-        return this.db.create(currencyModel, date);
-      }));
+          return this._handleError(err, baseCurrency, date);
+        }),
+        switchMap(res => {
+          console.log(res);
+          const data = res.data;
+          // The reason for this responseDate is because the api
+          // can response with yesterdays-date, but to keep things sane
+          // the key to lookup in the database should be today, when things got fetched.
+          const dates = Object.keys(data);
+          const responseDate = dates[dates.length - 1];
+          const currencyModel: CurrencyModel = {
+            baseCurrency,
+            currencies: data[responseDate]
+          }
+          this.db.create(currencyModel, date);
+          return of(currencyModel);
+        }));
   }
-
 
 
   private _handleError(error: any, baseCurrency: string, date: string): Observable<FiatCurrencyResponse> {

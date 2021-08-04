@@ -15,5 +15,3 @@ For usage look at the toast and modal components, and for implementation look in
 #### Note
 The Icon library is recreated from https://github.com/michaelbazos/angular-feather 🔥 
 (Which did not support Angular 12 at the moment of creation)
-
-State solution inspired by https://github.com/nigrosimone/ng-simple-state 🔥

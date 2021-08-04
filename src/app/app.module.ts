@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from './shared';
 import {HttpClientModule} from '@angular/common/http';
-import {StateModule} from './core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {TotalAmountModule} from './total-amount/total-amount.module';
@@ -14,7 +13,15 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 import {DOCUMENT} from '@angular/common';
 import {AddAssetModule} from './add-asset/add-asset.module';
 import {CurrencyDetailsModule} from './currency-details/currency-details.module';
-import {LanguageModule} from './core/language';
+import {StoreModule} from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import {
+  reducers,
+  PriceTrackerEffects,
+  LanguageModule
+} from './core';
+
 
 @NgModule({
   declarations: [
@@ -30,16 +37,29 @@ import {LanguageModule} from './core/language';
     CurrencyDetailsModule,
     CryptoSearchbarModule,
     HttpClientModule,
-    StateModule.forRoot({
-      enableDevTools: true
-    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    LanguageModule
+    LanguageModule,
+    StoreModule.forRoot({
+      priceTrackerState: reducers
+    }, {
+
+      runtimeChecks: {
+        strictActionImmutability: true,
+        strictActionSerializability: true,
+        strictStateImmutability: true,
+        strictStateSerializability: true,
+        strictActionWithinNgZone: true,
+        strictActionTypeUniqueness: true
+      }
+
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([PriceTrackerEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

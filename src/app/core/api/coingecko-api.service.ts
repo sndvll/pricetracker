@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {
-  CoingeckoApiDetailsResponse, CoinGeckoChartDataResponse, CoinGeckoMarketDataResponse,
-  CoinGeckoSimpleRateApiResponse
-} from './api-response.interfaces';
-import {AvailableCryptoCurrency} from '../crypto';
+  CoingeckoApiDetailsResponse,
+  CoinGeckoChartDataResponse,
+  CoinGeckoMarketDataResponse,
+  CoinGeckoSimpleRateApiResponse,
+  AvailableCryptoCurrency
+} from '../model';
 
 const ApiSettings = {
   url: 'https://api.coingecko.com/api/v3'

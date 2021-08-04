@@ -1,13 +1,9 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {AppStore, AssetList} from './store';
 import {Subject} from 'rxjs';
-import {AvailableCryptoCurrency, Color, FiatCurrencyService} from './core';
-import {filter, takeUntil} from 'rxjs/operators';
+import {AssetList, AssetModel, AvailableCryptoCurrency, Color, PriceTrackerStore} from './core';
+import {takeUntil} from 'rxjs/operators';
 import {AddAssetService} from './add-asset/add-asset.service';
 import {CurrencyDetailsService} from './currency-details/currency-details.service';
-import {PriceService} from './prices/price.service';
-import {FormControl} from '@angular/forms';
-import {EventBusService, EventType} from './core/event/event-bus.service';
 
 @Component({
   selector: 'app-root',
@@ -21,65 +17,66 @@ export class AppComponent implements OnInit {
 
   public lists: AssetList[] = [];
   public totalAmount: number = 0;
-  public averageMarketChange: number = 0;
+  public totalAverageMarketChange: number = 0;
 
-  public togglePriceControl = new FormControl(false);
+  //public togglePriceControl = new FormControl(false);
 
   private _onDestroy = new Subject<void>();
   public Color = Color;
 
   constructor(
-    private fiat: FiatCurrencyService,
-    private store: AppStore,
-    public price: PriceService,
     private addAsset: AddAssetService,
     private details: CurrencyDetailsService,
-    private event: EventBusService) {
+    private store: PriceTrackerStore) {
   }
 
   public ngOnInit() {
-    // Init subscriptions from store.
-    this.store.selectLists
+
+    this.store.lists$
       .pipe(takeUntil(this._onDestroy))
       .subscribe(lists => {
         this.lists = lists;
-        this.togglePriceControl.setValue(!!lists.length);
+        //this.togglePriceControl.setValue(!!lists.length);
       });
 
-    this._handlePrices();
-    this._handleEvents();
+    this.store.totalAmount$
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(amount => this.totalAmount = amount);
 
-    this.store.init();
+    this.store.totalAverageMarketChangePercentage$
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(totalAverageMarketChange => this.totalAverageMarketChange = totalAverageMarketChange);
 
-    this.event.next(EventType.INIT);
-  }
-
-  private _handlePrices() {
-    if (this.togglePriceControl.value) {
-      this.price.start();
-    }
-
-    this.togglePriceControl
-      .valueChanges
+    /*
+    this.togglePriceControl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
       .subscribe(onToggle => {
-        if (onToggle) {
-          this.price.start();
-        } else {
-          this.price.stop();
-        }
-      });
+        onToggle ?
+          this.store.startPricePolling() :
+          this.store.stopPricePolling();
+      })
+     */
+
   }
 
-  private _handleEvents() {
-    this.event.on([EventType.PRICE, EventType.INIT])
-      .subscribe(() => {
-        this.store.selectTotalAmount
-          .pipe(takeUntil(this._onDestroy))
-          .subscribe(amount => this.totalAmount = amount);
-        this.store.selectAverageMarketChange
-          .pipe(takeUntil(this._onDestroy))
-          .subscribe(averageMarketChange => this.averageMarketChange = averageMarketChange);
-      });
+  public refresh() {
+    this.store.refreshPrices();
+  }
+
+  public editAsset({asset}: {asset: AssetModel}) {
+    this.store.editAsset(asset);
+  }
+
+  public editList({name, id}: {name: string; id: string}) {
+    this.store.editList(name, id);
+  }
+
+  public deleteAsset({assetId, listId}: {assetId: string; listId: string}) {
+    this.store.deleteAsset(assetId, listId);
+  }
+
+  public deleteList(id: string) {
+    this.store.deleteList(id);
   }
 
   public openDetails(currency: AvailableCryptoCurrency) {
@@ -87,20 +84,7 @@ export class AppComponent implements OnInit {
   }
 
   public addCurrency(currency: AvailableCryptoCurrency) {
-    const dialogRef = this.addAsset.open(currency);
-    dialogRef.onClose$
-      .pipe(filter(newAsset => !!newAsset))
-      .subscribe(newAsset => {
-        const {id, name, symbol, quantity, color} = newAsset;
-        const listId = newAsset.createList ? this.store.createList(newAsset.list) : newAsset.list;
-        this.store.addNewAsset({
-          id,
-          quantity,
-          color,
-          name,
-          symbol,
-        }, listId);
-      })
+    this.addAsset.open(currency);
   }
 
   public ngOnDestroy() {

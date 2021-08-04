@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ApiKeys} from '../../../api-keys';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {FiatCurrencyResponse} from './api-response.interfaces';
+import {FiatCurrencyResponse} from '../model';
 
 const ApiSettings = {
   key: ApiKeys.FREE_CURRENCY_API,

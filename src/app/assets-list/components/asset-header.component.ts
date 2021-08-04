@@ -1,57 +1,19 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   HostBinding,
-  Input,
-  OnDestroy,
-  OnInit
+  Input
 } from '@angular/core';
-import {AppStore, AssetModel} from '../../store';
-import {Color} from '../../core';
-import {EventBusService, EventType} from '../../core/event/event-bus.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {AssetModel, Color} from '../../core';
 
 @Component({
   selector: 'asset-header',
   templateUrl: './asset-header.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssetHeaderComponent implements OnInit, OnDestroy {
-
-  private _onDestroy = new Subject();
+export class AssetHeaderComponent {
 
   @HostBinding('class') classList = 'grid grid-cols-7 grid-flow-col auto-cols-min';
 
   @Input() asset!: AssetModel;
-
-  public rate!: number;
-  public marketChange!: number;
-  public negativeChange!: boolean;
-
-  constructor(private store: AppStore,
-              private event: EventBusService,
-              private changeDetectorRef: ChangeDetectorRef) {}
-
-
-  ngOnInit() {
-    this.event.on([EventType.PRICE])
-      .pipe(
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(() => {
-        this.rate = this.store.getCurrentRate(this.asset.id);
-        this.marketChange = this.store.getCurrentPriceChangePercentage(this.asset.id);
-        this.negativeChange = this.marketChange < 0
-        this.changeDetectorRef.markForCheck();
-      });
-  }
-
-  ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
-  }
 
   get iconTextColor() {
     if (this.asset.color === Color.white) {
@@ -63,12 +25,22 @@ export class AssetHeaderComponent implements OnInit, OnDestroy {
     return `text-gray-600 dark:text-gray-100`;
   }
 
-
-
   get iconBgColor() {
     return this.asset.color === Color.white ||
       this.asset.color === Color.black ?
       `bg-${this.asset.color} dark:bg-${this.asset.color}` :
       `bg-${this.asset.color}-300 dark:bg-${this.asset.color}-400`;
+  }
+
+  get rate(): number {
+    return this.asset.price.current_price || 0;
+  }
+
+  get marketChange(): number {
+    return this.asset.price.price_change_percentage_24h || 0;
+  }
+
+  get negativeChange(): boolean{
+    return this.marketChange < 0;
   }
 }

@@ -9,8 +9,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {AvailableCryptoCurrency, CryptoCurrencyService, DIALOG_REF, DialogRef} from '../core';
-import {CoingeckoApiDetailsResponse} from '../core/api/api-response.interfaces';
-import {Chart, ChartType, TimeSpan} from './types';
+import {CoingeckoApiDetailsResponse} from '../core';
+import {Chart, ChartType, TimeSpan} from './interfaces';
 import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({

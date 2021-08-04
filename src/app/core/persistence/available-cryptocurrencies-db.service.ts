@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {AbstractDbService} from '../persistence/abstract-db.service';
+import {AbstractDbService} from './abstract-db.service';
 import {AppConfig} from '../../../app.config';
-import {DexieService} from '../persistence/dexie.service';
-import {from, Observable} from 'rxjs';
-import {AvailableCryptoCurrency} from './interfaces';
+import {DexieService} from './dexie.service';
+import {from} from 'rxjs';
+import {AvailableCryptoCurrency} from '../model';
 
 export type AvailableSearchQuery = Partial<AvailableCryptoCurrency>;
 
@@ -30,7 +30,4 @@ export class AvailableCryptocurrenciesDbService extends AbstractDbService<Availa
     );
   }
 
-  public findBySymbol(symbol: string): Observable<AvailableCryptoCurrency | undefined> {
-    return from(this.table.where('symbol').equals(symbol).first());
-  }
 }

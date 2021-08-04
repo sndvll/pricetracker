@@ -10,6 +10,7 @@ export class AddAssetService {
   public open(currency: AvailableCryptoCurrency): DialogRef {
     const dialogConfig = GlobalDialogConfigBuilder
       .full<AddAssetComponent, AvailableCryptoCurrency>(AddAssetComponent)
+      .withBackdrop(false)
       .data(currency)
       .config;
 

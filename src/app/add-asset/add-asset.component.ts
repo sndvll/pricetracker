@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inject, OnInit} from '@angular/core';
-import {AssetList, AvailableCryptoCurrency, Color, Colors, DIALOG_REF, DialogRef} from '../core';
+import {AssetList, AvailableCryptoCurrency, Color, Colors, DIALOG_REF, DialogRef, PriceTrackerStore} from '../core';
 import {take} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {PriceTrackerStore} from '../core';
 
 @Component({
   selector: 'add-asset',

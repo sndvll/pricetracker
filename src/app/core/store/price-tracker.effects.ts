@@ -32,16 +32,15 @@ export class PriceTrackerEffects {
       this.fiat.init();
       return this.listDb.findAll()
         .pipe(
-          map(lists => PriceTrackerActions.initializeDone({lists: lists || []})
-          ));
+          map(lists => {
+            if (lists && lists.length) {
+              this.store.dispatch(PriceTrackerActions.refreshPrices());
+            }
+            return PriceTrackerActions.initializeDone({lists: lists || []});
+          })
+          );
     })
   ));
-
-  initializeDone$ = createEffect(() => this.actions$.pipe(
-    ofType(PriceTrackerActions.initializeDone),
-    map(() => PriceTrackerActions.refreshPrices())
-  ));
-
   startPricePolling$ = createEffect(() => this.actions$.pipe(
     ofType(PriceTrackerActions.startPricePolling),
     map(() => {
@@ -65,7 +64,13 @@ export class PriceTrackerEffects {
       this.store.select(selectAllAssetIds),
       this.store.select(selectLists)
     ),
-    filter(([action, assetIds]) => !!assetIds.length),
+    filter(([action, assetIds]) => {
+      const proceed = !!assetIds.length;
+      if (!proceed) {
+        this.store.dispatch(PriceTrackerActions.refreshPricesCanceled());
+      }
+      return proceed;
+    }),
     switchMap(([action, assetIds, lists]) =>
       this.crypto.getMarketDataForCoins(assetIds, 'usd')
         .pipe(map((marketDataResponse: AssetPrice[]) =>

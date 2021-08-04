@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared';
-import {TotalAmountComponent} from './components/total-amount.component';
+import {TotalAmountComponent} from './components';
 
 @NgModule({
   imports: [

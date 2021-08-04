@@ -12,10 +12,13 @@ const commonStartedReducer = (state: PriceTrackerState) => ({...state, isLoading
 
 const reducer = createReducer(initState(),
   on(PriceTrackerActions.initializeDone, commonDoneReducer),
+  on(PriceTrackerActions.refreshPrices, commonStartedReducer),
   on(PriceTrackerActions.refreshPricesDone, commonDoneReducer),
+  on(PriceTrackerActions.refreshPricesCanceled, state =>
+    ({...state, isLoading: false})),
   on(PriceTrackerActions.createNewList, commonStartedReducer),
   on(PriceTrackerActions.createNewListDone, (state, {list}) =>
-    ({...state, lists: [...state.lists, list]})),
+    ({...state, isLoading: false, lists: [...state.lists, list]})),
   on(PriceTrackerActions.addNewAsset, commonStartedReducer),
   on(PriceTrackerActions.addNewAssetDone, commonDoneReducer),
   on(PriceTrackerActions.editList, commonStartedReducer),

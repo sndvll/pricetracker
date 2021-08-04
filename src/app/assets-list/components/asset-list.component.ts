@@ -1,13 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, Output, TemplateRef, ViewChild, EventEmitter} from '@angular/core';
-import {DropdownMenuService} from '../../shared';
-import {DialogRef} from '../../core';
-import {AlertService, AlertType} from '../../shared';
+import {AlertService, AlertType, DropdownMenuService, ModalService, AccordionComponent} from '../../shared';
 import {debounceTime, filter, take} from 'rxjs/operators';
-import {ModalService} from '../../shared';
-import {AccordionComponent} from '../../shared';
-import {AvailableCryptoCurrency, CryptoCurrencyService} from '../../core';
-import {Color, Colors} from '../../core';
-import {AssetModel} from '../../core';
+import {AvailableCryptoCurrency, CryptoCurrencyService, DialogRef, Color, Colors, AssetModel} from '../../core';
 
 @Component({
   selector: 'asset-list',

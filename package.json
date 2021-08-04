@@ -1,10 +1,10 @@
 {
   "name": "pricetrckr",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "NODE_ENV=production ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "icons:build": "ng build icons",

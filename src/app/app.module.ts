@@ -1,27 +1,38 @@
 import {Inject, NgModule} from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from './shared';
 import {HttpClientModule} from '@angular/common/http';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import {TotalAmountModule} from './total-amount/total-amount.module';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
+import {TotalAmountModule} from './total-amount';
 import {CryptoSearchbarModule} from './crypto-searchbar';
 import {AssetListModule} from './assets-list';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {DOCUMENT} from '@angular/common';
-import {AddAssetModule} from './add-asset/add-asset.module';
-import {CurrencyDetailsModule} from './currency-details/currency-details.module';
+import {AddAssetModule} from './add-asset';
+import {CurrencyDetailsModule} from './currency-details';
 import {StoreModule} from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {EffectsModule} from '@ngrx/effects';
 import {
   reducers,
   PriceTrackerEffects,
   LanguageModule
 } from './core';
 
+/*
+TODO: Pull to refresh
+  // Somewhat done, but needs to be combined with the loading feature
+TODO: Loading
+TODO: Settings
+  - Language
+  - Display Currency
+  - Toggle polling
+TODO: Splashscreen
+TODO: Logo
+ */
 
 @NgModule({
   declarations: [

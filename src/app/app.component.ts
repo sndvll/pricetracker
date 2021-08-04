@@ -1,9 +1,10 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
-import {AssetList, AssetModel, AvailableCryptoCurrency, Color, PriceTrackerStore} from './core';
+import {AssetList, AssetModel, AvailableCryptoCurrency, Color, PriceTrackerStore, PullToRefreshService} from './core';
 import {takeUntil} from 'rxjs/operators';
-import {AddAssetService} from './add-asset/add-asset.service';
-import {CurrencyDetailsService} from './currency-details/currency-details.service';
+import {AddAssetService} from './add-asset';
+import {CurrencyDetailsService} from './currency-details';
+import {LoaderService} from './shared/components/loader/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -27,10 +28,25 @@ export class AppComponent implements OnInit {
   constructor(
     private addAsset: AddAssetService,
     private details: CurrencyDetailsService,
-    private store: PriceTrackerStore) {
+    private store: PriceTrackerStore,
+    private pullToRefreshService: PullToRefreshService,
+    private loader: LoaderService) {
   }
 
   public ngOnInit() {
+
+    this.pullToRefreshService.onDrag$
+      .subscribe(() => {
+        console.log('NOW');
+        this.refresh();
+      });
+
+    this.store.isLoading$
+      .pipe(
+        takeUntil(this._onDestroy),)
+      .subscribe(isLoading => {
+        isLoading ? this.loader.show(true, '50') : this.loader.dismiss();
+      });
 
     this.store.lists$
       .pipe(takeUntil(this._onDestroy))

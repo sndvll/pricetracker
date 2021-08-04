@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AvailableCryptoCurrency, DialogService, GlobalDialogConfigBuilder} from '../core';
-import {CurrencyDetailsComponent} from './currency-details.component';
+import {CurrencyDetailsComponent} from './components';
 
 @Injectable({providedIn: 'root'})
 export class CurrencyDetailsService {
@@ -10,6 +10,7 @@ export class CurrencyDetailsService {
   public open(currency: AvailableCryptoCurrency) {
     const dialogConfig = GlobalDialogConfigBuilder
       .full<CurrencyDetailsComponent, AvailableCryptoCurrency>(CurrencyDetailsComponent)
+      .withBackdrop(false)
       .data(currency)
       .config;
 

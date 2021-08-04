@@ -8,13 +8,18 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {AvailableCryptoCurrency, CryptoCurrencyService, DIALOG_REF, DialogRef} from '../core';
-import {CoingeckoApiDetailsResponse} from '../core';
-import {Chart, ChartType, TimeSpan} from './interfaces';
+import {
+  AvailableCryptoCurrency,
+  CoingeckoApiDetailsResponse,
+  CryptoCurrencyService,
+  DIALOG_REF,
+  DialogRef
+} from '../../core';
+import {Chart, ChartType, TimeSpan} from '../interfaces';
 import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
-  templateUrl: './currency-details.component.html',
+  templateUrl: '../currency-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrencyDetailsComponent implements OnInit {

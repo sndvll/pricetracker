@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared';
-import {CurrencyDetailsComponent} from './currency-details.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
-import {ChartCardComponent} from './components/chart-card.component';
+import {ChartCardComponent, CurrencyDetailsComponent} from './components';
 
 @NgModule({
   imports: [

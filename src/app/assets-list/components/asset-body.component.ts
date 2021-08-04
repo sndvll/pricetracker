@@ -8,14 +8,11 @@ import {
   Output,
   TemplateRef
 } from '@angular/core';
-import {ModalService} from '../../shared';
-import {ModalConfig, ModalType} from '../../shared';
-import {ModalComponent} from '../../shared';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AssetModel, Color, Colors, DialogRef, initialValueChangedValidator} from '../../core';
-import {AlertService, AlertType} from '../../shared';
+import {AlertService, AlertType, ModalComponent, ModalConfig, ModalType, ModalService} from '../../shared';
 import {filter} from 'rxjs/operators';
-import {CurrencyDetailsService} from '../../currency-details/currency-details.service';
+import {CurrencyDetailsService} from '../../currency-details';
 import {Subject} from 'rxjs';
 
 @Component({

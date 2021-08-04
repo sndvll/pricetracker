@@ -1,7 +1,7 @@
 module.exports = {
   prefix: '',
   purge: {
-    enabled: false,
+    //enabled: false,
     content: [
       './src/**/*.{html,ts,scss}',
       './purgecss-safelist.txt'

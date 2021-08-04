@@ -1,11 +1,13 @@
 import {Component, EventEmitter, Output, TemplateRef, ViewChild} from '@angular/core';
-import {ConnectedDialogConfigBuilder, DialogConnectedPosition, DialogRef, DialogService} from '../../core';
-import {SearchbarComponent} from '../../shared';
-import {AvailableCryptoCurrency, CryptoCurrencyService} from '../../core';
 import {
-  SearchbarResultComponent,
-  SearchbarResultConfig
-} from '../../shared';
+  AvailableCryptoCurrency,
+  ConnectedDialogConfigBuilder,
+  CryptoCurrencyService,
+  DialogConnectedPosition,
+  DialogRef,
+  DialogService
+} from '../../core';
+import {SearchbarComponent, SearchbarResultComponent, SearchbarResultConfig} from '../../shared';
 
 @Component({
   selector: 'crypto-searchbar',

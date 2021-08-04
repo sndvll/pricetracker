@@ -1,6 +1,6 @@
 {
-  "name": "pricetrckr-poc",
-  "version": "0.0.0",
+  "name": "pricetrckr",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +9,7 @@
     "test": "ng test",
     "icons:build": "ng build icons",
     "start:network": "ng serve --host 10.0.1.15",
-    "start:prod": "npm run build && serve -l tcp://192.168.1.131:3000 dist/pricetrckr-poc"
+    "start:prod": "npm run build && serve -l tcp://10.0.1.15:3000 dist/pricetrckr-poc"
   },
   "private": true,
   "dependencies": {

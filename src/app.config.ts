@@ -1,5 +1,5 @@
 export const AppConfig = {
-  database: 'pricetrckr-poc',
+  database: 'pricetrckr',
   tables: {
     fiat_currency: 'fiat_currency',
     available_crypto: 'available_crypto',

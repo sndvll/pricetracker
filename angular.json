@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pricetrckr-poc": {
+    "pricetrckr": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pricetrckr-poc",
+            "outputPath": "dist/pricetrckr",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -86,10 +86,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "pricetrckr-poc:build:production"
+              "browserTarget": "pricetrckr:build:production"
             },
             "development": {
-              "browserTarget": "pricetrckr-poc:build:development"
+              "browserTarget": "pricetrckr:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -97,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pricetrckr-poc:build"
+            "browserTarget": "pricetrckr:build"
           }
         },
         "test": {
@@ -154,5 +154,5 @@
       }
     }
   },
-  "defaultProject": "pricetrckr-poc"
+  "defaultProject": "pricetrckr"
 }

@@ -6,7 +6,7 @@ import {AddAssetComponent} from './add-asset.component';
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     AddAssetComponent

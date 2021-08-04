@@ -1,4 +1,4 @@
-import {Currencies} from '../fiat';
+import {Currencies} from './fiat-model.interfaces';
 
 export interface CoinGeckoSimpleRateApiResponse {
   [coin: string]: {
@@ -13,7 +13,7 @@ export interface CoinGeckoMarketDataResponse  {
   current_price: number;
   market_cap: number;
   market_cap_rank: number;
-  fully_diluted_valuation: number | null;
+  fully_diluted_valuation: number;
   total_volume: number;
   high_24h: number;
   low_24h: number;
@@ -28,16 +28,16 @@ export interface CoinGeckoMarketDataResponse  {
   market_cap_change_24h: number;
   market_cap_change_percentage_24h: number;
   circulating_supply: number;
-  total_supply: number | null;
-  max_supply: number | null;
+  total_supply: number;
+  max_supply: number;
   ath: number;
   ath_change_percentage: number;
-  ath_date: Date;
+  ath_date: string;
   atl: number;
   atl_change_percentage: number;
-  atl_date: Date;
+  atl_date: string;
   roi?: any;
-  last_updated: Date;
+  last_updated: string;
 }
 
 export interface CoinGeckoChartDataResponse {
@@ -288,5 +288,9 @@ export interface FiatCurrencyResponse {
     last_updated: Date;
   }
 
-
+export interface AvailableCryptoCurrency {
+  id: string;
+  symbol: string;
+  name: string;
+}
 

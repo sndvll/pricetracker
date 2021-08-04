@@ -16,7 +16,7 @@ import {Component, Input} from '@angular/core';
         </div>
         <div class="self-center text-lg font-bold"
              [class.text-red-500]="negativeChange"
-             [class.text-green-500]="!negativeChange">{{(averageAmountChange | number : '1.2-2') | change}}</div>
+             [class.text-green-500]="!negativeChange">{{(totalAverageMarketChange | number : '1.2-2') | change}}</div>
       </div>
     </div>
   `
@@ -24,10 +24,10 @@ import {Component, Input} from '@angular/core';
 export class TotalAmountComponent {
 
   @Input() totalAmount: number = 0;
-  @Input() averageAmountChange: number = 0;
+  @Input() totalAverageMarketChange: number = 0;
 
   get negativeChange(): boolean {
-    return this.averageAmountChange < 0;
+    return this.totalAverageMarketChange < 0;
   }
 
   get veryLargeAmount(): boolean {

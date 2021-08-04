@@ -8,7 +8,7 @@ import {
   Output, TemplateRef,
   ViewChild
 } from '@angular/core';
-import {Chart, ChartType, TimeSpan} from '../types';
+import {Chart, ChartType, TimeSpan} from '../interfaces';
 import {DropdownMenuService} from '../../shared';
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';

@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-import {from, Observable, of} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {take} from 'rxjs/operators';
 
 export abstract class AbstractDbService<T> {
@@ -19,14 +19,12 @@ export abstract class AbstractDbService<T> {
     this.table.delete(id);
   }
 
-  public create(t: T, key: string): Observable<T> {
+  public create(t: T, key?: string) {
     this.table.put(t, key);
-    return of(t);
   }
 
-  public update(t: T, key: string):  Observable<T> {
+  public update(t: T, key?: string) {
     this.table.put(t, key);
-    return of(t);
   }
 
   public count(): Observable<number> {
@@ -37,9 +35,4 @@ export abstract class AbstractDbService<T> {
   public bulkAdd(data: T[]) {
     this.table.bulkAdd(data);
   }
-
-  public add(data: T) {
-    this.table.put(data);
-  }
-
 }

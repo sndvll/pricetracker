@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -12,12 +12,10 @@ import {ModalService} from '../../shared';
 import {ModalConfig, ModalType} from '../../shared';
 import {ModalComponent} from '../../shared';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Color, Colors, DialogRef, initialValueChangedValidator} from '../../core';
+import {AssetModel, Color, Colors, DialogRef, initialValueChangedValidator} from '../../core';
 import {AlertService, AlertType} from '../../shared';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {CurrencyDetailsService} from '../../currency-details/currency-details.service';
-import {AppStore, AssetModel} from '../../store';
-import {EventBusService, EventType} from '../../core/event/event-bus.service';
 import {Subject} from 'rxjs';
 
 @Component({
@@ -30,10 +28,9 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
   private _onDestroy = new Subject();
 
   @Input() asset!: AssetModel;
-  @Output() onSave = new EventEmitter<Omit<AssetModel, 'name' | 'symbol' | 'list'>>();
-  @Output() onDelete = new EventEmitter<string>();
 
-  public rate!: number;
+  @Output() onSave = new EventEmitter<AssetModel>();
+  @Output() onDelete = new EventEmitter<string>();
 
   private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
 
@@ -42,11 +39,8 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
   constructor(private modal: ModalService,
               private alert: AlertService,
               private formBuilder: FormBuilder,
-              private details: CurrencyDetailsService,
-              private event: EventBusService,
-              private changeDetectorRef: ChangeDetectorRef,
-              private store: AppStore) {
-  }
+              private details: CurrencyDetailsService
+  ) {}
 
   public ngOnInit() {
     this.editModalForm = this.formBuilder.group({
@@ -54,15 +48,6 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
       color: [this.asset.color, Validators.required]
     });
     this.editModalForm.setValidators(initialValueChangedValidator(this.editModalForm.value));
-
-    this.event.on([EventType.PRICE])
-      .pipe(
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(() => {
-        this.rate = this.store.getCurrentRate(this.asset.id);
-        this.changeDetectorRef.markForCheck();
-      });
   }
 
   public ngOnDestroy() {
@@ -88,9 +73,8 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
   }
 
   public save() {
-    const { id } = this.asset;
     const { color, quantity } = this.editModalForm.value;
-    this.onSave.emit({id, color, quantity});
+    this.onSave.emit({...this.asset, color, quantity});
     this.close();
   }
 
@@ -108,5 +92,9 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
 
   get colors() {
     return Colors.filter(color => color !== Color.transparent);
+  }
+
+  get rate(): number {
+    return this.asset.price.current_price || 0;
   }
 }

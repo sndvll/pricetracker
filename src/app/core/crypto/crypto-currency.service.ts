@@ -1,10 +1,8 @@
 import {Injectable} from '@angular/core';
 import {CoinGeckoApiService} from '../api/coingecko-api.service';
-import {
-  AvailableCryptocurrenciesDbService,
-} from './available-cryptocurrencies-db.service';
 import {filter, map} from 'rxjs/operators';
-import {AvailableCryptoCurrency} from './interfaces';
+import {AvailableCryptocurrenciesDbService} from '../persistence';
+import {AvailableCryptoCurrency} from '../model';
 
 
 @Injectable({providedIn: 'root'})
@@ -46,15 +44,11 @@ export class CryptoCurrencyService {
     return this.available.search(phrase, key, limit);
   }
 
-  public getBySymbol(symbol: string) {
-    return this.available.findBySymbol(symbol);
-  }
-
   public fetchDetails(id: string) {
     return this.api.coinDetails(id);
   }
 
-  public pollPrice(ids: string[], baseCurrency: string) {
+  public getMarketDataForCoins(ids: string[], baseCurrency: string) {
     return this.api.markets(ids, baseCurrency);
   }
 

@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild} from '@angular/core';
-import {AppStore, AssetModel} from '../../store';
+import {ChangeDetectionStrategy, Component, Input, Output, TemplateRef, ViewChild, EventEmitter} from '@angular/core';
 import {DropdownMenuService} from '../../shared';
 import {DialogRef} from '../../core';
 import {AlertService, AlertType} from '../../shared';
@@ -8,6 +7,7 @@ import {ModalService} from '../../shared';
 import {AccordionComponent} from '../../shared';
 import {AvailableCryptoCurrency, CryptoCurrencyService} from '../../core';
 import {Color, Colors} from '../../core';
+import {AssetModel} from '../../core';
 
 @Component({
   selector: 'asset-list',
@@ -24,12 +24,16 @@ export class AssetListComponent {
   @Input() assets!: AssetModel[];
   @Input() name!: string;
 
+  @Output() deleteList = new EventEmitter<string>();
+  @Output() editList = new EventEmitter<{ name: string, id: string }>();
+  @Output() editAsset = new EventEmitter<{ asset: AssetModel }>();
+  @Output() deleteAsset = new EventEmitter<{ assetId: string, listId: string }>();
+
   @ViewChild(AccordionComponent) accordion!: AccordionComponent;
 
   constructor(private dropdown: DropdownMenuService,
               private alert: AlertService,
               private modal: ModalService,
-              private store: AppStore,
               private crypto: CryptoCurrencyService) {}
 
   public openContextMenu(origin: HTMLElement, dropdown: TemplateRef<any>) {
@@ -37,18 +41,18 @@ export class AssetListComponent {
   }
 
   public openDeleteListAlert(): void {
-    this.closeContextMenu();
+    this.onCloseContextMenu();
     this.alert.open<boolean>({
       type: AlertType.Warning,
       message: 'ASSET_LIST.ALERT.DELETE_LIST'
     })
       .onClose$
       .pipe(filter(v => v))
-      .subscribe(() => this.store.deleteList(this.id));
+      .subscribe(() => this.deleteList.emit(this.id));
   }
 
   public openChangeNameAlert() {
-    this.closeContextMenu();
+    this.onCloseContextMenu();
     this.alert.open<string>({
       type: AlertType.Input,
       message: 'ASSET_LIST.ALERT.CHANGE_NAME',
@@ -57,7 +61,7 @@ export class AssetListComponent {
     })
       .onClose$
       .pipe(filter(v => v))
-      .subscribe(name => this.store.editList(name, this.id));
+      .subscribe(name => this.editList.emit({name, id: this.id}));
   }
 
   public onSelectAssetSearch(searchPhrase: string) {
@@ -83,15 +87,15 @@ export class AssetListComponent {
     this.options = [];
   }
 
-  public saveEditedAsset(asset: Partial<AssetModel>){
-    this.store.saveEditedAsset(asset, this.id);
+  public onSaveEditedAsset(asset: AssetModel){
+    this.editAsset.emit({asset});
   }
 
-  public deleteAsset(assetId: string) {
-    this.store.deleteAsset(assetId, this.id);
+  public onDeleteAsset(assetId: string) {
+    this.deleteAsset.emit({assetId, listId: this.id});
   }
 
-  public closeContextMenu() {
+  public onCloseContextMenu() {
     if (this._contextMenuRef) {
       this._contextMenuRef.close();
     }

@@ -1,3 +1,5 @@
+
+
 export interface Currencies {
   [key: string]: number;
 }

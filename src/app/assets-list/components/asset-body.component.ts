@@ -14,6 +14,7 @@ import {AlertService, AlertType, ModalComponent, ModalConfig, ModalType, ModalSe
 import {filter} from 'rxjs/operators';
 import {CurrencyDetailsService} from '../../currency-details';
 import {Subject} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'asset-body',
@@ -36,7 +37,8 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
   constructor(private modal: ModalService,
               private alert: AlertService,
               private formBuilder: FormBuilder,
-              private details: CurrencyDetailsService
+              private details: CurrencyDetailsService,
+              private translate: TranslateService
   ) {}
 
   public ngOnInit() {
@@ -62,7 +64,13 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
     this.close();
     this.alert.open<boolean>({
       type: AlertType.Warning,
-      message: 'Do you really want to delete this asset?'
+      message: this.translate.instant('ALERT.DELETE'),
+      labels: {
+        ok: this.translate.instant('ALERT.BUTTON.OK'),
+        close: this.translate.instant('ALERT.BUTTON.CLOSE'),
+        save: this.translate.instant('ALERT.BUTTON.SAVE'),
+        warning: this.translate.instant('ALERT.WARNING_MESSAGE'),
+      }
     })
       .onClose$
       .pipe(filter(v => v))

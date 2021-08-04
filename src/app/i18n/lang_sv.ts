@@ -1,4 +1,15 @@
 export const LANG_SV = {
+  ALERT: {
+    CHANGE_NAME: 'Ange ett nytt namn',
+    DELETE: 'Vill du verkligen ta bort detta?',
+    EDIT_VALUE_NAME: 'Namn',
+    WARNING_MESSAGE: 'Jag förstår att detta inte går att ångra!',
+    BUTTON: {
+      OK: 'OK',
+      CLOSE:'Stäng',
+      SAVE: 'Spara'
+    }
+  },
   ASSET_BODY: {
     HEADER: {
       AMOUNT: 'Belopp',
@@ -19,11 +30,6 @@ export const LANG_SV = {
     CONTEXT_MENU: {
       CHANGE_NAME: 'Redigera namn',
       DELETE_LIST: 'Ta bort lista'
-    },
-    ALERT: {
-      CHANGE_NAME: 'Ange ett nytt namn',
-      DELETE_LIST: 'Vill du verkligen ta bort denna lista?',
-      EDIT_VALUE_NAME: 'Namn'
     }
   },
   CRYPTO_SEARCH_BAR: {
@@ -39,16 +45,63 @@ export const LANG_SV = {
   },
   CURRENCY_DETAILS: {
     HEADER: {
-      PRICES: 'Priser',
-      MARKET_CAPS: 'Marknadsvärde',
-      TOTAL_VOLUMES: 'Total volym'
+      DETAILS: 'detaljer',
+      DESCRIPTION: 'Beskrivning'
+    },
+    BUTTON: {
+      CLOSE: 'Stäng'
+    },
+    CHART: {
+      HEADER: {
+        TOTAL_VOLUME: 'Total volym',
+        MARKET_CAP: 'Marknadsvärde',
+        PRICE: 'Pris'
+      },
+      CONTEXT_MENU: {
+        DAILY: 'Daglig'
+      }
     }
   },
 
+  ADD_ASSET: {
+    FORM: {
+      LABEL: {
+        LIST: 'Lista',
+        QUANTITY: 'Antal',
+        COLOR: 'Färg'
+      },
+      PLACEHOLDER: {
+        SELECT_LIST: 'Välj existerande lista',
+        NEW_LIST: 'Nytt listnamn',
+        QUANTITY: 'Antal',
+        COLOR: 'Färg'
+      }
+    },
+    BUTTON: {
+      CLOSE: 'Stäng',
+      SELECT: 'Välj',
+      CREATE: 'Skapa',
+      SAVE: 'Spara'
+    }
+  },
+
+  COLOR: {
+    RED: 'Röd',
+    BLUE: 'Blå',
+    YELLOW: 'Gul',
+    INDIGO: 'Indigo',
+    GREEN: 'Grön',
+    GRAY: 'Grå',
+    PURPLE: 'Lila',
+    PINK: 'Rosa',
+    BLACK: 'Svart',
+    WHITE: 'Vit',
+    TRANSPARENT: 'Transparent'
+  },
 
   COMPONENTS: {
     // TODO This should be configurable instead with default values,
-    // to ge rid of translate dependency to shared folder.
+    // to get rid of translate dependency to shared folder.
     ALERT: {
       WARNING_MESSAGE: 'Jag förstår att detta inte går att ångra!',
       BUTTON: {

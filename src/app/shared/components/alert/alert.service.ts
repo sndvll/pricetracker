@@ -12,7 +12,13 @@ export interface AlertConfig {
   type: AlertType,
   message: string,
   editValueName?: string,
-  data?: string
+  data?: string,
+  labels?: {
+    ok?: string;
+    close?: string;
+    save?: string;
+    warning?: string;
+  }
 }
 
 @Injectable({providedIn: 'root'})

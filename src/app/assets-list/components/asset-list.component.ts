@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, Output, TemplateRef, ViewChil
 import {AlertService, AlertType, DropdownMenuService, ModalService, AccordionComponent} from '../../shared';
 import {debounceTime, filter, take} from 'rxjs/operators';
 import {AvailableCryptoCurrency, CryptoCurrencyService, DialogRef, Color, Colors, AssetModel} from '../../core';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'asset-list',
@@ -28,7 +29,9 @@ export class AssetListComponent {
   constructor(private dropdown: DropdownMenuService,
               private alert: AlertService,
               private modal: ModalService,
-              private crypto: CryptoCurrencyService) {}
+              private crypto: CryptoCurrencyService,
+              private translate: TranslateService) {
+  }
 
   public openContextMenu(origin: HTMLElement, dropdown: TemplateRef<any>) {
     this._contextMenuRef = this.dropdown.open(origin, dropdown);
@@ -38,7 +41,13 @@ export class AssetListComponent {
     this.onCloseContextMenu();
     this.alert.open<boolean>({
       type: AlertType.Warning,
-      message: 'ASSET_LIST.ALERT.DELETE_LIST'
+      message: this.translate.instant('ALERT.DELETE_LIST'),
+      labels: {
+        ok: this.translate.instant('ALERT.BUTTON.OK'),
+        close: this.translate.instant('ALERT.BUTTON.CLOSE'),
+        save: this.translate.instant('ALERT.BUTTON.SAVE'),
+        warning: this.translate.instant('ALERT.WARNING_MESSAGE'),
+      }
     })
       .onClose$
       .pipe(filter(v => v))
@@ -49,9 +58,14 @@ export class AssetListComponent {
     this.onCloseContextMenu();
     this.alert.open<string>({
       type: AlertType.Input,
-      message: 'ASSET_LIST.ALERT.CHANGE_NAME',
-      editValueName: 'ASSET_LIST.ALERT.EDIT_VALUE_NAME',
-      data: this.name
+      message: this.translate.instant('ALERT.CHANGE_NAME'),
+      editValueName: this.translate.instant('ALERT.EDIT_VALUE_NAME'),
+      data: this.name,
+      labels: {
+        ok: this.translate.instant('ALERT.BUTTON.OK'),
+        close: this.translate.instant('ALERT.BUTTON.CLOSE'),
+        save: this.translate.instant('ALERT.BUTTON.SAVE'),
+      }
     })
       .onClose$
       .pipe(filter(v => v))
@@ -81,7 +95,7 @@ export class AssetListComponent {
     this.options = [];
   }
 
-  public onSaveEditedAsset(asset: AssetModel){
+  public onSaveEditedAsset(asset: AssetModel) {
     this.editAsset.emit({asset});
   }
 

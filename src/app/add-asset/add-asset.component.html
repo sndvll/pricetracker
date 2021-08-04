@@ -1,7 +1,7 @@
 <div class="w-full items-center p-2 mt-2">
   <div class="px-2  flex flex-row justify-between">
-    <h1 class="text-2xl font-bold">Add {{asset.name}}</h1>
-    <button sndvll-btn="button" color="light" (click)="close()">Close</button>
+    <h1 class="text-xl font-bold">{{asset.name}}</h1>
+    <button sndvll-btn="button" color="light" (click)="close()">{{'ADD_ASSET.BUTTON.CLOSE' | translate}}</button>
   </div>
 </div>
 <div class="p-2">
@@ -9,19 +9,19 @@
     <card class="px-2 py-3">
       <div cardContent>
         <div class="flex justify-between text-xs mt-2 font-bold">
-          <div>List</div>
+          <div>{{'ADD_ASSET.FORM.LABEL.LIST' | translate}}</div>
           <div>
             <button sndvll-btn="link" class="font-bold"
                     *ngIf="!noAvailableLists"
                     (click)="toggleCreateList()">
-              {{createList ? 'Select' : 'Create'}}
+              {{createList ? ('ADD_ASSET.BUTTON.SELECT' | translate) : ('ADD_ASSET.BUTTON.CREATE' | translate)}}
             </button>
           </div>
         </div>
         <ng-container *ngIf="!createList">
           <sndvll-select formControlName="list"
                          class="w-full my-1"
-                         placeholder="Select existing list">
+                         placeholder="{{'ADD_ASSET.FORM.PLACEHOLDER.SELECT_LIST' | translate}}">
             <sndvll-select-option *ngFor="let list of availableLists"
                                   [value]="list">
               <div *selectLabel>{{list.name}}</div>
@@ -31,30 +31,30 @@
         <ng-container *ngIf="createList">
           <sndvll-input formControlName="list"
                         type="text"
-                        placeholder="New list name"
+                        placeholder="{{'ADD_ASSET.FORM.PLACEHOLDER.NEW_LIST' | translate}}"
                         class="w-full my-1"></sndvll-input>
         </ng-container>
 
-        <div class="text-xs font-bold mt-2">Quantity</div>
+        <div class="text-xs font-bold mt-2">{{'ADD_ASSET.FORM.LABEL.QUANTITY' | translate}}</div>
         <sndvll-input formControlName="quantity"
                       type="number"
-                      placeholder="Quantity"
+                      placeholder="{{'ADD_ASSET.FORM.PLACEHOLDER.QUANTITY' | translate}}"
                       class="w-full my-1"></sndvll-input>
-        <div class="text-xs font-bold mt-2">Color</div>
+        <div class="text-xs font-bold mt-2">{{'ADD_ASSET.FORM.LABEL.COLOR' | translate}}</div>
         <sndvll-select formControlName="color"
                        class="my-1"
-                       placeholder="Color"
+                       placeholder="{{'ADD_ASSET.FORM.PLACEHOLDER.COLOR' | translate}}"
                        [clearable]="false">
           <sndvll-select-option *ngFor="let color of colors"
                                 [value]="color">
             <div *selectLabel>
-              {{color}}
+              {{'COLOR.' + (color | uppercase) | translate}}
             </div>
           </sndvll-select-option>
         </sndvll-select>
       </div>
       <div cardFooter>
-        <button type="button" sndvll-btn="button" class="w-full success" [disabled]="addAssetForm.invalid" (click)="save()">Save</button>
+        <button type="button" sndvll-btn="button" class="w-full success" [disabled]="addAssetForm.invalid" (click)="save()">{{'ADD_ASSET.BUTTON.SAVE' | translate}}</button>
       </div>
     </card>
   </form>

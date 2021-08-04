@@ -16,52 +16,7 @@ import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'chart-card',
-  template: `
-    <card class="w-full my-2">
-      <div class="justify-between px-3 items-center" cardHeader>
-        <h1 class="font-bold text-xl">{{header}}</h1>
-        <div class="py-2 flex flex-row items-center justify-end">
-          <button sndvll-btn="button" size="xs" class="mr-1"
-                  [class.light]="timeSpan !== TimeSpan.Year"
-                  [class.dark]="timeSpan === TimeSpan.Year"
-                  (click)="setTimeSpan(TimeSpan.Year)">1Y</button>
-          <button sndvll-btn="button" size="xs" class="mx-1"
-                  [class.light]="timeSpan !== TimeSpan.Month"
-                  [class.dark]="timeSpan === TimeSpan.Month"
-                  (click)="setTimeSpan(TimeSpan.Month)">1M</button>
-          <button sndvll-btn="button" size="xs" class="mx-1"
-                  [class.light]="timeSpan !== TimeSpan.Week"
-                  [class.dark]="timeSpan === TimeSpan.Week"
-                  (click)="setTimeSpan(TimeSpan.Week)">1W</button>
-          <button sndvll-btn="button" size="xs" class="ml-1"
-                  [class.light]="timeSpan !== TimeSpan.Day"
-                  [class.dark]="timeSpan === TimeSpan.Day"
-                  (click)="setTimeSpan(TimeSpan.Day)">24h</button>
-          <button sndvll-btn="icon" (click)="openContextMenu(contextMenuButton, contextMenu)" #contextMenuButton>
-            <icon name="more-vertical" weight="bold"></icon>
-          </button>
-        </div>
-      </div>
-      <div class="inline-block w-full" cardContent #chartContainer>
-        <ngx-charts-line-chart
-          [autoScale]="true"
-          [view]="[chartWidth, chartHeight]"
-          [gradient]="true"
-          [showGridLines]="false"
-          [results]="chart"
-          [xAxis]="true"
-          [timeline]="false"
-          [yAxis]="showYAxis"
-          [legend]="false">
-        </ngx-charts-line-chart>
-      </div>
-    </card>
-    <ng-template #contextMenu>
-      <div class="py-2 px-3 bg-white dark:bg-black">
-        <sndvll-toggle [formControl]="formControl">Daily</sndvll-toggle>
-      </div>
-    </ng-template>
-  `,
+  templateUrl: './chart-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartCardComponent implements OnInit, OnDestroy {

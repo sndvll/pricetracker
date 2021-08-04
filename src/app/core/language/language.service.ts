@@ -10,7 +10,7 @@ export class LanguageService {
   public init(): void {
     this.translate.setTranslation('sv', LANG_SV);
     this.translate.setTranslation('en', LANG_EN);
-    const lang = localStorage.getItem('lang') ?? 'en';
+    const lang = localStorage.getItem('lang') ?? 'sv';
     this.translate.setDefaultLang(lang);
     this.setLanguage(lang);
   }

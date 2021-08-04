@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FiatRatesDbService} from '../persistence';
-import {FreeCurrencyApiService} from '../api/free-currency-api.service';
+import {FreeCurrencyApiService} from '../api';
 import {DateUtils} from '../utils';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {NEVER, Observable, of, Subject} from 'rxjs';
@@ -40,7 +40,6 @@ export class FiatCurrencyService {
           return this._handleError(err, baseCurrency, date);
         }),
         switchMap(res => {
-          console.log(res);
           const data = res.data;
           // The reason for this responseDate is because the api
           // can response with yesterdays-date, but to keep things sane

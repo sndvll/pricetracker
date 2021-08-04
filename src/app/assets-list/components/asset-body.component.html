@@ -41,7 +41,7 @@
                      [clearable]="false">
         <sndvll-select-option *ngFor="let color of colors" [value]="color">
           <div *selectLabel>
-            {{color}}
+            {{'COLOR.' + (color | uppercase) | translate}}
           </div>
         </sndvll-select-option>
       </sndvll-select>

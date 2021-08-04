@@ -23,15 +23,18 @@ import {
 } from './core';
 
 /*
-TODO: Pull to refresh
+DONE: Pull to refresh
   // Somewhat done, but needs to be combined with the loading feature
-TODO: Loading
+DONE: Loading
 TODO: Settings
-  - Language
-  - Display Currency
-  - Toggle polling
+  - Select Language
+  - Select Display Currency
+  - Toggle polling ?
 TODO: Splashscreen
 TODO: Logo
+DONE: Translations
+  - Modules done (EN, SV), now just need to get rid of translate dependency to shared folder.
+TODO: Look for a better label solution in alert component
  */
 
 @NgModule({

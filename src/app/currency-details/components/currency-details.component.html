@@ -1,7 +1,7 @@
 <div class="w-full items-center p-2">
   <div class="px-2  flex flex-row justify-between">
-    <h1 class="text-2xl font-bold">{{currency.name}} details</h1>
-    <button sndvll-btn="button" color="light" (click)="close()">Close</button>
+    <h1 class="text-2xl font-bold">{{currency.name}} {{'CURRENCY_DETAILS.HEADER.DETAILS' | translate}}</h1>
+    <button sndvll-btn="button" color="light" (click)="close()">{{'CURRENCY_DETAILS.BUTTON.CLOSE' | translate}}</button>
   </div>
 </div>
 <ng-container *ngIf="isLoaded; else loading">
@@ -14,7 +14,7 @@
                 (onTimeSpanChange)="timeSpanChange($event)"
                 (onDailyToggle)="hourlyChange($event)"
                 [daily]="daily"
-                header="Price"></chart-card>
+                header="{{'CURRENCY_DETAILS.CHART.HEADER.PRICE' | translate}}"></chart-card>
 
     <chart-card [chart]="marketCapChart"
                 [type]="ChartType.Market"
@@ -22,7 +22,7 @@
                 (onTimeSpanChange)="timeSpanChange($event)"
                 (onDailyToggle)="hourlyChange($event)"
                 [daily]="daily"
-                header="Market cap"></chart-card>
+                header="{{'CURRENCY_DETAILS.CHART.HEADER.MARKET_CAP' | translate}}"></chart-card>
 
     <chart-card [chart]="volumeChart"
                 [type]="ChartType.Volume"
@@ -30,12 +30,11 @@
                 (onTimeSpanChange)="timeSpanChange($event)"
                 (onDailyToggle)="hourlyChange($event)"
                 [daily]="daily"
-                header="Total volume"></chart-card>
+                header="{{'CURRENCY_DETAILS.CHART.HEADER.TOTAL_VOLUME' | translate}}"></chart-card>
 
-      <!--Description-->
-      <card class="px-3 mt-2 pb-2">
+    <card class="px-3 mt-2 pb-2">
         <div cardHeader>
-          <h2 class="font-bold text-xl">Description</h2>
+          <h2 class="font-bold text-xl">{{'CURRENCY_DETAILS.HEADER.DESCRIPTION' | translate}}</h2>
         </div>
         <div cardContent>
           <div [innerHTML]="details.description.en"
@@ -46,5 +45,7 @@
 </ng-container>
 
 <ng-template #loading>
-  Loading...
+  <div class="text-red-400">
+    <loader></loader>
+  </div>
 </ng-template>

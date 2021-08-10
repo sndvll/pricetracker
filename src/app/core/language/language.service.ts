@@ -1,27 +1,47 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {LANG_EN, LANG_SV} from '../../i18n';
+import {BehaviorSubject, Observable} from 'rxjs';
+
+export enum Language  {
+  EN = 'en',
+  SV = 'sv'
+}
 
 @Injectable()
 export class LanguageService {
 
-  constructor(private translate: TranslateService) {}
+  private currentLanguage: BehaviorSubject<Language> = new BehaviorSubject<Language>(LanguageService.currentLang);
+  public currentLanguage$: Observable<Language> = this.currentLanguage.asObservable();
+
+  constructor(private translateService: TranslateService) {}
 
   public init(): void {
-    this.translate.setTranslation('sv', LANG_SV);
-    this.translate.setTranslation('en', LANG_EN);
-    const lang = localStorage.getItem('lang') ?? 'sv';
-    this.translate.setDefaultLang(lang);
+    this.translateService.setTranslation(Language.SV, LANG_SV);
+    this.translateService.setTranslation(Language.EN, LANG_EN);
+    const lang: Language = <Language>localStorage.getItem('lang') ?? Language.SV;
+    this.translateService.setDefaultLang(lang);
     this.setLanguage(lang);
   }
 
-  public setLanguage(language: string): void {
+  public setLanguage(language: Language): void {
     localStorage.setItem('lang', language)
-    this.translate.use(language);
+    this.currentLanguage.next(language);
+    this.translateService.use(language);
   }
 
-  public get currentLang(): string {
-    return this.translate.currentLang;
+  public translate(key: string) {
+    return this.translateService.instant(key);
   }
+
+  public static get currentLang(): Language {
+    return <Language>localStorage.getItem('lang') || Language.EN;
+  }
+
+  public static get AvailableLanguages(): Language[] {
+    return Object.values(Language);
+  }
+
+
 
 }

@@ -38,6 +38,8 @@ export enum PriceTrackerActionTypes {
   PricePollingStopped = '[trckr] price polling stopped',
   PricePollingStoppedDone = '[trckr] price polling stopped done',
 
+  ChangeDisplayCurrencyStarted = '[trckr] change display currency',
+
 }
 
 const initializeStarted = createAction(PriceTrackerActionTypes.InitializeStarted);
@@ -75,6 +77,8 @@ const startPricePollingDone = createAction(PriceTrackerActionTypes.PricePollingS
 const stopPricePolling = createAction(PriceTrackerActionTypes.PricePollingStopped);
 const stopPricePollingDone = createAction(PriceTrackerActionTypes.PricePollingStoppedDone);
 
+const changeDisplayCurrency = createAction(PriceTrackerActionTypes.ChangeDisplayCurrencyStarted, props<{currency: string}>());
+
 export const PriceTrackerActions = {
   initializeStarted,
   initializeDone,
@@ -100,5 +104,6 @@ export const PriceTrackerActions = {
   startPricePollingDone,
   stopPricePolling,
   stopPricePollingDone,
-  refreshPricesCanceled
+  refreshPricesCanceled,
+  changeDisplayCurrency
 }

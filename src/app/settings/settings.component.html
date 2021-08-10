@@ -1,0 +1,32 @@
+<div class="w-full items-center p-3">
+  <div class="flex flex-row justify-between">
+    <h1 class="text-xl font-bold">{{'SETTINGS.HEADER.SETTINGS' | translate}}</h1>
+    <button sndvll-btn="button" color="light" (click)="onClose.emit()">{{'SETTINGS.BUTTON.CLOSE' | translate}}</button>
+  </div>
+</div>
+<div class="p-3">
+    <div class="text-xs font-bold">
+      {{'SETTINGS.HEADER.CURRENCY' | translate}}
+    </div>
+    <sndvll-select [formControl]="displayCurrencyControl"
+                   [clearable]="false"
+                   placeholder="{{'SETTINGS.PLACEHOLDER.CURRENCY' | translate}}"
+                   class="w-full my-1">
+      <sndvll-select-option *ngFor="let currency of availableCurrencies"
+                            [value]="currency">
+        <div *selectLabel>{{currency}}</div>
+      </sndvll-select-option>
+    </sndvll-select>
+  <div class="text-xs font-bold mt-3">
+    {{'SETTINGS.HEADER.LANGUAGE' | translate}}
+  </div>
+  <sndvll-select [formControl]="changeLanguageControl"
+                 [clearable]="false"
+                 placeholder="{{'SETTINGS.PLACEHOLDER.LANGUAGE' | translate}}"
+                 class="w-full my-1">
+    <sndvll-select-option *ngFor="let language of availableLanguages"
+                          [value]="language">
+      <div *selectLabel>{{'SETTINGS.LANGUAGE.' + language.toUpperCase() | translate}}</div>
+    </sndvll-select-option>
+  </sndvll-select>
+</div>

@@ -6,7 +6,7 @@
 <div class="grid grid-2 grid-flow-row col-span-4">
   <div class="grid grid-2 grid-flow-col">
     <span class="text-lg font-bold">{{asset.symbol | uppercase}}</span>
-    <span class="text-lg text-right">{{rate | currency}}</span>
+    <span class="text-lg text-right"> {{(rate | async) | amount : currenLanguage : displayCurrency}}</span>
   </div>
   <div class="grid grid-2 grid-flow-col">
     <div class="text-xs">{{asset.name}}</div>

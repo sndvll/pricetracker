@@ -1,14 +1,20 @@
 import {AssetList, PriceTrackerState} from '../model';
 import {Action, createReducer, on} from '@ngrx/store';
 import {PriceTrackerActions} from './price-tracker.actions';
+import {FiatCurrencyService} from '../fiat';
 
 const initState = (): PriceTrackerState => ({
   lists: [],
-  isLoading: true
+  isLoading: true,
+  displayCurrency: FiatCurrencyService.DisplayCurrency
 });
 
 const commonDoneReducer = (state: PriceTrackerState, {lists}: {lists: AssetList[]}) => ({...state, lists, isLoading: false});
 const commonStartedReducer = (state: PriceTrackerState) => ({...state, isLoading: true});
+const changeDisplayCurrencyReducer = (state: PriceTrackerState, {currency}: {currency: string}) => {
+  FiatCurrencyService.DisplayCurrency = currency;
+  return {...state, displayCurrency: currency}
+};
 
 const reducer = createReducer(initState(),
   on(PriceTrackerActions.initializeDone, commonDoneReducer),
@@ -28,7 +34,8 @@ const reducer = createReducer(initState(),
   on(PriceTrackerActions.editAsset, commonStartedReducer),
   on(PriceTrackerActions.editAssetDone, commonDoneReducer),
   on(PriceTrackerActions.deleteAsset, commonStartedReducer),
-  on(PriceTrackerActions.deleteAssetDone, commonDoneReducer)
+  on(PriceTrackerActions.deleteAssetDone, commonDoneReducer),
+  on(PriceTrackerActions.changeDisplayCurrency, changeDisplayCurrencyReducer)
 );
 
 

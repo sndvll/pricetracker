@@ -1,1 +1,2 @@
-export * from './amount-change.pipe';
+export * from './amount-change/amount-change.pipe';
+export * from './amount/amount.pipe';

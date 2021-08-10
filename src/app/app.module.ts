@@ -21,20 +21,30 @@ import {
   PriceTrackerEffects,
   LanguageModule
 } from './core';
+import {SettingsModule} from './settings';
 
 /*
 DONE: Pull to refresh
-  // Somewhat done, but needs to be combined with the loading feature
 DONE: Loading
+DONE: Translations
 TODO: Settings
-  - Select Language
+  - DONE Select Language
   - Select Display Currency
-  - Toggle polling ?
+    - DONE add selector with available currencies
+    - DONE Listen to changes and calculate correct amount
+    - Add labels to currencies
+DONE: Currency Pipe with proper formatting and symbols
 TODO: Splashscreen
 TODO: Logo
-DONE: Translations
-  - Modules done (EN, SV), now just need to get rid of translate dependency to shared folder.
 TODO: Look for a better label solution in alert component
+TODO: Animations
+  - modal fade ins
+TODO: BUG - Look up why the modal cant have backdrop when closed and loading is showed.
+TODO: 15 sec polling
+TODO: Github Pages Deploy
+TODO: Search should work with symbols
+TODO: Collapse lists
+  - Header, where total amount is showed.
  */
 
 @NgModule({
@@ -48,6 +58,7 @@ TODO: Look for a better label solution in alert component
     TotalAmountModule,
     AssetListModule,
     AddAssetModule,
+    SettingsModule,
     CurrencyDetailsModule,
     CryptoSearchbarModule,
     HttpClientModule,

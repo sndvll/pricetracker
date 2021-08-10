@@ -56,7 +56,7 @@
 
 // ModalComponent classes
 .modal-component {
-  @apply block shadow bg-white dark:bg-black text-black dark:text-white select-none p-6 w-96 max-w-xs;
+  @apply block shadow bg-white dark:bg-black text-black dark:text-white select-none w-96 max-w-xs;
   &.floating {
     @apply rounded;
   }

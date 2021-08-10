@@ -1,8 +1,23 @@
-import {ChangeDetectionStrategy, Component, Input, Output, TemplateRef, ViewChild, EventEmitter} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+  EventEmitter,
+} from '@angular/core';
 import {AlertService, AlertType, DropdownMenuService, ModalService, AccordionComponent} from '../../shared';
 import {debounceTime, filter, take} from 'rxjs/operators';
-import {AvailableCryptoCurrency, CryptoCurrencyService, DialogRef, Color, Colors, AssetModel} from '../../core';
-import {TranslateService} from '@ngx-translate/core';
+import {
+  AvailableCryptoCurrency,
+  CryptoCurrencyService,
+  DialogRef,
+  Color,
+  Colors,
+  AssetModel,
+  LanguageService, Language
+} from '../../core';
 
 @Component({
   selector: 'asset-list',
@@ -18,6 +33,8 @@ export class AssetListComponent {
   @Input() id!: string;
   @Input() assets!: AssetModel[];
   @Input() name!: string;
+  @Input() displayCurrency!: string;
+  @Input() currentLanguage!: Language;
 
   @Output() deleteList = new EventEmitter<string>();
   @Output() editList = new EventEmitter<{ name: string, id: string }>();
@@ -30,7 +47,7 @@ export class AssetListComponent {
               private alert: AlertService,
               private modal: ModalService,
               private crypto: CryptoCurrencyService,
-              private translate: TranslateService) {
+              private language: LanguageService) {
   }
 
   public openContextMenu(origin: HTMLElement, dropdown: TemplateRef<any>) {
@@ -41,12 +58,12 @@ export class AssetListComponent {
     this.onCloseContextMenu();
     this.alert.open<boolean>({
       type: AlertType.Warning,
-      message: this.translate.instant('ALERT.DELETE_LIST'),
+      message: this.language.translate('ALERT.DELETE_LIST'),
       labels: {
-        ok: this.translate.instant('ALERT.BUTTON.OK'),
-        close: this.translate.instant('ALERT.BUTTON.CLOSE'),
-        save: this.translate.instant('ALERT.BUTTON.SAVE'),
-        warning: this.translate.instant('ALERT.WARNING_MESSAGE'),
+        ok: this.language.translate('ALERT.BUTTON.OK'),
+        close: this.language.translate('ALERT.BUTTON.CLOSE'),
+        save: this.language.translate('ALERT.BUTTON.SAVE'),
+        warning: this.language.translate('ALERT.WARNING_MESSAGE'),
       }
     })
       .onClose$
@@ -58,13 +75,13 @@ export class AssetListComponent {
     this.onCloseContextMenu();
     this.alert.open<string>({
       type: AlertType.Input,
-      message: this.translate.instant('ALERT.CHANGE_NAME'),
-      editValueName: this.translate.instant('ALERT.EDIT_VALUE_NAME'),
+      message: this.language.translate('ALERT.CHANGE_NAME'),
+      editValueName: this.language.translate('ALERT.EDIT_VALUE_NAME'),
       data: this.name,
       labels: {
-        ok: this.translate.instant('ALERT.BUTTON.OK'),
-        close: this.translate.instant('ALERT.BUTTON.CLOSE'),
-        save: this.translate.instant('ALERT.BUTTON.SAVE'),
+        ok: this.language.translate('ALERT.BUTTON.OK'),
+        close: this.language.translate('ALERT.BUTTON.CLOSE'),
+        save: this.language.translate('ALERT.BUTTON.SAVE'),
       }
     })
       .onClose$
@@ -112,5 +129,4 @@ export class AssetListComponent {
   get colors() {
     return Colors.filter(color => color !== Color.transparent);
   }
-
 }

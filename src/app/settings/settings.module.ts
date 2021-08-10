@@ -1,18 +1,14 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {SettingsComponent} from './settings.component';
 import {SharedModule} from '../shared';
-import {TotalAmountComponent} from './total-amount.component';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule
   ],
-  declarations: [
-    TotalAmountComponent
-  ],
-  exports: [
-    TotalAmountComponent
-  ]
+  declarations: [SettingsComponent],
+  exports: [SettingsComponent]
 })
-export class TotalAmountModule {}
+export class SettingsModule {}

@@ -97,8 +97,27 @@ export const LANG_EN = {
     WHITE: 'White',
     TRANSPARENT: 'Transparent'
   },
+  SETTINGS: {
+    HEADER: {
+      SETTINGS: 'Settings',
+      LANGUAGE: 'Language',
+      CURRENCY: 'Currency'
+    },
+    PLACEHOLDER: {
+      LANGUAGE: 'Language',
+      CURRENCY: 'Currency'
+    },
+    LANGUAGE: {
+      EN: 'English',
+      SV: 'Swedish'
+    },
+    BUTTON: {
+      CLOSE: 'Close'
+    }
+  }
 
 
+/*
   COMPONENTS: {
     // TODO This should be configurable instead with default values,
     // to ge rid of translate dependency to shared folder.
@@ -111,4 +130,5 @@ export const LANG_EN = {
       }
     }
   }
+  */
 }

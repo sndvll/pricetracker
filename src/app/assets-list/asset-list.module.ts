@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared';
 import {AssetBodyComponent, AssetHeaderComponent, AssetIconComponent, AssetListComponent} from './components';
+import {AssetListsComponent} from './asset-lists.component';
 
 @NgModule({
   imports: [
@@ -9,16 +10,14 @@ import {AssetBodyComponent, AssetHeaderComponent, AssetIconComponent, AssetListC
     SharedModule
   ],
   declarations: [
+    AssetListsComponent,
     AssetListComponent,
     AssetBodyComponent,
     AssetHeaderComponent,
     AssetIconComponent
   ],
   exports: [
-    AssetListComponent,
-    AssetBodyComponent,
-    AssetHeaderComponent,
-    AssetIconComponent
+    AssetListsComponent
   ],
 })
 export class AssetListModule {}

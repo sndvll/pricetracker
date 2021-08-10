@@ -13,43 +13,48 @@
     <button sndvll-btn="icon" (click)="openDetails()">
       <icon name="info"></icon>
     </button>
-    <a sndvll-btn="link" class="box" href="https://www.coingecko.com/en/coins/{{asset.id}}" target="_blank" rel="noreferrer">
+    <a sndvll-btn="link" class="box" href="https://www.coingecko.com/en/coins/{{asset.id}}" target="_blank"
+       rel="noreferrer">
       <icon name="external-link"></icon>
     </a>
   </div>
   <div class="col-span-4 text-right text-lg font-bold">
-    {{ asset.quantity * rate | currency}}
+    {{(amount | async) | amount : currenLanguage : displayCurrency}}
   </div>
 </div>
 
 <ng-template #editWindow>
-  <div class="justify-between" modalHeader>
-    <span class="text-lg font-bold">{{asset.name}}</span>
-    <icon name="edit" size="2rem" class="text-green-400"></icon>
-  </div>
-  <div modalContent>
-    <form [formGroup]="editModalForm">
-      <div class="text-xs font-bold">{{'ASSET_BODY.HEADER.QUANTITY' | translate}}</div>
-      <sndvll-input formControlName="quantity"
-                    type="number"
-                    class="mb-2 my-1"
-                    placeholder="Quantity" ></sndvll-input>
-      <div class="text-xs font-bold">{{'ASSET_BODY.HEADER.COLOR' | translate}}</div>
-      <sndvll-select formControlName="color"
-                     class="my-1"
-                     placeholder="Color"
-                     [clearable]="false">
-        <sndvll-select-option *ngFor="let color of colors" [value]="color">
-          <div *selectLabel>
-            {{'COLOR.' + (color | uppercase) | translate}}
-          </div>
-        </sndvll-select-option>
-      </sndvll-select>
-    </form>
-  </div>
-  <div class="justify-between flex-col" modalFooter>
-    <button sndvll-btn="button" class="success mb-2" [disabled]="!editModalForm.invalid" (click)="save()">{{'ASSET_BODY.BUTTON.SAVE' | translate}}</button>
-    <button sndvll-btn="button" class="danger mb-2" (click)="delete()">{{'ASSET_BODY.BUTTON.DELETE' | translate}}</button>
-    <button sndvll-btn="button" class="secondary" (click)="close()">{{'ASSET_BODY.BUTTON.CLOSE' | translate}}</button>
+  <div class="p-6">
+    <div class="justify-between" modalHeader>
+      <span class="text-lg font-bold">{{asset.name}}</span>
+      <icon name="edit" size="2rem" class="text-green-400"></icon>
+    </div>
+    <div modalContent>
+      <form [formGroup]="editModalForm">
+        <div class="text-xs font-bold">{{'ASSET_BODY.HEADER.QUANTITY' | translate}}</div>
+        <sndvll-input formControlName="quantity"
+                      type="number"
+                      class="mb-2 my-1"
+                      placeholder="Quantity"></sndvll-input>
+        <div class="text-xs font-bold">{{'ASSET_BODY.HEADER.COLOR' | translate}}</div>
+        <sndvll-select formControlName="color"
+                       class="my-1"
+                       placeholder="Color"
+                       [clearable]="false">
+          <sndvll-select-option *ngFor="let color of colors" [value]="color">
+            <div *selectLabel>
+              {{'COLOR.' + (color | uppercase) | translate}}
+            </div>
+          </sndvll-select-option>
+        </sndvll-select>
+      </form>
+    </div>
+    <div class="justify-between flex-col" modalFooter>
+      <button sndvll-btn="button" class="success mb-2" [disabled]="!editModalForm.invalid"
+              (click)="save()">{{'ASSET_BODY.BUTTON.SAVE' | translate}}</button>
+      <button sndvll-btn="button" class="danger mb-2"
+              (click)="delete()">{{'ASSET_BODY.BUTTON.DELETE' | translate}}</button>
+      <button sndvll-btn="button" class="secondary" (click)="close()">{{'ASSET_BODY.BUTTON.CLOSE' | translate}}</button>
+    </div>
   </div>
 </ng-template>

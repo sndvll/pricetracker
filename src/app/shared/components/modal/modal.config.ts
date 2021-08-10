@@ -14,5 +14,6 @@ export interface ModalConfig<T = any> {
   backdropOpacity?: Opacity
   closeOnBackdropClick?: boolean;
   closable?: boolean
-  data?: T
+  data?: T,
+  hasBackdrop: boolean
 }

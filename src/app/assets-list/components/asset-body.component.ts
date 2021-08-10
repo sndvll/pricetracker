@@ -3,32 +3,39 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   TemplateRef
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AssetModel, Color, Colors, DialogRef, initialValueChangedValidator} from '../../core';
+import {
+  AssetModel,
+  Color,
+  Colors,
+  DialogRef,
+  FiatCurrencyService,
+  initialValueChangedValidator, Language,
+  LanguageService
+} from '../../core';
 import {AlertService, AlertType, ModalComponent, ModalConfig, ModalType, ModalService} from '../../shared';
-import {filter} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {CurrencyDetailsService} from '../../currency-details';
-import {Subject} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'asset-body',
   templateUrl: './asset-body.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssetBodyComponent implements OnInit, OnDestroy {
-
-  private _onDestroy = new Subject();
+export class AssetBodyComponent implements OnInit {
 
   @Input() asset!: AssetModel;
 
   @Output() onSave = new EventEmitter<AssetModel>();
   @Output() onDelete = new EventEmitter<string>();
+
+  @Input() displayCurrency!: string;
+  @Input() currenLanguage!: Language;
 
   private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
 
@@ -38,7 +45,8 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
               private alert: AlertService,
               private formBuilder: FormBuilder,
               private details: CurrencyDetailsService,
-              private translate: TranslateService
+              private language: LanguageService,
+              private fiat: FiatCurrencyService
   ) {}
 
   public ngOnInit() {
@@ -49,14 +57,12 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
     this.editModalForm.setValidators(initialValueChangedValidator(this.editModalForm.value));
   }
 
-  public ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
-  }
-
   public openEditModal(templateRef: TemplateRef<any>) {
     this._modalRef = this.modal.open({
-      templateRef, type: ModalType.Floating, data: this.asset
+      templateRef,
+      type: ModalType.Floating,
+      data: this.asset,
+      hasBackdrop: false
     })
   }
 
@@ -64,12 +70,12 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
     this.close();
     this.alert.open<boolean>({
       type: AlertType.Warning,
-      message: this.translate.instant('ALERT.DELETE'),
+      message: this.language.translate('ALERT.DELETE'),
       labels: {
-        ok: this.translate.instant('ALERT.BUTTON.OK'),
-        close: this.translate.instant('ALERT.BUTTON.CLOSE'),
-        save: this.translate.instant('ALERT.BUTTON.SAVE'),
-        warning: this.translate.instant('ALERT.WARNING_MESSAGE'),
+        ok: this.language.translate('ALERT.BUTTON.OK'),
+        close: this.language.translate('ALERT.BUTTON.CLOSE'),
+        save: this.language.translate('ALERT.BUTTON.SAVE'),
+        warning: this.language.translate('ALERT.WARNING_MESSAGE'),
       }
     })
       .onClose$
@@ -99,7 +105,10 @@ export class AssetBodyComponent implements OnInit, OnDestroy {
     return Colors.filter(color => color !== Color.transparent);
   }
 
-  get rate(): number {
-    return this.asset.price.current_price || 0;
+  get amount(): Observable<number> {
+    return this.fiat.getConvertedRateBySelectedCurrency(this.asset.price.current_price!, this.displayCurrency)
+      .pipe(
+        map(convertedAmount => this.asset.quantity * convertedAmount)
+      )
   }
 }

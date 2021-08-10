@@ -7,7 +7,7 @@
     <div class="font-bold"
          [class.text-2xl]="veryLargeAmount"
          [class.text-3xl]="!veryLargeAmount">
-      {{totalAmount | currency}}
+      {{totalAmount | amount : currenLanguage : displayCurrency}}
     </div>
     <div class="self-center text-lg font-bold"
          [class.text-red-500]="negativeChange"

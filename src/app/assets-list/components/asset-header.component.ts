@@ -3,7 +3,8 @@ import {
   HostBinding,
   Input
 } from '@angular/core';
-import {AssetModel, Color} from '../../core';
+import {AssetModel, Color, FiatCurrencyService, Language} from '../../core';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'asset-header',
@@ -14,6 +15,11 @@ export class AssetHeaderComponent {
   @HostBinding('class') classList = 'grid grid-cols-7 grid-flow-col auto-cols-min';
 
   @Input() asset!: AssetModel;
+
+  @Input() displayCurrency!: string;
+  @Input() currenLanguage!: Language;
+
+  constructor(private fiat: FiatCurrencyService) {}
 
   get iconTextColor() {
     if (this.asset.color === Color.white) {
@@ -32,8 +38,8 @@ export class AssetHeaderComponent {
       `bg-${this.asset.color}-300 dark:bg-${this.asset.color}-400`;
   }
 
-  get rate(): number {
-    return this.asset.price.current_price || 0;
+  get rate(): Observable<number> {
+    return this.fiat.getConvertedRateBySelectedCurrency(this.asset.price.current_price!, this.displayCurrency);
   }
 
   get marketChange(): number {

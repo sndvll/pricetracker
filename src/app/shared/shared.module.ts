@@ -10,7 +10,7 @@ import {ToggleModule} from './components';
 import {DropdownMenuModule} from './components';
 import {TooltipModule} from './components';
 import {CardModule} from './components';
-import {AmountChangePipe} from './pipes';
+import {AmountChangePipe,AmountPipe} from './pipes';
 import {AccordionModule} from './components';
 import {ButtonModule} from './directives';
 import {AlertModule} from './components';
@@ -40,7 +40,8 @@ import {LoaderModule} from './components/loader/loader.module';
     LoaderModule
   ],
   declarations: [
-    AmountChangePipe
+    AmountChangePipe,
+    AmountPipe
   ],
   exports: [
     ReactiveFormsModule,
@@ -60,7 +61,8 @@ import {LoaderModule} from './components/loader/loader.module';
     AlertModule,
     SearchbarModule,
     TranslateModule,
-    LoaderModule
+    LoaderModule,
+    AmountPipe
   ]
 })
 export class SharedModule {}

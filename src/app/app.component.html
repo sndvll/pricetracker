@@ -6,28 +6,16 @@
     <button sndvll-btn="icon" (click)="refresh()">
       <icon name="refresh-ccw"></icon>
     </button>
-    <button sndvll-btn="icon">
+    <button sndvll-btn="icon" (click)="openSettings(settings)">
       <icon name="menu" weight="bold" size="1.5rem"></icon>
     </button>
   </div>
-  <total-amount [totalAmount]="totalAmount"
-                [totalAverageMarketChange]="totalAverageMarketChange"></total-amount>
+  <total-amount></total-amount>
   <crypto-searchbar (addCurrency)="addCurrency($event)"
                     (openCurrencyDetails)="openDetails($event)"></crypto-searchbar>
 </div>
 <div class="px-2 pt-2 pb-5 flex flex-col md:flex-row justify-center">
-
-  <asset-list *ngFor="let list of lists"
-              class="md:mx-2 mb-2 w-full md:w-50"
-              [id]="list.id"
-              [name]="list.name"
-              [assets]="list.assets"
-              (deleteAsset)="deleteAsset($event)"
-              (deleteList)="deleteList($event)"
-              (editAsset)="editAsset($event)"
-              (editList)="editList($event)"
-  ></asset-list>
-
+  <asset-lists></asset-lists>
   <!--<div class="flex flex-row justify-center mt-3">
     <button sndvll-btn="icon"
             [hover]="false"
@@ -37,3 +25,7 @@
     </button>
   </div>-->
 </div>
+
+<ng-template #settings>
+  <settings (onClose)="settingsModalRef?.close()"></settings>
+</ng-template>

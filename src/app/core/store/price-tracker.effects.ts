@@ -72,7 +72,7 @@ export class PriceTrackerEffects {
       return proceed;
     }),
     switchMap(([action, assetIds, lists]) =>
-      this.crypto.getMarketDataForCoins(assetIds, 'usd')
+      this.crypto.getMarketDataForCoins(assetIds, FiatCurrencyService.BaseCurrency)
         .pipe(map((marketDataResponse: AssetPrice[]) =>
           PriceTrackerActions.refreshPricesDone({
             lists: lists.map(list => {
@@ -95,7 +95,7 @@ export class PriceTrackerEffects {
   createNewList$ = createEffect(() => this.actions$.pipe(
     ofType(PriceTrackerActions.createNewList),
     switchMap(({name, asset}) =>
-      this.crypto.getMarketDataForCoins([asset.id], 'usd')
+      this.crypto.getMarketDataForCoins([asset.id], FiatCurrencyService.BaseCurrency)
         .pipe(
           map(marketDataResponse => {
 
@@ -120,7 +120,7 @@ export class PriceTrackerEffects {
     ofType(PriceTrackerActions.addNewAsset),
     withLatestFrom(this.store.select(selectLists)),
     switchMap(([{listId, asset}, lists]) =>
-      this.crypto.getMarketDataForCoins([asset.id], 'usd')
+      this.crypto.getMarketDataForCoins([asset.id], FiatCurrencyService.BaseCurrency)
         .pipe(
           map(marketDataResponse => {
             const foundList = lists.find(list => list.id === listId)!;
@@ -205,5 +205,5 @@ export class PriceTrackerEffects {
         lists: [...filteredLists, changedList]
       })
     }),
-  ))
+  ));
 }

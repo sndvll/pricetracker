@@ -3,18 +3,16 @@ import {FiatRatesDbService} from '../persistence';
 import {FreeCurrencyApiService} from '../api';
 import {DateUtils} from '../utils';
 import {catchError, map, switchMap} from 'rxjs/operators';
-import {NEVER, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, NEVER, Observable, of, Subject} from 'rxjs';
 import {FiatCurrencyResponse, CurrencyModel} from '../model';
 
 @Injectable({providedIn: 'root'})
 export class FiatCurrencyService {
 
-  private _currentRates: Subject<CurrencyModel> = new Subject<CurrencyModel>();
+  private _currentRates: Subject<CurrencyModel | null> = new BehaviorSubject<CurrencyModel | null>(null);
   public currentRates = this._currentRates.asObservable();
   public availableCurrencies = this._currentRates.asObservable()
-    .pipe(map(currency => Object.keys(currency.currencies)));
-
-  baseCurrency = 'USD';
+    .pipe(map(currency => Object.keys(currency!.currencies)));
 
   constructor(
     private db: FiatRatesDbService,
@@ -22,10 +20,10 @@ export class FiatCurrencyService {
   }
 
   public init() {
-    this.db.exists(DateUtils.today(), this.baseCurrency)
+    this.db.exists(DateUtils.today(), FiatCurrencyService.BaseCurrency)
       .pipe(switchMap(exists => {
         if (!exists) {
-          return this.loadFiatRates(this.baseCurrency);
+          return this.loadFiatRates(FiatCurrencyService.BaseCurrency);
         }
         console.log(`Fetching fiat rates from db`);
         return this.db.find(DateUtils.today());
@@ -55,7 +53,6 @@ export class FiatCurrencyService {
         }));
   }
 
-
   private _handleError(error: any, baseCurrency: string, date: string): Observable<FiatCurrencyResponse> {
     console.log('Caught error fetching fiat rates', error.error.data.error);
     if (error.error.data.error === 'no data available for this date.') {
@@ -65,5 +62,22 @@ export class FiatCurrencyService {
       return this.api.getHistoric(fromDate, toDate, baseCurrency);
     }
     return NEVER;
+  }
+
+  public getConvertedRateBySelectedCurrency(usdAmount: number, currency: string): Observable<number> {
+    return this.currentRates.pipe(
+      map(currentRates => (currentRates?.currencies[currency] || 1) * usdAmount)
+    );
+  }
+
+  public static get BaseCurrency(): string {
+    return 'USD';
+  }
+
+  public static get DisplayCurrency() {
+    return localStorage.getItem('displayCurrency') || FiatCurrencyService.BaseCurrency;
+  }
+  public static set DisplayCurrency(currency: string) {
+    localStorage.setItem('displayCurrency', currency);
   }
 }

@@ -42,7 +42,7 @@ export class ModalService {
       .type(DialogType.Modal)
       .isClosable(config.closable ?? true)
       .closeOnBackdropClick(config.closeOnBackdropClick ?? true)
-      .withBackdrop(true)
+      .withBackdrop(config.hasBackdrop)
       .backdropOpacity(config.backdropOpacity ?? '60')
       .backdropClass(config.backdropClass ?? 'bg-white dark:bg-gray-700')
       .noScroll(true)

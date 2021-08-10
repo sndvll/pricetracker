@@ -98,7 +98,25 @@ export const LANG_SV = {
     WHITE: 'Vit',
     TRANSPARENT: 'Transparent'
   },
-
+  SETTINGS: {
+    HEADER: {
+      SETTINGS: 'Inställningar',
+      LANGUAGE: 'Språk',
+      CURRENCY: 'Valuta'
+    },
+    PLACEHOLDER: {
+      LANGUAGE: 'Språk',
+      CURRENCY: 'Valuta'
+    },
+    LANGUAGE: {
+      EN: 'Engelska',
+      SV: 'Svenska'
+    },
+    BUTTON: {
+      CLOSE: 'Stäng'
+    }
+  }
+  /*
   COMPONENTS: {
     // TODO This should be configurable instead with default values,
     // to get rid of translate dependency to shared folder.
@@ -110,5 +128,5 @@ export const LANG_SV = {
         SAVE: 'Spara'
       }
     }
-  }
+  } */
 }

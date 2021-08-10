@@ -1,4 +1,4 @@
-<card class="px-2 py-1">
+<card class="px-2 py-1 mb-2">
   <div class="justify-between" cardHeader>
     <span class="font-bold text-sm">{{name}}</span>
     <button sndvll-btn="icon" #contextMenuButton (click)="openContextMenu(contextMenuButton, contextMenu)">
@@ -20,10 +20,14 @@
         [id]="asset.id"
         #item>
         <sndvll-accordion-item-header>
-          <asset-header [asset]="asset"></asset-header>
+          <asset-header [asset]="asset"
+                        [displayCurrency]="displayCurrency"
+                        [currenLanguage]="currentLanguage"></asset-header>
         </sndvll-accordion-item-header>
         <sndvll-accordion-item-content>
           <asset-body [asset]="asset"
+                      [displayCurrency]="displayCurrency"
+                      [currenLanguage]="currentLanguage"
                       (onSave)="onSaveEditedAsset($event)"
                       (onDelete)="onDeleteAsset($event)"></asset-body>
         </sndvll-accordion-item-content>

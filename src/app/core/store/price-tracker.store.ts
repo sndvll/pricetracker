@@ -1,30 +1,32 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AssetList, AssetModel, IPriceTrackerStore, NewAssetModel2} from '../model';
+import {AssetList, AssetModel, IPriceTrackerStore, NewAssetModel2, PriceTrackerState} from '../model';
 import {Store} from '@ngrx/store';
 import {
   selectLists,
   selectTotalAverageMarketChangePercentage,
   selectTotalAmount,
-  selectIsLoading
+  selectIsLoading, selectDisplayCurrency, selectState
 } from './price-tracker.selectors';
 import {PriceTrackerActions} from './price-tracker.actions';
 
 @Injectable({providedIn: 'root'})
 export class PriceTrackerStore {
 
-  //public state$: Observable<PriceTrackerState>;
+  public state$: Observable<PriceTrackerState>;
   public lists$: Observable<AssetList[]>;
   public totalAmount$: Observable<number>;
   public totalAverageMarketChangePercentage$: Observable<number>;
   public isLoading$: Observable<boolean>;
+  public displayCurrency$: Observable<string>
 
   constructor(private store: Store<IPriceTrackerStore>) {
-    //this.state$ = this.store.select(({priceTrackerState}) => priceTrackerState);
+    this.state$ = this.store.select(selectState);
     this.lists$ = this.store.select(selectLists);
     this.totalAmount$ = this.store.select(selectTotalAmount);
     this.totalAverageMarketChangePercentage$ = this.store.select(selectTotalAverageMarketChangePercentage);
     this.isLoading$ = this.store.select(selectIsLoading);
+    this.displayCurrency$ = this.store.select(selectDisplayCurrency);
     this.store.dispatch(PriceTrackerActions.initializeStarted());
   }
 
@@ -58,6 +60,10 @@ export class PriceTrackerStore {
   }
   public stopPricePolling() {
     this.store.dispatch(PriceTrackerActions.stopPricePolling());
+  }
+
+  public changeDisplayCurrency(currency: string) {
+    this.store.dispatch(PriceTrackerActions.changeDisplayCurrency({currency}))
   }
 }
 

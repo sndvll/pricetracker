@@ -24,6 +24,11 @@ module.exports = {
       }
     }
   },
+  variants: {
+    extend: {
+      invert: ['dark']
+    }
+  },
   plugins: [require('@tailwindcss/typography')({
     modifiers: ['sm']
   })],

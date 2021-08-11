@@ -45,32 +45,33 @@ FIXED BUG - Look up why the modal cant have backdrop when closed and loading is 
 DONE Collapse lists
 DONE Header, where total amount is showed.
 DONE Persist collapsed value
-TODO: Splashscreen
-  - Combined with loading, just add a different icon with the spinner (and delay it a bit)
-TODO: Logo
-TODO: App Icons
-
-TODO: Animations
-  - modal fade ins
+DONE App Icons
+DONE Splashscreen (npx pwa-asset-generator ftw)
+DONE Logo
 
 TODO: Github Pages Deploy
-TODO: Search should work with symbols
-TODO: Add asset positions
-TODO: List order
-  DONE set order manually
-  - drag n drop
 
-TODO: New User guide
+TODO BUG! -> Search should work with symbols.
+TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
+
+TODO Improvement: Animations
+  - modal fade ins
+TODO Feature: New User guide
   - Stepper component
   - Images and descriptions
   - Show again, from settings.
+TODO Feature: List order
+  DONE set order manually
+  - drag n drop
+TODO Feature: Add asset positions
 
-TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
+
+
  */
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -22,6 +22,6 @@ jobs:
     - name: Build icons lib
       run: |
             npm run icons:build
-    - name: Build application
+    - name: Build & Deploy application
       run: |
-            npm run build
+            npm run deploy

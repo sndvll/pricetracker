@@ -42,13 +42,13 @@ jobs:
         run: |
           npm run icons:build
 
-      - name: Build
-        run: |
-          npm run build
-
       - name: Run tests
         run: |
           npm run test
+
+      - name: Build
+        run: |
+          npm run build
 
       - name: Conventional Changelog Action
         id: changelog

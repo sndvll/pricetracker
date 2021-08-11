@@ -54,6 +54,8 @@ TODO: Github Pages Deploy
 TODO BUG! -> Search should work with symbols.
 TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
 
+TODO: TESTS!
+
 TODO Improvement: Animations
   - modal fade ins
 TODO Feature: New User guide
@@ -64,8 +66,6 @@ TODO Feature: List order
   DONE set order manually
   - drag n drop
 TODO Feature: Add asset positions
-
-
 
  */
 

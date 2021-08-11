@@ -36,6 +36,10 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
   }
   get disabledButton() {
     if (this.alertConfig.type === AlertType.Input) {
+      if (this.inputType === 'number') {
+        return !this.inputControl.value ||
+          this.inputControl.value === this.alertConfig.data;
+      }
       return !this.inputControl.value ||
         this.inputControl.value.toLowerCase() === this.alertConfig.data?.toLowerCase();
     }
@@ -79,6 +83,10 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  get inputType() {
+    return (typeof this.alertConfig.data) === 'number' ? 'number' : 'text';
   }
 
 }

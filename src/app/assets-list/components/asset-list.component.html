@@ -1,42 +1,61 @@
 <card class="px-2 py-1 mb-2">
-  <div class="justify-between" cardHeader>
-    <span class="font-bold text-sm">{{name}}</span>
-    <button sndvll-btn="icon" #contextMenuButton (click)="openContextMenu(contextMenuButton, contextMenu)">
-      <icon name="more-vertical"></icon>
-    </button>
-  </div>
-  <div cardContent>
-    <div class="grid grid-cols-7 grid-flow-col auto-cols-min px-2 text-xs font-bold">
-      <div class="text-right col-span-5">{{'ASSET_LIST.HEADER.RATE' | translate}}</div>
-      <div class="text-right col-span-2">{{'ASSET_LIST.HEADER.QUANTITY' | translate}}</div>
-    </div>
-
-    <sndvll-accordion>
-      <sndvll-accordion-item
-        class="block rounded select-none my-1 px-2 py-1"
-        *ngFor="let asset of assets"
-        [class.bg-gray-100]="item.expanded"
-        [class.dark:bg-gray-800]="item.expanded"
-        [id]="asset.id"
-        #item>
-        <sndvll-accordion-item-header>
-          <asset-header [asset]="asset"
-                        [displayCurrency]="displayCurrency"
-                        [currenLanguage]="currentLanguage"></asset-header>
-        </sndvll-accordion-item-header>
-        <sndvll-accordion-item-content>
-          <asset-body [asset]="asset"
-                      [displayCurrency]="displayCurrency"
-                      [currenLanguage]="currentLanguage"
-                      (onSave)="onSaveEditedAsset($event)"
-                      (onDelete)="onDeleteAsset($event)"></asset-body>
-        </sndvll-accordion-item-content>
-      </sndvll-accordion-item>
-    </sndvll-accordion>
-  </div>
+  <sndvll-accordion>
+    <sndvll-accordion-item [expanded]="expanded" (onExpandedStateChanges)="onExpand($event)">
+      <sndvll-accordion-item-header class="flex justify-between" cardHeader>
+        <div class="font-bold flex w-full justify-between">
+          <span class="text-sm">{{name}}</span>
+          <div class="flex flex-col">
+            <span class="text-xl">
+            {{(totalListAmount | async) | amount : currentLanguage : displayCurrency}}
+          </span>
+          <span class="text-xs text-right"
+                [class.text-red-500]="negativeChange"
+                [class.text-green-500]="!negativeChange">
+            {{totalListPriceChange | number : '1.2-2' | change}}
+          </span>
+          </div>
+        </div>
+        <button sndvll-btn="icon" #contextMenuButton (click)="openContextMenu($event, contextMenuButton, contextMenu)">
+          <icon name="more-vertical"></icon>
+        </button>
+      </sndvll-accordion-item-header>
+      <sndvll-accordion-item-content cardContent>
+        <div class="grid grid-cols-7 grid-flow-col auto-cols-min px-2 text-xs font-bold">
+          <div class="text-right col-span-5">{{'ASSET_LIST.HEADER.RATE' | translate}}</div>
+          <div class="text-right col-span-2">{{'ASSET_LIST.HEADER.QUANTITY' | translate}}</div>
+        </div>
+        <sndvll-accordion>
+          <sndvll-accordion-item
+            class="block rounded select-none my-1 px-2 py-1"
+            *ngFor="let asset of assets"
+            [class.bg-gray-100]="item.expanded"
+            [class.dark:bg-gray-800]="item.expanded"
+            [id]="asset.id"
+            #item>
+            <sndvll-accordion-item-header>
+              <asset-header [asset]="asset"
+                            [displayCurrency]="displayCurrency"
+                            [currentLanguage]="currentLanguage"></asset-header>
+            </sndvll-accordion-item-header>
+            <sndvll-accordion-item-content>
+              <asset-body [asset]="asset"
+                          [displayCurrency]="displayCurrency"
+                          [currentLanguage]="currentLanguage"
+                          (onSave)="onSaveEditedAsset($event)"
+                          (onDelete)="onDeleteAsset($event)"></asset-body>
+            </sndvll-accordion-item-content>
+          </sndvll-accordion-item>
+        </sndvll-accordion>
+      </sndvll-accordion-item-content>
+    </sndvll-accordion-item>
+  </sndvll-accordion>
 </card>
 
 <ng-template #contextMenu>
+  <button sndvll-dropdown-item (click)="openChangeOrderAlert()" class="text-black dark:text-white">
+    <icon name="settings"></icon>
+    <span class="ml-2"><!--{{'ASSET_LIST.CONTEXT_MENU.DELETE_LIST' | translate}}-->Set order</span>
+  </button>
   <button sndvll-dropdown-item (click)="openChangeNameAlert()" class="text-black dark:text-white">
     <icon name="edit"></icon>
     <span class="ml-2">{{'ASSET_LIST.CONTEXT_MENU.CHANGE_NAME' | translate}}</span>

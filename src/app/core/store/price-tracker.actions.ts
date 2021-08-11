@@ -38,7 +38,11 @@ export enum PriceTrackerActionTypes {
   PricePollingStopped = '[trckr] price polling stopped',
   PricePollingStoppedDone = '[trckr] price polling stopped done',
 
-  ChangeDisplayCurrencyStarted = '[trckr] change display currency',
+  ChangeDisplayCurrency= '[trckr] change display currency',
+
+  ExpandListStarted = '[trckr] expand list started',
+  ExpandListDone = '[trckr] expand list done',
+
 
 }
 
@@ -51,7 +55,7 @@ const createNewListDone = createAction(PriceTrackerActionTypes.CreateNewListDone
 const createNewListError = createAction(PriceTrackerActionTypes.CreateNewListError, props<{error: any}>())
 
 
-const editList = createAction(PriceTrackerActionTypes.EditListStarted, props<{name: string, id: string}>());
+const editList = createAction(PriceTrackerActionTypes.EditListStarted, props<{name: string, id: string, order: number}>());
 const editListDone = createAction(PriceTrackerActionTypes.EditListDone, props<{lists: AssetList[]}>());
 
 const deleteList = createAction(PriceTrackerActionTypes.DeleteListStarted, props<{id: string}>());
@@ -77,7 +81,10 @@ const startPricePollingDone = createAction(PriceTrackerActionTypes.PricePollingS
 const stopPricePolling = createAction(PriceTrackerActionTypes.PricePollingStopped);
 const stopPricePollingDone = createAction(PriceTrackerActionTypes.PricePollingStoppedDone);
 
-const changeDisplayCurrency = createAction(PriceTrackerActionTypes.ChangeDisplayCurrencyStarted, props<{currency: string}>());
+const changeDisplayCurrency = createAction(PriceTrackerActionTypes.ChangeDisplayCurrency, props<{currency: string}>());
+
+const expandList = createAction(PriceTrackerActionTypes.ExpandListStarted, props<{listId: string, expanded: boolean}>());
+const expandListDone = createAction(PriceTrackerActionTypes.ExpandListDone, props<{lists: AssetList[]}>());
 
 export const PriceTrackerActions = {
   initializeStarted,
@@ -105,5 +112,7 @@ export const PriceTrackerActions = {
   stopPricePolling,
   stopPricePollingDone,
   refreshPricesCanceled,
-  changeDisplayCurrency
+  changeDisplayCurrency,
+  expandList,
+  expandListDone
 }

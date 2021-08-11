@@ -36,15 +36,27 @@ TODO: Settings
 DONE: Currency Pipe with proper formatting and symbols
 TODO: Splashscreen
 TODO: Logo
+TODO: App Icons
 TODO: Look for a better label solution in alert component
 TODO: Animations
   - modal fade ins
-TODO: BUG - Look up why the modal cant have backdrop when closed and loading is showed.
+FIXED BUG - Look up why the modal cant have backdrop when closed and loading is showed.
+  - solution: no backdrop on loader, handle background that in the loader component instead
 TODO: 15 sec polling
 TODO: Github Pages Deploy
 TODO: Search should work with symbols
-TODO: Collapse lists
-  - Header, where total amount is showed.
+DONE Collapse lists
+  DONE Header, where total amount is showed.
+  DONE Persist collapsed value
+TODO: Add asset positions
+TODO: List order
+  DONE set order manually
+  - create one modal template instead of the alerts that is now
+  - drag n drop
+TODO: New User guide
+  - Stepper component
+  - Images and descriptions
+  - Show again, from settings.
  */
 
 @NgModule({

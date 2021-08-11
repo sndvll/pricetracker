@@ -1,10 +1,12 @@
-import {AssetList, AssetModel, AssetPrice, IPriceTrackerStore} from '../model';
+import {AssetList, AssetModel, IPriceTrackerStore} from '../model';
 import {createSelector} from '@ngrx/store';
+import {getTotalAmount, getTotalPriceChange} from '../utils';
 
 export const selectState = ({priceTrackerState}: IPriceTrackerStore) => priceTrackerState;
 export const selectLists = ({priceTrackerState}: IPriceTrackerStore) => priceTrackerState.lists;
 export const selectIsLoading = ({priceTrackerState}: IPriceTrackerStore) => priceTrackerState.isLoading;
 export const selectDisplayCurrency = ({priceTrackerState}: IPriceTrackerStore) => priceTrackerState.displayCurrency;
+export const selectNumberOfLists = ({priceTrackerState}: IPriceTrackerStore) => priceTrackerState.lists.length;
 
 export const selectAllAssets = createSelector(
   selectLists,
@@ -26,26 +28,10 @@ export const selectPrices = createSelector(
 
 export const selectTotalAmount = createSelector(
   selectAllAssets,
-  selectPrices,
-  (assets: AssetModel[], prices: AssetPrice[]) =>
-    assets.reduce((value: number, current: AssetModel): number =>
-      getCurrentPrice(current.id, prices) * current.quantity + value, 0)
+  (assets: AssetModel[]) => getTotalAmount(assets)
 );
 
 export const selectTotalAverageMarketChangePercentage = createSelector(
   selectAllAssets,
-  selectPrices,
-  (assets: AssetModel[], prices: AssetPrice[]) => {
-    const sum = assets.reduce((value: number, current: AssetModel) =>
-      value + getCurrentPriceChangePercentage(current.id, prices), 0);
-    return sum / assets.length;
-  }
+  (assets: AssetModel[]) => getTotalPriceChange(assets)
 );
-
-const getCurrentPriceChangePercentage = (id: string, prices: AssetPrice[]): number => {
-  return prices.find(price => price.id === id)?.price_change_percentage_24h || 0;
-}
-
-const getCurrentPrice = (id: string, prices: AssetPrice[]): number => {
-  return prices.find(price => price.id === id)?.current_price || 0;
-}

@@ -6,7 +6,7 @@ import {Store} from '@ngrx/store';
 import {PriceTrackerActions} from './price-tracker.actions';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import * as shortid from 'shortid';
-import {selectAllAssetIds, selectLists} from './price-tracker.selectors';
+import {selectAllAssetIds, selectLists, selectNumberOfLists} from './price-tracker.selectors';
 import {CryptoCurrencyService} from '../crypto';
 import {ListDbService} from '../persistence';
 import {FiatCurrencyService} from '../fiat';
@@ -36,7 +36,9 @@ export class PriceTrackerEffects {
             if (lists && lists.length) {
               this.store.dispatch(PriceTrackerActions.refreshPrices());
             }
-            return PriceTrackerActions.initializeDone({lists: lists || []});
+            return PriceTrackerActions.initializeDone({
+              lists: lists || []
+            });
           })
           );
     })
@@ -94,7 +96,8 @@ export class PriceTrackerEffects {
 
   createNewList$ = createEffect(() => this.actions$.pipe(
     ofType(PriceTrackerActions.createNewList),
-    switchMap(({name, asset}) =>
+    withLatestFrom(this.store.select(selectNumberOfLists)),
+    switchMap(([{name, asset}, numberOfLists]) =>
       this.crypto.getMarketDataForCoins([asset.id], FiatCurrencyService.BaseCurrency)
         .pipe(
           map(marketDataResponse => {
@@ -108,7 +111,9 @@ export class PriceTrackerEffects {
               name,
               id,
               type: AssetsType.Crypto,
-              assets: [{...asset, listId: id, price}]
+              assets: [{...asset, listId: id, price}],
+              expanded: true,
+              order: numberOfLists + 1
             }
             this.listDb.create(list);
             return PriceTrackerActions.createNewListDone({list});
@@ -147,11 +152,12 @@ export class PriceTrackerEffects {
   editList$ = createEffect(() => this.actions$.pipe(
     ofType(PriceTrackerActions.editList),
     withLatestFrom(this.store.select(selectLists)),
-    map(([{name, id}, lists]) => {
+    map(([{name, id, order}, lists]) => {
       const foundList = lists.find(list => list.id === id)!;
       const filteredLists = lists.filter(list => list.id !== id);
       const changedList = {
         ...foundList,
+        order,
         name
       }
       this.listDb.update(changedList, changedList.id);
@@ -205,5 +211,25 @@ export class PriceTrackerEffects {
         lists: [...filteredLists, changedList]
       })
     }),
+  ));
+
+  expandList$ = createEffect(() => this.actions$.pipe(
+    ofType(PriceTrackerActions.expandList),
+    withLatestFrom(this.store.select(selectLists)),
+    map(([{listId, expanded}, lists]) => {
+
+      const foundList = lists.find(list => list.id === listId)!;
+      const filteredLists = lists.filter(list => list.id !== listId);
+      const changedList = {
+        ...foundList,
+         expanded
+      };
+      this.listDb.update(changedList, changedList.id);
+
+      return PriceTrackerActions.expandListDone({
+        lists: [...filteredLists, changedList]
+          .sort()
+      })
+    })
   ));
 }

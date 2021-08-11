@@ -20,8 +20,8 @@
   </ng-container>
   <ng-container *ngSwitchCase="'input'">
     <div class="alert-content flex-col">
-      <div class="text-xs font-bold mb-1">{{alertConfig.editValueName}}</div>
-      <sndvll-input placeholder="Name" class="w-full" [formControl]="inputControl"></sndvll-input>
+      <div class="text-xs font-bold mb-1">{{alertConfig.labels.inputLabel}}</div>
+      <sndvll-input [type]="inputType" placeholder="{{alertConfig.labels.placeholder}}" class="w-full" [formControl]="inputControl"></sndvll-input>
     </div>
     <div class="alert-footer">
       <button sndvll-btn="button" class="button btn secondary" (click)="close()">{{alertConfig.labels?.close}}</button>

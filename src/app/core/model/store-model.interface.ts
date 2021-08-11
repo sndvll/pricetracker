@@ -1,14 +1,13 @@
 import {Color} from '../utils';
 import {CoinGeckoMarketDataResponse} from './api-response.interfaces';
 
-
 export interface PriceTrackerState {
   lists: AssetList[];
+  init: boolean;
   isLoading: boolean;
   displayCurrency: string
   error?: any;
 }
-
 
 export interface IPriceTrackerStore {
   priceTrackerState: PriceTrackerState;
@@ -38,4 +37,6 @@ export interface AssetList {
   type: AssetsType,
   name: string;
   assets: AssetModel[];
+  expanded: boolean;
+  order: number;
 }

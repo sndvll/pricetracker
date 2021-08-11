@@ -35,7 +35,7 @@ export class AssetBodyComponent implements OnInit {
   @Output() onDelete = new EventEmitter<string>();
 
   @Input() displayCurrency!: string;
-  @Input() currenLanguage!: Language;
+  @Input() currentLanguage!: Language;
 
   private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
 
@@ -62,7 +62,6 @@ export class AssetBodyComponent implements OnInit {
       templateRef,
       type: ModalType.Floating,
       data: this.asset,
-      hasBackdrop: false
     })
   }
 

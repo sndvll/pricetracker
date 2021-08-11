@@ -42,7 +42,9 @@ export class AddAssetComponent implements OnInit {
           .map(list => ({
             id: list.id,
             name: list.name,
-            type: list.type
+            type: list.type,
+            expanded: list.expanded,
+            order: list.order
           }));
         this.createList = !this.availableLists.length
         this.changeDetectorRef.markForCheck();

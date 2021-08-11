@@ -17,7 +17,7 @@ export class AssetHeaderComponent {
   @Input() asset!: AssetModel;
 
   @Input() displayCurrency!: string;
-  @Input() currenLanguage!: Language;
+  @Input() currentLanguage!: Language;
 
   constructor(private fiat: FiatCurrencyService) {}
 

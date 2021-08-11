@@ -1,23 +1,20 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-  TemplateRef,
-  ViewChild,
-  EventEmitter,
-} from '@angular/core';
-import {AlertService, AlertType, DropdownMenuService, ModalService, AccordionComponent} from '../../shared';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef, ViewChild,} from '@angular/core';
+import {AccordionComponent, AlertService, AlertType, DropdownMenuService} from '../../shared';
 import {debounceTime, filter, take} from 'rxjs/operators';
 import {
+  AssetModel,
   AvailableCryptoCurrency,
-  CryptoCurrencyService,
-  DialogRef,
   Color,
   Colors,
-  AssetModel,
-  LanguageService, Language
+  CryptoCurrencyService,
+  DialogRef,
+  FiatCurrencyService,
+  getTotalAmount,
+  getTotalPriceChange,
+  Language,
+  LanguageService
 } from '../../core';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'asset-list',
@@ -27,30 +24,44 @@ import {
 export class AssetListComponent {
 
   private _contextMenuRef!: DialogRef;
+  private _assets!: AssetModel[];
 
   public options: AvailableCryptoCurrency[] = [];
 
+  public totalListPriceChange!: number;
+
   @Input() id!: string;
-  @Input() assets!: AssetModel[];
   @Input() name!: string;
+  @Input() order!: number;
   @Input() displayCurrency!: string;
   @Input() currentLanguage!: Language;
+  @Input() expanded!: boolean;
+
+  @Input() set assets(assets: AssetModel[]) {
+    this.totalListPriceChange = getTotalPriceChange(assets);
+    this._assets = assets;
+  }
+  get assets(): AssetModel[] {
+    return this._assets;
+  }
 
   @Output() deleteList = new EventEmitter<string>();
-  @Output() editList = new EventEmitter<{ name: string, id: string }>();
+  @Output() editList = new EventEmitter<{ name: string, order: number, id: string }>();
   @Output() editAsset = new EventEmitter<{ asset: AssetModel }>();
   @Output() deleteAsset = new EventEmitter<{ assetId: string, listId: string }>();
+  @Output() expand = new EventEmitter<{listId: string, expanded: boolean}>();
 
   @ViewChild(AccordionComponent) accordion!: AccordionComponent;
 
   constructor(private dropdown: DropdownMenuService,
               private alert: AlertService,
-              private modal: ModalService,
               private crypto: CryptoCurrencyService,
+              private fiat: FiatCurrencyService,
               private language: LanguageService) {
   }
 
-  public openContextMenu(origin: HTMLElement, dropdown: TemplateRef<any>) {
+  public openContextMenu(event: Event,origin: HTMLElement, dropdown: TemplateRef<any>) {
+    event.stopPropagation();
     this._contextMenuRef = this.dropdown.open(origin, dropdown);
   }
 
@@ -76,9 +87,10 @@ export class AssetListComponent {
     this.alert.open<string>({
       type: AlertType.Input,
       message: this.language.translate('ALERT.CHANGE_NAME'),
-      editValueName: this.language.translate('ALERT.EDIT_VALUE_NAME'),
       data: this.name,
       labels: {
+        inputLabel: this.language.translate('ALERT.EDIT_VALUE_LABEL'),
+        placeholder: this.language.translate('ALERT.EDIT_VALUE_LABEL'),
         ok: this.language.translate('ALERT.BUTTON.OK'),
         close: this.language.translate('ALERT.BUTTON.CLOSE'),
         save: this.language.translate('ALERT.BUTTON.SAVE'),
@@ -86,7 +98,33 @@ export class AssetListComponent {
     })
       .onClose$
       .pipe(filter(v => v))
-      .subscribe(name => this.editList.emit({name, id: this.id}));
+      .subscribe(name => this.editList.emit({
+        name,
+        order: this.order,
+        id: this.id
+      }));
+  }
+
+  public openChangeOrderAlert() {
+    this.onCloseContextMenu();
+    this.alert.open<number>({
+      type: AlertType.Input,
+      message: 'Set order',
+      data: this.order || 0,
+      labels: {
+        inputLabel: 'heej',
+        placeholder: 'hej',
+        ok: this.language.translate('ALERT.BUTTON.OK'),
+        close: this.language.translate('ALERT.BUTTON.CLOSE'),
+        save: this.language.translate('ALERT.BUTTON.SAVE'),
+      }
+    })
+      .onClose$
+      .subscribe(order => this.editList.emit({
+        name: this.name,
+        order,
+        id: this.id
+      }));
   }
 
   public onSelectAssetSearch(searchPhrase: string) {
@@ -126,7 +164,19 @@ export class AssetListComponent {
     }
   }
 
+  public onExpand(expanded: boolean) {
+    this.expand.emit({expanded, listId: this.id});
+  }
+
   get colors() {
     return Colors.filter(color => color !== Color.transparent);
+  }
+
+  get totalListAmount(): Observable<number> {
+    return this.fiat.getConvertedRateBySelectedCurrency(getTotalAmount(this.assets), this.displayCurrency);
+  }
+
+  get negativeChange(): boolean{
+    return this.totalListPriceChange < 0;
   }
 }

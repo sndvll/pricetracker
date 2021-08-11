@@ -15,5 +15,4 @@ export interface ModalConfig<T = any> {
   closeOnBackdropClick?: boolean;
   closable?: boolean
   data?: T,
-  hasBackdrop: boolean
 }

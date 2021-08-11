@@ -38,8 +38,8 @@ export class PriceTrackerStore {
     this.store.dispatch(PriceTrackerActions.addNewAsset({listId, asset}));
   }
 
-  public editList(name: string, id: string) {
-    this.store.dispatch(PriceTrackerActions.editList({name, id}));
+  public editList(name: string, id: string, order: number) {
+    this.store.dispatch(PriceTrackerActions.editList({name, id, order}));
   }
   public editAsset(asset: AssetModel) {
     this.store.dispatch(PriceTrackerActions.editAsset({asset}));
@@ -64,6 +64,10 @@ export class PriceTrackerStore {
 
   public changeDisplayCurrency(currency: string) {
     this.store.dispatch(PriceTrackerActions.changeDisplayCurrency({currency}))
+  }
+
+  public expandList(listId: string, expanded: boolean) {
+    this.store.dispatch(PriceTrackerActions.expandList({listId, expanded}))
   }
 }
 

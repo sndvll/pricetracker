@@ -8,16 +8,17 @@ export enum AlertType {
   Input = 'input'
 }
 
-export interface AlertConfig {
-  type: AlertType,
-  message: string,
-  editValueName?: string,
-  data?: string,
-  labels?: {
+export interface AlertConfig<D = any> {
+  type: AlertType;
+  message: string;
+  data?: D;
+  labels: {
     ok?: string;
     close?: string;
     save?: string;
     warning?: string;
+    placeholder?: string;
+    inputLabel?: string,
   }
 }
 

@@ -10,13 +10,16 @@ import {Subject} from 'rxjs';
                 class="md:mx-2 mb-2 w-full md:w-50"
                 [id]="list.id"
                 [name]="list.name"
+                [order]="list.order"
                 [assets]="list.assets"
                 [displayCurrency]="displayCurrency"
+                [expanded]="list.expanded"
                 [currentLanguage]="currentLanguage"
                 (deleteAsset)="deleteAsset($event)"
                 (deleteList)="deleteList($event)"
                 (editAsset)="editAsset($event)"
                 (editList)="editList($event)"
+                (expand)="expand($event)"
     ></asset-list>`
 })
 export class AssetListsComponent implements OnInit, OnDestroy {
@@ -49,8 +52,8 @@ export class AssetListsComponent implements OnInit, OnDestroy {
     this.store.editAsset(asset);
   }
 
-  public editList({name, id}: { name: string; id: string }) {
-    this.store.editList(name, id);
+  public editList({name, id, order}: { name: string; id: string, order: number}) {
+    this.store.editList(name, id, order);
   }
 
   public deleteAsset({assetId, listId}: { assetId: string; listId: string }) {
@@ -59,6 +62,10 @@ export class AssetListsComponent implements OnInit, OnDestroy {
 
   public deleteList(id: string) {
     this.store.deleteList(id);
+  }
+
+  public expand({expanded, listId}: {expanded: boolean, listId: string}) {
+    this.store.expandList(listId, expanded);
   }
 
   ngOnDestroy() {

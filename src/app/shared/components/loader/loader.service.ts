@@ -11,15 +11,14 @@ export class LoaderService {
   constructor(private dialog: DialogService) {}
 
   show(backdrop: boolean, opacity: Opacity): void {
+    const bgColor = backdrop ? 'bg-white dark:bg-gray-600' : 'bg-transparent'
+    const classes = `text-red-400 dark:text-red-200 ${bgColor} opacity-${opacity}`
     const config = new GlobalDialogConfigBuilder<LoaderComponent, never>()
       .component(LoaderComponent)
       .type(DialogType.Full)
-      .classes('text-red-400')
-      .backdropClass('bg-white')
+      .classes(classes)
       .isClosable(false)
-      .closeOnBackdropClick(false)
-      .withBackdrop(backdrop)
-      .backdropOpacity(opacity)
+      .withBackdrop(false)
       .config;
 
     if (this._dialogRef) {

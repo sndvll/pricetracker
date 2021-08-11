@@ -40,12 +40,11 @@ export class AppComponent implements OnInit {
         this.refresh();
       });
 
-    this.store.isLoading$
-      .pipe(
-        takeUntil(this._onDestroy),)
-      .subscribe(isLoading => {
-        isLoading ? this.loader.show(true, '50') : this.loader.dismiss();
-      });
+    this.store.state$
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(({isLoading, init,}) => {
+        isLoading ? this.loader.show(true, init ? '100' : '50') : this.loader.dismiss();
+      })
   }
 
   public refresh() {
@@ -64,7 +63,6 @@ export class AppComponent implements OnInit {
     this.settingsModalRef = this.modal.open({
       type: ModalType.Right,
       templateRef: settingsTemplate,
-      hasBackdrop: true
     });
   }
 

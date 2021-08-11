@@ -6,10 +6,14 @@ import {FiatCurrencyService} from '../fiat';
 const initState = (): PriceTrackerState => ({
   lists: [],
   isLoading: true,
-  displayCurrency: FiatCurrencyService.DisplayCurrency
+  displayCurrency: FiatCurrencyService.DisplayCurrency,
+  init: true
 });
 
-const commonDoneReducer = (state: PriceTrackerState, {lists}: {lists: AssetList[]}) => ({...state, lists, isLoading: false});
+const sort = (a: AssetList, b: AssetList) => a.order - b.order;
+
+const commonDoneReducer = (state: PriceTrackerState, {lists}: {lists: AssetList[]}) =>
+  ({...state, lists: [...lists].sort(sort), isLoading: false, init: false});
 const commonStartedReducer = (state: PriceTrackerState) => ({...state, isLoading: true});
 const changeDisplayCurrencyReducer = (state: PriceTrackerState, {currency}: {currency: string}) => {
   FiatCurrencyService.DisplayCurrency = currency;
@@ -24,7 +28,7 @@ const reducer = createReducer(initState(),
     ({...state, isLoading: false})),
   on(PriceTrackerActions.createNewList, commonStartedReducer),
   on(PriceTrackerActions.createNewListDone, (state, {list}) =>
-    ({...state, isLoading: false, lists: [...state.lists, list]})),
+    ({...state, isLoading: false, lists: [...state.lists, list].sort(sort)})),
   on(PriceTrackerActions.addNewAsset, commonStartedReducer),
   on(PriceTrackerActions.addNewAssetDone, commonDoneReducer),
   on(PriceTrackerActions.editList, commonStartedReducer),
@@ -35,7 +39,8 @@ const reducer = createReducer(initState(),
   on(PriceTrackerActions.editAssetDone, commonDoneReducer),
   on(PriceTrackerActions.deleteAsset, commonStartedReducer),
   on(PriceTrackerActions.deleteAssetDone, commonDoneReducer),
-  on(PriceTrackerActions.changeDisplayCurrency, changeDisplayCurrencyReducer)
+  on(PriceTrackerActions.changeDisplayCurrency, changeDisplayCurrencyReducer),
+  on(PriceTrackerActions.expandListDone, commonDoneReducer)
 );
 
 

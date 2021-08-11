@@ -7,7 +7,7 @@ module.exports = {
       './purgecss-safelist.txt'
     ],
   },
-  darkMode: 'class', // or 'media' or 'class'
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
     container: {
       center: true

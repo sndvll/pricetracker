@@ -64,10 +64,10 @@ export class AccordionItemComponent {
   set expanded(value: boolean) {
     if (this._expanded !== value) {
       this._expanded = value;
-      this.onExpandedStateChanges.next(value);
       this.changeDetectorRef.markForCheck();
     }
   }
+
   get expanded() {
     return this._expanded;
   }
@@ -80,14 +80,17 @@ export class AccordionItemComponent {
 
   public toggle() {
     this.expanded = !this.expanded;
+    this.onExpandedStateChanges.emit(this.expanded);
   }
 
   public expand() {
     this.expanded = true;
+    this.onExpandedStateChanges.emit(this.expanded);
   }
 
   public collapse() {
     this.expanded = false;
+    this.onExpandedStateChanges.emit(this.expanded);
   }
 }
 

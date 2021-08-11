@@ -2,7 +2,7 @@ export const LANG_SV = {
   ALERT: {
     CHANGE_NAME: 'Ange ett nytt namn',
     DELETE: 'Vill du verkligen ta bort detta?',
-    EDIT_VALUE_NAME: 'Namn',
+    EDIT_VALUE_LABEL: 'Namn',
     WARNING_MESSAGE: 'Jag förstår att detta inte går att ångra!',
     BUTTON: {
       OK: 'OK',

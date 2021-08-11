@@ -1,0 +1,25 @@
+name: Run tests for develop branch
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build-and-run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install
+        run: |
+          npm install
+      - name: Build icons lib
+        run: |
+          npm run icons:build
+      - name: Run tests
+        run: |
+          npm run test

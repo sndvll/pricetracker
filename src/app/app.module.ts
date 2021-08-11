@@ -48,13 +48,14 @@ DONE Persist collapsed value
 DONE App Icons
 DONE Splashscreen (npx pwa-asset-generator ftw)
 DONE Logo
+DONE Github Pages Deploy (angular-cli-ghpages schematic ftw)
 
-TODO: Github Pages Deploy ()
 
 TODO BUG! -> Search should work with symbols.
 TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
 TODO BUG! -> When new database initialized, hide total amount component
 
+TODO: Replace karma with jest
 TODO: TESTS!
 
 TODO: Desktop layout

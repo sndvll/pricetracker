@@ -2,7 +2,7 @@
 
 describe('app tests', () => {
   it('should just pass', () => {
-    expect(true).toBeTrue();
+    expect(true).toBeTruthy();
   })
   /*
   beforeEach(async () => {

@@ -1,49 +1,57 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef, ViewChild,} from '@angular/core';
-import {AccordionComponent, AlertService, AlertType, DropdownMenuService} from '../../shared';
-import {debounceTime, filter, take} from 'rxjs/operators';
 import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+} from '@angular/core';
+import {
+  AlertService,
+  AlertType,
+  DropdownMenuService,
+  ModalComponent,
+  ModalConfig,
+  ModalService,
+  ModalType
+} from '../../shared';
+import {filter} from 'rxjs/operators';
+import {
+  AssetList,
   AssetModel,
   AvailableCryptoCurrency,
   Color,
   Colors,
-  CryptoCurrencyService,
   DialogRef,
   FiatCurrencyService,
   getTotalAmount,
-  getTotalPriceChange,
+  getTotalPriceChange, initialValueChangedValidator,
   Language,
   LanguageService
 } from '../../core';
 import {Observable} from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'asset-list',
   templateUrl: './asset-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssetListComponent {
+export class AssetListComponent implements OnInit {
 
-  private _contextMenuRef!: DialogRef;
-  private _assets!: AssetModel[];
+  private _contextMenuRef!: DialogRef | null;
+  private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
+  private _list!: AssetList;
 
   public options: AvailableCryptoCurrency[] = [];
 
-  public totalListPriceChange!: number;
+  @Input() set list(list: AssetList) {
+    this._list = list;
+  }
 
-  @Input() id!: string;
-  @Input() name!: string;
-  @Input() order!: number;
   @Input() displayCurrency!: string;
   @Input() currentLanguage!: Language;
-  @Input() expanded!: boolean;
-
-  @Input() set assets(assets: AssetModel[]) {
-    this.totalListPriceChange = getTotalPriceChange(assets);
-    this._assets = assets;
-  }
-  get assets(): AssetModel[] {
-    return this._assets;
-  }
 
   @Output() deleteList = new EventEmitter<string>();
   @Output() editList = new EventEmitter<{ name: string, order: number, id: string }>();
@@ -51,13 +59,22 @@ export class AssetListComponent {
   @Output() deleteAsset = new EventEmitter<{ assetId: string, listId: string }>();
   @Output() expand = new EventEmitter<{listId: string, expanded: boolean}>();
 
-  @ViewChild(AccordionComponent) accordion!: AccordionComponent;
+  public editModalForm!: FormGroup;
 
   constructor(private dropdown: DropdownMenuService,
               private alert: AlertService,
-              private crypto: CryptoCurrencyService,
+              private modal: ModalService,
+              private formBuilder: FormBuilder,
               private fiat: FiatCurrencyService,
               private language: LanguageService) {
+  }
+
+  ngOnInit() {
+    this.editModalForm = this.formBuilder.group({
+      name: [this.name, Validators.required],
+      order: [this.list.order, Validators.required]
+    });
+    this.editModalForm.setValidators(initialValueChangedValidator(this.editModalForm.value));
   }
 
   public openContextMenu(event: Event,origin: HTMLElement, dropdown: TemplateRef<any>) {
@@ -66,88 +83,14 @@ export class AssetListComponent {
   }
 
   public openDeleteListAlert(): void {
-    this.onCloseContextMenu();
+    this.closeContextMenu();
     this.alert.open<boolean>({
       type: AlertType.Warning,
       message: this.language.translate('ALERT.DELETE_LIST'),
-      labels: {
-        ok: this.language.translate('ALERT.BUTTON.OK'),
-        close: this.language.translate('ALERT.BUTTON.CLOSE'),
-        save: this.language.translate('ALERT.BUTTON.SAVE'),
-        warning: this.language.translate('ALERT.WARNING_MESSAGE'),
-      }
     })
       .onClose$
       .pipe(filter(v => v))
       .subscribe(() => this.deleteList.emit(this.id));
-  }
-
-  public openChangeNameAlert() {
-    this.onCloseContextMenu();
-    this.alert.open<string>({
-      type: AlertType.Input,
-      message: this.language.translate('ALERT.CHANGE_NAME'),
-      data: this.name,
-      labels: {
-        inputLabel: this.language.translate('ALERT.EDIT_VALUE_LABEL'),
-        placeholder: this.language.translate('ALERT.EDIT_VALUE_LABEL'),
-        ok: this.language.translate('ALERT.BUTTON.OK'),
-        close: this.language.translate('ALERT.BUTTON.CLOSE'),
-        save: this.language.translate('ALERT.BUTTON.SAVE'),
-      }
-    })
-      .onClose$
-      .pipe(filter(v => v))
-      .subscribe(name => this.editList.emit({
-        name,
-        order: this.order,
-        id: this.id
-      }));
-  }
-
-  public openChangeOrderAlert() {
-    this.onCloseContextMenu();
-    this.alert.open<number>({
-      type: AlertType.Input,
-      message: 'Set order',
-      data: this.order || 0,
-      labels: {
-        inputLabel: 'heej',
-        placeholder: 'hej',
-        ok: this.language.translate('ALERT.BUTTON.OK'),
-        close: this.language.translate('ALERT.BUTTON.CLOSE'),
-        save: this.language.translate('ALERT.BUTTON.SAVE'),
-      }
-    })
-      .onClose$
-      .subscribe(order => this.editList.emit({
-        name: this.name,
-        order,
-        id: this.id
-      }));
-  }
-
-  public onSelectAssetSearch(searchPhrase: string) {
-    if (searchPhrase) {
-      this.crypto.search(searchPhrase.trim(), 'name', 100)
-        .pipe(
-          take(1),
-          debounceTime(50)
-        )
-        .subscribe(currencies => {
-          if (currencies.length) {
-            this.options = currencies;
-          } else {
-            this.options = [];
-          }
-        });
-    } else {
-      this.options = [];
-    }
-  }
-
-  public onSelectAssetClose() {
-    this.options = [];
   }
 
   public onSaveEditedAsset(asset: AssetModel) {
@@ -158,9 +101,31 @@ export class AssetListComponent {
     this.deleteAsset.emit({assetId, listId: this.id});
   }
 
-  public onCloseContextMenu() {
+  public closeContextMenu() {
     if (this._contextMenuRef) {
       this._contextMenuRef.close();
+      this._contextMenuRef = null;
+    }
+  }
+
+  public openEditModal(templateRef: TemplateRef<any>) {
+    this.closeContextMenu();
+    this._modalRef = this.modal.open({
+      templateRef,
+      type: ModalType.Floating
+    });
+  }
+
+  public onSaveEditedList() {
+    const {name, order} = this.editModalForm.value;
+    this.editList.emit({name, order, id: this.id});
+    this.closeSettings();
+  }
+
+  public closeSettings() {
+    if (this._modalRef) {
+      this._modalRef.close();
+      this._modalRef = null;
     }
   }
 
@@ -176,7 +141,26 @@ export class AssetListComponent {
     return this.fiat.getConvertedRateBySelectedCurrency(getTotalAmount(this.assets), this.displayCurrency);
   }
 
+  get totalListPriceChange(): number {
+    return getTotalPriceChange(this.list.assets);
+  }
+
   get negativeChange(): boolean{
     return this.totalListPriceChange < 0;
+  }
+  get assets(): AssetModel[] {
+    return this.list.assets;
+  }
+  get id() {
+    return this.list.id;
+  }
+  get name() {
+    return this.list.name;
+  }
+  get list() {
+    return this._list;
+  }
+  get expanded() {
+    return this.list.expanded;
   }
 }

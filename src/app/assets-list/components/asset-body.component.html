@@ -4,7 +4,7 @@
 </div>
 <div class="grid grid-cols-7 grid-flow-col auto-cols-min">
   <div class="col-span-3 flex flex-row">
-    <button sndvll-btn="icon" (click)="openEditModal(editWindow)">
+    <button sndvll-btn="icon" (click)="openEditModal(editModal)">
       <icon name="edit"></icon>
     </button>
     <button sndvll-btn="icon" [disabled]="true">
@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<ng-template #editWindow>
+<ng-template #editModal>
   <div class="p-6">
     <div class="justify-between" modalHeader>
       <span class="text-lg font-bold">{{asset.name}}</span>
@@ -35,11 +35,11 @@
         <sndvll-input formControlName="quantity"
                       type="number"
                       class="mb-2 my-1"
-                      placeholder="Quantity"></sndvll-input>
+                      placeholder="{{'ASSET_BODY.HEADER.QUANTITY' | translate}}"></sndvll-input>
         <div class="text-xs font-bold">{{'ASSET_BODY.HEADER.COLOR' | translate}}</div>
         <sndvll-select formControlName="color"
                        class="my-1"
-                       placeholder="Color"
+                       placeholder="{{'ASSET_BODY.HEADER.COLOR' | translate}}"
                        [clearable]="false">
           <sndvll-select-option *ngFor="let color of colors" [value]="color">
             <div *selectLabel>

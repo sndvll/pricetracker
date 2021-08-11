@@ -52,16 +52,42 @@
 </card>
 
 <ng-template #contextMenu>
-  <button sndvll-dropdown-item (click)="openChangeOrderAlert()" class="text-black dark:text-white">
-    <icon name="settings"></icon>
-    <span class="ml-2"><!--{{'ASSET_LIST.CONTEXT_MENU.DELETE_LIST' | translate}}-->Set order</span>
-  </button>
-  <button sndvll-dropdown-item (click)="openChangeNameAlert()" class="text-black dark:text-white">
+  <button sndvll-dropdown-item (click)="openEditModal(editModal)" class="text-black dark:text-white">
     <icon name="edit"></icon>
-    <span class="ml-2">{{'ASSET_LIST.CONTEXT_MENU.CHANGE_NAME' | translate}}</span>
+    <span class="ml-2"><!--{{'ASSET_LIST.CONTEXT_MENU.DELETE_LIST' | translate}}-->Inställningar</span>
   </button>
   <button sndvll-dropdown-item (click)="openDeleteListAlert()" class="text-red-400 dark:text-red-400">
     <icon name="trash-2"></icon>
     <span class="ml-2">{{'ASSET_LIST.CONTEXT_MENU.DELETE_LIST' | translate}}</span>
   </button>
+</ng-template>
+
+<ng-template #editModal>
+  <div class="p-6">
+    <div class="justify-between" modalHeader>
+      <span class="text-lg font-bold">{{name}}</span>
+      <icon name="edit" size="2rem" class="text-green-400"></icon>
+    </div>
+    <div modalContent>
+      <form [formGroup]="editModalForm">
+        <div class="text-xs font-bold">Namn</div>
+        <sndvll-input formControlName="name"
+                      placeholder="Namn"
+                      class="mb-2 my-1"
+                      type="text">
+        </sndvll-input>
+        <div class="text-xs font-bold">Ordning</div>
+        <sndvll-input formControlName="order"
+                      placeholder="Ordning"
+                      class="mb-2 my-1"
+                      type="number">
+        </sndvll-input>
+      </form>
+    </div>
+    <div class="justify-between flex-col" modalFooter>
+      <button sndvll-btn="button" class="success mb-2"
+              (click)="onSaveEditedList()">Spara</button>
+      <button sndvll-btn="button" class="secondary" (click)="closeSettings()">Stäng</button>
+    </div>
+  </div>
 </ng-template>

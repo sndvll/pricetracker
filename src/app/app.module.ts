@@ -27,32 +27,39 @@ import {SettingsModule} from './settings';
 DONE: Pull to refresh
 DONE: Loading
 DONE: Translations
-TODO: Settings
+DONE Settings
   - DONE Select Language
   - Select Display Currency
     - DONE add selector with available currencies
     - DONE Listen to changes and calculate correct amount
-    - Add labels to currencies
+    - DONE labels to currencies
 DONE: Currency Pipe with proper formatting and symbols
-TODO: Splashscreen
-TODO: Logo
-TODO: App Icons
-TODO: Look for a better label solution in alert component
-TODO: Animations
-  - modal fade ins
+DONE Look for a better label solution in alert component
+  - went back to having dependency on translate pipe in alert, also removed the input type of alert. now only warnings (with action)
+    and info alerts are available.
+  - DONE use modals for where input is needed, and remove the "input" type alert (closes the asset settings task as well).
+DONE Asset settings
+  - create one modal template instead of the alerts that is now
 FIXED BUG - Look up why the modal cant have backdrop when closed and loading is showed.
   - solution: no backdrop on loader, handle background that in the loader component instead
-TODO: 15 sec polling
+DONE Collapse lists
+DONE Header, where total amount is showed.
+DONE Persist collapsed value
+TODO: Splashscreen
+  - Combined with loading, just add a different icon with the spinner (and delay it a bit)
+TODO: Logo
+TODO: App Icons
+
+TODO: Animations
+  - modal fade ins
+
 TODO: Github Pages Deploy
 TODO: Search should work with symbols
-DONE Collapse lists
-  DONE Header, where total amount is showed.
-  DONE Persist collapsed value
 TODO: Add asset positions
 TODO: List order
   DONE set order manually
-  - create one modal template instead of the alerts that is now
   - drag n drop
+
 TODO: New User guide
   - Stepper component
   - Images and descriptions

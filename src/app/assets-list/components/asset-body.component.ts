@@ -60,8 +60,7 @@ export class AssetBodyComponent implements OnInit {
   public openEditModal(templateRef: TemplateRef<any>) {
     this._modalRef = this.modal.open({
       templateRef,
-      type: ModalType.Floating,
-      data: this.asset,
+      type: ModalType.Floating
     })
   }
 
@@ -69,13 +68,7 @@ export class AssetBodyComponent implements OnInit {
     this.close();
     this.alert.open<boolean>({
       type: AlertType.Warning,
-      message: this.language.translate('ALERT.DELETE'),
-      labels: {
-        ok: this.language.translate('ALERT.BUTTON.OK'),
-        close: this.language.translate('ALERT.BUTTON.CLOSE'),
-        save: this.language.translate('ALERT.BUTTON.SAVE'),
-        warning: this.language.translate('ALERT.WARNING_MESSAGE'),
-      }
+      message: this.language.translate('ALERT.DELETE_ASSET'),
     })
       .onClose$
       .pipe(filter(v => v))

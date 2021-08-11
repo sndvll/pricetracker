@@ -5,21 +5,12 @@ import {AlertComponent} from './alert.component';
 export enum AlertType {
   Info = 'info',
   Warning = 'warning',
-  Input = 'input'
 }
 
 export interface AlertConfig<D = any> {
   type: AlertType;
   message: string;
   data?: D;
-  labels: {
-    ok?: string;
-    close?: string;
-    save?: string;
-    warning?: string;
-    placeholder?: string;
-    inputLabel?: string,
-  }
 }
 
 @Injectable({providedIn: 'root'})

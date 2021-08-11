@@ -22,7 +22,6 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
   private _onDestroy = new Subject<void>();
   private _disabledButton = true;
 
-  public inputControl: FormControl;
   public toggleControl: FormControl;
   public alertConfig!: AlertConfig;
 
@@ -35,14 +34,6 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
     this.changeDetectorRef.markForCheck();
   }
   get disabledButton() {
-    if (this.alertConfig.type === AlertType.Input) {
-      if (this.inputType === 'number') {
-        return !this.inputControl.value ||
-          this.inputControl.value === this.alertConfig.data;
-      }
-      return !this.inputControl.value ||
-        this.inputControl.value.toLowerCase() === this.alertConfig.data?.toLowerCase();
-    }
     return this._disabledButton;
   }
 
@@ -50,7 +41,6 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
     return {
       [AlertType.Info]: 'text-gray-300',
       [AlertType.Warning]: 'text-red-400',
-      [AlertType.Input]: 'text-green-400',
     }[this.alertConfig.type];
 
   }
@@ -59,14 +49,12 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
     return {
       [AlertType.Info]: 'info',
       [AlertType.Warning]: 'alert-triangle',
-      [AlertType.Input]: 'edit',
     }[this.alertConfig.type];
   }
 
   constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<AlertComponent<D>, AlertConfig>,
               private changeDetectorRef: ChangeDetectorRef) {
     this.alertConfig = dialogRef.config.data!;
-    this.inputControl = new FormControl(this.alertConfig.data ?? '');
     this.toggleControl = new FormControl(false);
   }
 
@@ -83,10 +71,6 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
-  }
-
-  get inputType() {
-    return (typeof this.alertConfig.data) === 'number' ? 'number' : 'text';
   }
 
 }

@@ -34,9 +34,8 @@ export const LANG_SV = {
     ZAR: 'Rand'
   },
   ALERT: {
-    CHANGE_NAME: 'Ange ett nytt namn',
-    DELETE: 'Vill du verkligen ta bort detta?',
-    EDIT_VALUE_LABEL: 'Namn',
+    DELETE_LIST: 'Vill du verkligen ta bort denna lista?',
+    DELETE_ASSET: 'Vill du verkligen ta bort denna tillgång?',
     WARNING_MESSAGE: 'Jag förstår att detta inte går att ångra!',
     BUTTON: {
       OK: 'OK',

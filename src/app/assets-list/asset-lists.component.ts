@@ -8,12 +8,8 @@ import {Subject} from 'rxjs';
   template: `
     <asset-list *ngFor="let list of lists"
                 class="md:mx-2 mb-2 w-full md:w-50"
-                [id]="list.id"
-                [name]="list.name"
-                [order]="list.order"
-                [assets]="list.assets"
+                [list]="list"
                 [displayCurrency]="displayCurrency"
-                [expanded]="list.expanded"
                 [currentLanguage]="currentLanguage"
                 (deleteAsset)="deleteAsset($event)"
                 (deleteList)="deleteList($event)"

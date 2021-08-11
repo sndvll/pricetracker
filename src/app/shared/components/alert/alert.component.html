@@ -8,31 +8,19 @@
 <ng-container [ngSwitch]="alertConfig.type">
   <ng-container *ngSwitchCase="'warning'">
     <div class="alert-content">
-      <sndvll-toggle [formControl]="toggleControl" [color]="Color.red">{{alertConfig.labels?.warning}}</sndvll-toggle>
+      <sndvll-toggle [formControl]="toggleControl" [color]="Color.red">{{'ALERT.WARNING_MESSAGE' | translate}}</sndvll-toggle>
     </div>
     <div class="alert-footer">
       <button sndvll-btn="button" class="button btn secondary"
-              (click)="close(false)">{{alertConfig.labels?.close}}</button>
+              (click)="close(false)">{{'ALERT.BUTTON.CLOSE' | translate}}</button>
       <button sndvll-btn="button" class="button btn danger"
               [disabled]="disabledButton"
-              (click)="close(true)">{{alertConfig.labels?.ok}}</button>
-    </div>
-  </ng-container>
-  <ng-container *ngSwitchCase="'input'">
-    <div class="alert-content flex-col">
-      <div class="text-xs font-bold mb-1">{{alertConfig.labels.inputLabel}}</div>
-      <sndvll-input [type]="inputType" placeholder="{{alertConfig.labels.placeholder}}" class="w-full" [formControl]="inputControl"></sndvll-input>
-    </div>
-    <div class="alert-footer">
-      <button sndvll-btn="button" class="button btn secondary" (click)="close()">{{alertConfig.labels?.close}}</button>
-      <button sndvll-btn="button" class="button btn success"
-              [disabled]="disabledButton"
-              (click)="close(inputControl.value)">{{alertConfig.labels?.save}}</button>
+              (click)="close(true)">{{'ALERT.BUTTON.OK' | translate}}</button>
     </div>
   </ng-container>
   <ng-container *ngSwitchDefault>
     <div class="alert-footer">
-      <button sndvll-btn="button" class="button btn secondary" (click)="close()">{{alertConfig.labels?.ok}}</button>
+      <button sndvll-btn="button" class="button btn secondary" (click)="close()">{{'ALERT.BUTTON.OK' | translate}}</button>
     </div>
   </ng-container>
 </ng-container>

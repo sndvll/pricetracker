@@ -34,9 +34,8 @@ export const LANG_EN = {
     ZAR: 'South African rand'
   },
   ALERT: {
-    CHANGE_NAME: 'Enter a new name',
-    DELETE: 'Do you really want to delete this?',
-    EDIT_VALUE_NAME: 'Name',
+    DELETE_LIST: 'Do you really want to delete this list?',
+    DELETE_ASSET: 'Do you really want to delete this asset?',
     WARNING_MESSAGE: 'I understand that this can not be undone!',
     BUTTON: {
       OK: 'OK',

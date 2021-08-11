@@ -64,6 +64,8 @@ TODO: New User guide
   - Stepper component
   - Images and descriptions
   - Show again, from settings.
+
+TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
  */
 
 @NgModule({

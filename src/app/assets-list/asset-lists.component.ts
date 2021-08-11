@@ -9,6 +9,7 @@ import {Subject} from 'rxjs';
     <asset-list *ngFor="let list of lists"
                 class="md:mx-2 mb-2 w-full md:w-50"
                 [list]="list"
+                [numberOfLists]="lists.length"
                 [displayCurrency]="displayCurrency"
                 [currentLanguage]="currentLanguage"
                 (deleteAsset)="deleteAsset($event)"

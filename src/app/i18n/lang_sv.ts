@@ -61,8 +61,22 @@ export const LANG_SV = {
       QUANTITY: 'Antal'
     },
     CONTEXT_MENU: {
-      CHANGE_NAME: 'Redigera namn',
+      EDIT_LIST: 'Redigera lista',
       DELETE_LIST: 'Ta bort lista'
+    },
+    EDIT_LIST_MODAL: {
+      LABEL: {
+        NAME: 'Namn',
+        ORDER: 'Ordning'
+      },
+      PLACEHOLDER: {
+        NAME: 'Namn',
+        ORDER: 'Ordning'
+      },
+      BUTTON: {
+        SAVE: 'Spara',
+        CLOSE: 'Stäng'
+      }
     }
   },
   CRYPTO_SEARCH_BAR: {

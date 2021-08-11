@@ -54,7 +54,7 @@
 <ng-template #contextMenu>
   <button sndvll-dropdown-item (click)="openEditModal(editModal)" class="text-black dark:text-white">
     <icon name="edit"></icon>
-    <span class="ml-2"><!--{{'ASSET_LIST.CONTEXT_MENU.DELETE_LIST' | translate}}-->Inställningar</span>
+    <span class="ml-2">{{'ASSET_LIST.CONTEXT_MENU.EDIT_LIST' | translate}}</span>
   </button>
   <button sndvll-dropdown-item (click)="openDeleteListAlert()" class="text-red-400 dark:text-red-400">
     <icon name="trash-2"></icon>
@@ -70,24 +70,26 @@
     </div>
     <div modalContent>
       <form [formGroup]="editModalForm">
-        <div class="text-xs font-bold">Namn</div>
+        <div class="text-xs font-bold">{{'ASSET_LIST.EDIT_LIST_MODAL.LABEL.NAME' | translate}}</div>
         <sndvll-input formControlName="name"
-                      placeholder="Namn"
+                      placeholder="{{'ASSET_LIST.EDIT_LIST_MODAL.PLACEHOLDER.NAME' | translate}}"
                       class="mb-2 my-1"
                       type="text">
         </sndvll-input>
-        <div class="text-xs font-bold">Ordning</div>
-        <sndvll-input formControlName="order"
-                      placeholder="Ordning"
-                      class="mb-2 my-1"
-                      type="number">
-        </sndvll-input>
+        <div class="text-xs font-bold">{{'ASSET_LIST.EDIT_LIST_MODAL.LABEL.ORDER' | translate}}</div>
+        <sndvll-select formControlName="order"
+                       placeholder="{{'ASSET_LIST.EDIT_LIST_MODAL.PLACEHOLDER.ORDER' | translate}}">
+          <sndvll-select-option *ngFor="let option of orderOptions"
+                                [value]="option">
+            <div *selectLabel>{{option}}</div>
+          </sndvll-select-option>
+        </sndvll-select>
       </form>
     </div>
     <div class="justify-between flex-col" modalFooter>
       <button sndvll-btn="button" class="success mb-2"
-              (click)="onSaveEditedList()">Spara</button>
-      <button sndvll-btn="button" class="secondary" (click)="closeSettings()">Stäng</button>
+              (click)="onSaveEditedList()">{{'ASSET_LIST.EDIT_LIST_MODAL.BUTTON.SAVE' | translate}}</button>
+      <button sndvll-btn="button" class="secondary" (click)="closeEditModal()">{{'ASSET_LIST.EDIT_LIST_MODAL.BUTTON.CLOSE' | translate}}</button>
     </div>
   </div>
 </ng-template>

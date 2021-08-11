@@ -41,7 +41,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AssetListComponent implements OnInit {
 
   private _contextMenuRef!: DialogRef | null;
-  private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
+  private _editModalRef!: DialogRef<ModalComponent, ModalConfig> | null;
   private _list!: AssetList;
 
   public options: AvailableCryptoCurrency[] = [];
@@ -52,6 +52,7 @@ export class AssetListComponent implements OnInit {
 
   @Input() displayCurrency!: string;
   @Input() currentLanguage!: Language;
+  @Input() numberOfLists!: number;
 
   @Output() deleteList = new EventEmitter<string>();
   @Output() editList = new EventEmitter<{ name: string, order: number, id: string }>();
@@ -110,7 +111,7 @@ export class AssetListComponent implements OnInit {
 
   public openEditModal(templateRef: TemplateRef<any>) {
     this.closeContextMenu();
-    this._modalRef = this.modal.open({
+    this._editModalRef = this.modal.open({
       templateRef,
       type: ModalType.Floating
     });
@@ -119,13 +120,13 @@ export class AssetListComponent implements OnInit {
   public onSaveEditedList() {
     const {name, order} = this.editModalForm.value;
     this.editList.emit({name, order, id: this.id});
-    this.closeSettings();
+    this.closeEditModal();
   }
 
-  public closeSettings() {
-    if (this._modalRef) {
-      this._modalRef.close();
-      this._modalRef = null;
+  public closeEditModal() {
+    if (this._editModalRef) {
+      this._editModalRef.close();
+      this._editModalRef = null;
     }
   }
 
@@ -162,5 +163,10 @@ export class AssetListComponent implements OnInit {
   }
   get expanded() {
     return this.list.expanded;
+  }
+
+  get orderOptions(): number[] {
+    return Array.from(Array(this.numberOfLists).keys())
+      .map(v => v + 1);
   }
 }

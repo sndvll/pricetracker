@@ -61,9 +61,24 @@ export const LANG_EN = {
       QUANTITY: 'Quantity'
     },
     CONTEXT_MENU: {
-      CHANGE_NAME: 'Change name',
+      EDIT_LIST: 'Edit list',
       DELETE_LIST: 'Delete list'
     },
+    EDIT_LIST_MODAL: {
+      LABEL: {
+        NAME: 'Name',
+        ORDER: 'Order'
+      },
+      PLACEHOLDER: {
+        NAME: 'Name',
+        ORDER: 'Order'
+      },
+      BUTTON: {
+        SAVE: 'Save',
+        CLOSE: 'Close'
+      }
+    }
+
   },
   CRYPTO_SEARCH_BAR: {
     PLACEHOLDER: 'Search for any crypto currency',
@@ -148,20 +163,4 @@ export const LANG_EN = {
       CLOSE: 'Close'
     }
   }
-
-
-/*
-  COMPONENTS: {
-    // TODO This should be configurable instead with default values,
-    // to ge rid of translate dependency to shared folder.
-    ALERT: {
-      WARNING_MESSAGE: 'I understand that this can not be undone!',
-      BUTTON: {
-        OK: 'OK',
-        CLOSE:'Close',
-        SAVE: 'Save'
-      }
-    }
-  }
-  */
 }

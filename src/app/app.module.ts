@@ -56,6 +56,8 @@ TODO BUG! -> When changing order, two list can have the same value. Fix that in 
 
 TODO: TESTS!
 
+TODO: Desktop layout
+
 TODO Improvement: Animations
   - modal fade ins
 TODO Feature: New User guide

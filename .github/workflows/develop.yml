@@ -5,21 +5,46 @@ on:
     branches: [ develop ]
 
 jobs:
-  build-and-run-tests:
+  ci:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: 14
-      - name: Install
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: |
-          npm install
+          npm ci
+
       - name: Build icons lib
         run: |
           npm run icons:build
+
       - name: Run tests
         run: |
           npm run test
+
+      - name: Build
+        run: |
+          npm run build

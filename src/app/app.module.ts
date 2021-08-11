@@ -59,16 +59,15 @@ TODO BUG! -> When new database initialized, hide total amount component
 TODO: TESTS!
 
 TODO: Desktop layout
-
 TODO Improvement: Animations
   - modal fade ins
+TODO Feature: List order
+  DONE set order manually
+  - drag n drop
 TODO Feature: New User guide
   - Stepper component
   - Images and descriptions
   - Show again, from settings.
-TODO Feature: List order
-  DONE set order manually
-  - drag n drop
 TODO Feature: Add asset positions
 
  */

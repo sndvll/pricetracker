@@ -14,7 +14,7 @@
                    class="w-full my-1">
       <sndvll-select-option *ngFor="let currency of availableCurrencies"
                             [value]="currency">
-        <div *selectLabel>{{currency}}</div>
+        <div *selectLabel>{{'CURRENCY.' + currency.toUpperCase() | translate}} ({{currency}})</div>
       </sndvll-select-option>
     </sndvll-select>
   <div class="text-xs font-bold mt-3">

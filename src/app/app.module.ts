@@ -49,10 +49,11 @@ DONE App Icons
 DONE Splashscreen (npx pwa-asset-generator ftw)
 DONE Logo
 
-TODO: Github Pages Deploy
+TODO: Github Pages Deploy ()
 
 TODO BUG! -> Search should work with symbols.
 TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
+TODO BUG! -> When new database initialized, hide total amount component
 
 TODO: TESTS!
 

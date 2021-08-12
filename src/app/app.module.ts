@@ -51,16 +51,23 @@ DONE Logo
 DONE Github Pages Deploy (angular-cli-ghpages schematic ftw)
 DONE Replace karma with jest
   - also added test step to main workflow
+  
+TODO Improvement: Fix up details component
+  - fix dark-mode
+  - look over layout and information
+  - add button to add to a list.
 
 TODO BUG! -> Search should work with symbols.
 TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
 TODO BUG! -> When new database initialized, hide total amount component
+TODO BUG! -> Position of spinning loader
 
 TODO: TESTS!
 
+TODO: Ipad layout
 TODO: Desktop layout
 TODO Improvement: Animations
-  - modal fade ins
+  - modal fade ins etc
 TODO Feature: List order
   DONE set order manually
   - drag n drop

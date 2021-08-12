@@ -4,7 +4,6 @@ import {AvailableCryptoCurrency, Color, DialogRef, PriceTrackerStore, PullToRefr
 import {takeUntil} from 'rxjs/operators';
 import {AddAssetService} from './add-asset';
 import {CurrencyDetailsService} from './currency-details';
-import {LoaderService} from './shared/components/loader/loader.service';
 import {ModalService, ModalType} from './shared';
 
 @Component({
@@ -22,13 +21,13 @@ export class AppComponent implements OnInit {
   public Color = Color;
 
   public settingsModalRef!: DialogRef;
+  public isLoading: boolean = true;
 
   constructor(
     private addAsset: AddAssetService,
     private details: CurrencyDetailsService,
     private store: PriceTrackerStore,
     private pullToRefreshService: PullToRefreshService,
-    private loader: LoaderService,
     private modal: ModalService) {
   }
 
@@ -40,11 +39,9 @@ export class AppComponent implements OnInit {
         this.refresh();
       });
 
-    this.store.state$
+    this.store.isLoading$
       .pipe(takeUntil(this._onDestroy))
-      .subscribe(({isLoading, init,}) => {
-        isLoading ? this.loader.show(true, init ? '100' : '50') : this.loader.dismiss();
-      })
+      .subscribe(isLoading => this.isLoading = isLoading);
   }
 
   public refresh() {

@@ -6,16 +6,15 @@ import {FiatCurrencyService} from '../fiat';
 const initState = (): PriceTrackerState => ({
   lists: [],
   isLoading: true,
-  displayCurrency: FiatCurrencyService.DisplayCurrency,
-  init: true
+  displayCurrency: FiatCurrencyService.DisplayCurrency
 });
 
 const sort = (a: AssetList, b: AssetList) => a.order - b.order;
 
-const commonDoneReducer = (state: PriceTrackerState, {lists}: {lists: AssetList[]}) =>
-  ({...state, lists: [...lists].sort(sort), isLoading: false, init: false});
-const commonStartedReducer = (state: PriceTrackerState) => ({...state, isLoading: true});
-const changeDisplayCurrencyReducer = (state: PriceTrackerState, {currency}: {currency: string}) => {
+const commonDoneReducer = (state: PriceTrackerState, {lists}: {lists: AssetList[]}): PriceTrackerState =>
+  ({...state, lists: [...lists].sort(sort), isLoading: false});
+const commonStartedReducer = (state: PriceTrackerState): PriceTrackerState => ({...state, isLoading: true});
+const changeDisplayCurrencyReducer = (state: PriceTrackerState, {currency}: {currency: string}): PriceTrackerState => {
   FiatCurrencyService.DisplayCurrency = currency;
   return {...state, displayCurrency: currency}
 };

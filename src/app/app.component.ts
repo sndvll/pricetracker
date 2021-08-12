@@ -4,7 +4,6 @@ import {AvailableCryptoCurrency, Color, DialogRef, PriceTrackerStore, PullToRefr
 import {takeUntil} from 'rxjs/operators';
 import {AddAssetService} from './add-asset';
 import {CurrencyDetailsService} from './currency-details';
-import {LoaderService} from './shared/components/loader/loader.service';
 import {ModalService, ModalType} from './shared';
 
 @Component({
@@ -16,35 +15,37 @@ export class AppComponent implements OnInit {
 
   //@HostBinding('class') classList = 'bg-gray-200 dark:bg-gray-900 text-black dark:text-white max-w-screen-sm min-h-screen container';
   @HostBinding('class') classList = 'text-black dark:text-white';
-  //public togglePriceControl = new FormControl(false);
 
   private _onDestroy = new Subject<void>();
   public Color = Color;
 
   public settingsModalRef!: DialogRef;
+  public isLoading: boolean = true;
+  public numberOfLists: number = 0;
 
   constructor(
     private addAsset: AddAssetService,
     private details: CurrencyDetailsService,
     private store: PriceTrackerStore,
     private pullToRefreshService: PullToRefreshService,
-    private loader: LoaderService,
     private modal: ModalService) {
   }
 
   public ngOnInit() {
 
     this.pullToRefreshService.onDrag$
-      .subscribe(() => {
-        console.log('NOW');
-        this.refresh();
-      });
+      .subscribe(() =>
+        this.refresh());
 
-    this.store.state$
+    this.store.isLoading$
       .pipe(takeUntil(this._onDestroy))
-      .subscribe(({isLoading, init,}) => {
-        isLoading ? this.loader.show(true, init ? '100' : '50') : this.loader.dismiss();
-      })
+      .subscribe(isLoading =>
+        this.isLoading = isLoading);
+
+    this.store.numberOfLists$
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(numberOfLists =>
+        this.numberOfLists = numberOfLists);
   }
 
   public refresh() {

@@ -6,7 +6,7 @@ import {
   selectLists,
   selectTotalAverageMarketChangePercentage,
   selectTotalAmount,
-  selectIsLoading, selectDisplayCurrency, selectState
+  selectIsLoading, selectDisplayCurrency, selectState, selectNumberOfLists
 } from './price-tracker.selectors';
 import {PriceTrackerActions} from './price-tracker.actions';
 
@@ -19,6 +19,7 @@ export class PriceTrackerStore {
   public totalAverageMarketChangePercentage$: Observable<number>;
   public isLoading$: Observable<boolean>;
   public displayCurrency$: Observable<string>
+  public numberOfLists$: Observable<number>
 
   constructor(private store: Store<IPriceTrackerStore>) {
     this.state$ = this.store.select(selectState);
@@ -27,6 +28,7 @@ export class PriceTrackerStore {
     this.totalAverageMarketChangePercentage$ = this.store.select(selectTotalAverageMarketChangePercentage);
     this.isLoading$ = this.store.select(selectIsLoading);
     this.displayCurrency$ = this.store.select(selectDisplayCurrency);
+    this.numberOfLists$ = this.store.select(selectNumberOfLists);
     this.store.dispatch(PriceTrackerActions.initializeStarted());
   }
 

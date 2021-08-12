@@ -3,7 +3,6 @@ import {CoinGeckoMarketDataResponse} from './api-response.interfaces';
 
 export interface PriceTrackerState {
   lists: AssetList[];
-  init: boolean;
   isLoading: boolean;
   displayCurrency: string
   error?: any;

@@ -11,7 +11,8 @@
     "icons:build": "ng build icons",
     "start:network": "ng serve --host 192.168.1.131",
     "start:prod": "npm run build && serve -l tcp://192.168.1.131:4200 dist/pricetrckr",
-    "deploy": "NODE_ENV=production ng -- deploy --base-href=/pricetracker/ --name=\"sndvll\" --email=\"emil@sndvll.com\" --no-silent"
+    "deploy": "NODE_ENV=production ng -- deploy --base-href=/pricetracker/ --name=\"sndvll\" --email=\"emil@sndvll.com\" --no-silent",
+    "generate:assets": "npx pwa-asset-generator trckr-logo.png src/assets -b black"
   },
   "private": true,
   "dependencies": {

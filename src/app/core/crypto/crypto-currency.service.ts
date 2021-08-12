@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CoinGeckoApiService} from '../api/coingecko-api.service';
+import {CoinGeckoApiService} from '../api';
 import {filter, map} from 'rxjs/operators';
 import {AvailableCryptocurrenciesDbService} from '../persistence';
 import {AvailableCryptoCurrency} from '../model';
@@ -40,8 +40,9 @@ export class CryptoCurrencyService {
       .subscribe(coins => this.available.bulkAdd(coins))
   }
 
-  public search(phrase: string, key: string, limit: number | null = 20) {
-    return this.available.search(phrase, key, limit);
+  public search(phrase: string, limit: number) {
+    return this.available.search(phrase, limit)
+
   }
 
   public fetchDetails(id: string) {

@@ -55,7 +55,7 @@ export class CryptoSearchbarComponent {
       this.open();
     }
     if (searchPhrase) {
-      this.crypto.search(searchPhrase, 'name', 200)
+      this.crypto.search(searchPhrase, 75)
         .subscribe(searchResult => {
           this.searchStatus = searchResult.length ? 'result' : 'noresult';
           this.searchResult = searchResult;

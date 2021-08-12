@@ -15,13 +15,13 @@ export class AppComponent implements OnInit {
 
   //@HostBinding('class') classList = 'bg-gray-200 dark:bg-gray-900 text-black dark:text-white max-w-screen-sm min-h-screen container';
   @HostBinding('class') classList = 'text-black dark:text-white';
-  //public togglePriceControl = new FormControl(false);
 
   private _onDestroy = new Subject<void>();
   public Color = Color;
 
   public settingsModalRef!: DialogRef;
   public isLoading: boolean = true;
+  public numberOfLists: number = 0;
 
   constructor(
     private addAsset: AddAssetService,
@@ -34,14 +34,18 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
 
     this.pullToRefreshService.onDrag$
-      .subscribe(() => {
-        console.log('NOW');
-        this.refresh();
-      });
+      .subscribe(() =>
+        this.refresh());
 
     this.store.isLoading$
       .pipe(takeUntil(this._onDestroy))
-      .subscribe(isLoading => this.isLoading = isLoading);
+      .subscribe(isLoading =>
+        this.isLoading = isLoading);
+
+    this.store.numberOfLists$
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(numberOfLists =>
+        this.numberOfLists = numberOfLists);
   }
 
   public refresh() {

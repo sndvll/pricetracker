@@ -16,7 +16,6 @@ import {
   DialogRef
 } from '../../core';
 import {Chart, ChartType, TimeSpan} from '../interfaces';
-import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   templateUrl: './currency-details.component.html',
@@ -48,22 +47,19 @@ export class CurrencyDetailsComponent implements OnInit {
 
   @ViewChild('chartsContainer') chartsContainer!: ElementRef;
 
-  @HostBinding('class') classList = 'bg-gray-100 dark:bg-black flex flex-col overflow-hidden pb-10';
+  @HostBinding('class') classList = 'bg-gray-100 dark:bg-black text-black dark:text-white flex flex-col overflow-hidden pb-10';
 
   constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<CurrencyDetailsComponent, AvailableCryptoCurrency>,
               private crypto: CryptoCurrencyService,
-              private changeDetectorRef: ChangeDetectorRef,
-              private device: DeviceDetectorService) {
-    console.log(dialogRef);
+              private changeDetectorRef: ChangeDetectorRef) {
     this.currency = dialogRef.config.data!;
-    this.daily = device.isMobile();
+    this.daily = false;
   }
 
   ngOnInit() {
     const { id } = this.currency;
     this.crypto.fetchDetails(id)
       .subscribe(details => {
-        console.log(details);
         this.details = details;
         this._loadedDetails = true;
         this.changeDetectorRef.markForCheck();
@@ -90,7 +86,6 @@ export class CurrencyDetailsComponent implements OnInit {
   }
 
   loadChartData(days: number, type: ChartType | 'all' = 'all') {
-    console.log(type);
     if (CurrencyDetailsComponent.checkChartType(type, ChartType.Price)) {
       this.priceChart = [];
     }
@@ -146,6 +141,10 @@ export class CurrencyDetailsComponent implements OnInit {
       '1w': 7,
       '24h': 1,
     }[timeSpan];
+  }
+
+  add() {
+    this.dialogRef.dismiss(this.currency);
   }
 
   close() {

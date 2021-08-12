@@ -14,6 +14,6 @@ export class CurrencyDetailsService {
       .data(currency)
       .config;
 
-    this.dialog.open(dialogConfig);
+    return this.dialog.open(dialogConfig);
   }
 }

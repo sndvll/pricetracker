@@ -19,7 +19,7 @@ export class LanguageService {
   public init(): void {
     this.translateService.setTranslation(Language.SV, LANG_SV);
     this.translateService.setTranslation(Language.EN, LANG_EN);
-    const lang: Language = <Language>localStorage.getItem('lang') ?? Language.SV;
+    const lang: Language = <Language>localStorage.getItem('lang') ?? Language.EN;
     this.translateService.setDefaultLang(lang);
     this.setLanguage(lang);
   }

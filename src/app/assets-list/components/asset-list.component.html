@@ -1,4 +1,4 @@
-<card class="px-2 py-1 mb-2">
+<card class="px-2 py-2 mb-2">
   <sndvll-accordion>
     <sndvll-accordion-item [expanded]="expanded" (onExpandedStateChanges)="onExpand($event)">
       <sndvll-accordion-item-header class="flex justify-between" cardHeader>
@@ -20,7 +20,7 @@
         </button>
       </sndvll-accordion-item-header>
       <sndvll-accordion-item-content cardContent>
-        <div class="grid grid-cols-7 grid-flow-col auto-cols-min px-2 text-xs font-bold">
+        <div class="grid grid-cols-7 grid-flow-col auto-cols-min px-2 pb-1 text-xs font-bold">
           <div class="text-right col-span-5">{{'ASSET_LIST.HEADER.RATE' | translate}}</div>
           <div class="text-right col-span-2">{{'ASSET_LIST.HEADER.QUANTITY' | translate}}</div>
         </div>

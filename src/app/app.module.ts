@@ -23,62 +23,6 @@ import {
 } from './core';
 import {SettingsModule} from './settings';
 
-/*
-DONE: Pull to refresh
-DONE: Loading
-DONE: Translations
-DONE Settings
-  - DONE Select Language
-  - Select Display Currency
-    - DONE add selector with available currencies
-    - DONE Listen to changes and calculate correct amount
-    - DONE labels to currencies
-DONE: Currency Pipe with proper formatting and symbols
-DONE Look for a better label solution in alert component
-  - went back to having dependency on translate pipe in alert, also removed the input type of alert. now only warnings (with action)
-    and info alerts are available.
-  - DONE use modals for where input is needed, and remove the "input" type alert (closes the asset settings task as well).
-DONE Asset settings
-  - create one modal template instead of the alerts that is now
-FIXED BUG - Look up why the modal cant have backdrop when closed and loading is showed.
-  - solution: no backdrop on loader, handle background that in the loader component instead
-DONE Collapse lists
-DONE Header, where total amount is showed.
-DONE Persist collapsed value
-DONE App Icons
-DONE Splashscreen (npx pwa-asset-generator ftw)
-DONE Logo
-DONE Github Pages Deploy (angular-cli-ghpages schematic ftw)
-DONE Replace karma with jest
-  - also added test step to main workflow
-  
-TODO Improvement: Fix up details component
-  - fix dark-mode
-  - look over layout and information
-  - add button to add to a list.
-
-TODO BUG! -> Search should work with symbols.
-TODO BUG! -> When changing order, two list can have the same value. Fix that in effect so it cant happen.
-TODO BUG! -> When new database initialized, hide total amount component
-TODO BUG! -> Position of spinning loader
-
-TODO: TESTS!
-
-TODO: Ipad layout
-TODO: Desktop layout
-TODO Improvement: Animations
-  - modal fade ins etc
-TODO Feature: List order
-  DONE set order manually
-  - drag n drop
-TODO Feature: New User guide
-  - Stepper component
-  - Images and descriptions
-  - Show again, from settings.
-TODO Feature: Add asset positions
-
- */
-
 @NgModule({
   declarations: [
     AppComponent

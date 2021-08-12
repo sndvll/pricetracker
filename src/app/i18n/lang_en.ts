@@ -97,12 +97,13 @@ export const LANG_EN = {
       DESCRIPTION: 'Description'
     },
     BUTTON: {
-      CLOSE: 'Close'
+      CLOSE: 'Close',
+      ADD: 'Add'
     },
     CHART: {
       HEADER: {
-        TOTAL_VOLUME: 'Total volume',
-        MARKET_CAP: 'Market cap',
+        TOTAL_VOLUME: 'Volume',
+        MARKET_CAP: 'Market',
         PRICE: 'Price'
       },
       CONTEXT_MENU: {

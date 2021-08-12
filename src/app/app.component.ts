@@ -1,7 +1,7 @@
 import {Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AvailableCryptoCurrency, Color, DialogRef, PriceTrackerStore, PullToRefreshService} from './core';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {AddAssetService} from './add-asset';
 import {CurrencyDetailsService} from './currency-details';
 import {ModalService, ModalType} from './shared';
@@ -53,7 +53,11 @@ export class AppComponent implements OnInit {
   }
 
   public openDetails(currency: AvailableCryptoCurrency) {
-    this.details.open(currency);
+    this.details.open(currency)
+      .onClose$
+      .pipe(filter(currency => !!currency))
+      .subscribe(currency => this.addCurrency(currency))
+    ;
   }
 
   public addCurrency(currency: AvailableCryptoCurrency) {

@@ -18,6 +18,7 @@ import {Select2Module} from './components';
 import {SearchbarModule} from './components';
 import {TranslateModule} from '@ngx-translate/core';
 import {LoaderModule} from './components/loader/loader.module';
+import {TruncatePipe} from './pipes/truncate/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import {LoaderModule} from './components/loader/loader.module';
   ],
   declarations: [
     AmountChangePipe,
-    AmountPipe
+    AmountPipe,
+    TruncatePipe
   ],
   exports: [
     ReactiveFormsModule,
@@ -62,7 +64,8 @@ import {LoaderModule} from './components/loader/loader.module';
     SearchbarModule,
     TranslateModule,
     LoaderModule,
-    AmountPipe
+    AmountPipe,
+    TruncatePipe
   ]
 })
 export class SharedModule {}

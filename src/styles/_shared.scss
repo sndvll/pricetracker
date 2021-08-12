@@ -1,6 +1,9 @@
 // CardComponent classes
 .card {
-  @apply block box-border rounded w-full bg-white dark:bg-black shadow;
+  @apply block box-border rounded w-full shadow bg-white dark:bg-black;
+  &.chart {
+    @apply bg-white dark:bg-gray-800;
+  }
 }
 
 .card-header {

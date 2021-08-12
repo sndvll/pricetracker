@@ -1,4 +1,4 @@
-<card class="w-full my-2">
+<card class="w-full my-2 chart">
   <div class="justify-between px-3 items-center" cardHeader>
     <h1 class="font-bold text-xl">{{header}}</h1>
     <div class="py-2 flex flex-row items-center justify-end">
@@ -23,7 +23,7 @@
       </button>
     </div>
   </div>
-  <div class="inline-block w-full" cardContent #chartContainer>
+  <div class="inline-block w-full " cardContent #chartContainer>
     <ngx-charts-line-chart
       [autoScale]="true"
       [view]="[chartWidth, chartHeight]"
@@ -38,7 +38,7 @@
   </div>
 </card>
 <ng-template #contextMenu>
-  <div class="py-2 px-3 bg-white dark:bg-black">
+  <div class="py-2 px-3 bg-white dark:bg-black text-black dark:text-white">
     <sndvll-toggle [formControl]="formControl">{{'CURRENCY_DETAILS.CHART.CONTEXT_MENU.DAILY' | translate}}</sndvll-toggle>
   </div>
 </ng-template>

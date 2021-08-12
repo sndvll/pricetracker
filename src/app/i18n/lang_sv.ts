@@ -96,12 +96,13 @@ export const LANG_SV = {
       DESCRIPTION: 'Beskrivning'
     },
     BUTTON: {
-      CLOSE: 'Stäng'
+      CLOSE: 'Stäng',
+      ADD: 'Lägg till'
     },
     CHART: {
       HEADER: {
-        TOTAL_VOLUME: 'Total volym',
-        MARKET_CAP: 'Marknadsvärde',
+        TOTAL_VOLUME: 'Volym',
+        MARKET_CAP: 'Marknad',
         PRICE: 'Pris'
       },
       CONTEXT_MENU: {

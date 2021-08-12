@@ -15,7 +15,9 @@
       <icon name="menu" weight="bold" size="1.5rem"></icon>
     </button>
   </div>
-  <total-amount></total-amount>
+  <ng-container>
+    <total-amount *ngIf="numberOfLists > 0"></total-amount>
+  </ng-container>
   <crypto-searchbar (addCurrency)="addCurrency($event)"
                     (openCurrencyDetails)="openDetails($event)"></crypto-searchbar>
 </div>

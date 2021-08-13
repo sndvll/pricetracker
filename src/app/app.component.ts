@@ -13,7 +13,6 @@ import {ModalService, ModalType} from './shared';
 })
 export class AppComponent implements OnInit {
 
-  //@HostBinding('class') classList = 'bg-gray-200 dark:bg-gray-900 text-black dark:text-white max-w-screen-sm min-h-screen container';
   @HostBinding('class') classList = 'text-black dark:text-white';
 
   private _onDestroy = new Subject<void>();

@@ -46,11 +46,10 @@ jobs:
           npm run test
 
       - name: Create dev release
-        uses: codaline-io/dev-version@0.1.2
+        uses: mydea/action-tag-date-version@v20
         with:
-          branch: develop
-          filePath: ./package.json
-          
+          prerelease: develop
+
       - name: Build & Deploy application
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

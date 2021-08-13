@@ -43,7 +43,8 @@ export enum PriceTrackerActionTypes {
   ExpandListStarted = '[trckr] expand list started',
   ExpandListDone = '[trckr] expand list done',
 
-
+  ReorderLists = '[trckr] reorder lists',
+  ReorderListsDone = '[trckr] reorder lists done'
 }
 
 const initializeStarted = createAction(PriceTrackerActionTypes.InitializeStarted);
@@ -55,7 +56,7 @@ const createNewListDone = createAction(PriceTrackerActionTypes.CreateNewListDone
 const createNewListError = createAction(PriceTrackerActionTypes.CreateNewListError, props<{error: any}>())
 
 
-const editList = createAction(PriceTrackerActionTypes.EditListStarted, props<{name: string, id: string, order: number}>());
+const editList = createAction(PriceTrackerActionTypes.EditListStarted, props<{name: string, id: string}>());
 const editListDone = createAction(PriceTrackerActionTypes.EditListDone, props<{lists: AssetList[]}>());
 
 const deleteList = createAction(PriceTrackerActionTypes.DeleteListStarted, props<{id: string}>());
@@ -86,6 +87,9 @@ const changeDisplayCurrency = createAction(PriceTrackerActionTypes.ChangeDisplay
 const expandList = createAction(PriceTrackerActionTypes.ExpandListStarted, props<{listId: string, expanded: boolean}>());
 const expandListDone = createAction(PriceTrackerActionTypes.ExpandListDone, props<{lists: AssetList[]}>());
 
+const reorderLists = createAction(PriceTrackerActionTypes.ReorderLists, props<{lists: AssetList[]}>());
+const reorderListsDone = createAction(PriceTrackerActionTypes.ReorderListsDone, props<{lists: AssetList[]}>());
+
 export const PriceTrackerActions = {
   initializeStarted,
   initializeDone,
@@ -114,5 +118,7 @@ export const PriceTrackerActions = {
   refreshPricesCanceled,
   changeDisplayCurrency,
   expandList,
-  expandListDone
+  expandListDone,
+  reorderLists,
+  reorderListsDone
 }

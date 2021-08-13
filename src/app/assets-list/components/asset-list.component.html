@@ -76,14 +76,6 @@
                       class="mb-2 my-1"
                       type="text">
         </sndvll-input>
-        <div class="text-xs font-bold">{{'ASSET_LIST.EDIT_LIST_MODAL.LABEL.ORDER' | translate}}</div>
-        <sndvll-select formControlName="order"
-                       placeholder="{{'ASSET_LIST.EDIT_LIST_MODAL.PLACEHOLDER.ORDER' | translate}}">
-          <sndvll-select-option *ngFor="let option of orderOptions"
-                                [value]="option">
-            <div *selectLabel>{{option}}</div>
-          </sndvll-select-option>
-        </sndvll-select>
       </form>
     </div>
     <div class="justify-between flex-col" modalFooter>

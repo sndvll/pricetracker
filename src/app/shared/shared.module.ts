@@ -19,6 +19,7 @@ import {SearchbarModule} from './components';
 import {TranslateModule} from '@ngx-translate/core';
 import {LoaderModule} from './components/loader/loader.module';
 import {TruncatePipe} from './pipes/truncate/truncate.pipe';
+import {DragNDropModule} from './components/drag-drop/drag-drop.module';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {TruncatePipe} from './pipes/truncate/truncate.pipe';
     ButtonModule,
     AlertModule,
     SearchbarModule,
-    LoaderModule
+    LoaderModule,
+    DragNDropModule
   ],
   declarations: [
     AmountChangePipe,
@@ -65,7 +67,8 @@ import {TruncatePipe} from './pipes/truncate/truncate.pipe';
     TranslateModule,
     LoaderModule,
     AmountPipe,
-    TruncatePipe
+    TruncatePipe,
+    DragNDropModule
   ]
 })
 export class SharedModule {}

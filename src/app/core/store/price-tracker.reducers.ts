@@ -39,7 +39,8 @@ const reducer = createReducer(initState(),
   on(PriceTrackerActions.deleteAsset, commonStartedReducer),
   on(PriceTrackerActions.deleteAssetDone, commonDoneReducer),
   on(PriceTrackerActions.changeDisplayCurrency, changeDisplayCurrencyReducer),
-  on(PriceTrackerActions.expandListDone, commonDoneReducer)
+  on(PriceTrackerActions.expandListDone, commonDoneReducer),
+  on(PriceTrackerActions.reorderListsDone, commonDoneReducer)
 );
 
 

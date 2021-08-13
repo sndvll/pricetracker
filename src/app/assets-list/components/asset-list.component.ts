@@ -52,10 +52,9 @@ export class AssetListComponent implements OnInit {
 
   @Input() displayCurrency!: string;
   @Input() currentLanguage!: Language;
-  @Input() numberOfLists!: number;
 
   @Output() deleteList = new EventEmitter<string>();
-  @Output() editList = new EventEmitter<{ name: string, order: number, id: string }>();
+  @Output() editList = new EventEmitter<{ name: string, id: string }>();
   @Output() editAsset = new EventEmitter<{ asset: AssetModel }>();
   @Output() deleteAsset = new EventEmitter<{ assetId: string, listId: string }>();
   @Output() expand = new EventEmitter<{listId: string, expanded: boolean}>();
@@ -118,8 +117,8 @@ export class AssetListComponent implements OnInit {
   }
 
   public onSaveEditedList() {
-    const {name, order} = this.editModalForm.value;
-    this.editList.emit({name, order, id: this.id});
+    const {name} = this.editModalForm.value;
+    this.editList.emit({name, id: this.id});
     this.closeEditModal();
   }
 
@@ -163,10 +162,5 @@ export class AssetListComponent implements OnInit {
   }
   get expanded() {
     return this.list.expanded;
-  }
-
-  get orderOptions(): number[] {
-    return Array.from(Array(this.numberOfLists).keys())
-      .map(v => v + 1);
   }
 }

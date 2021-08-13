@@ -49,7 +49,7 @@ jobs:
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
-          github-token: ${{ secrets.TOKEN_GITHUB_ACTION }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           output-file: "false"
 
       - name: Create Release

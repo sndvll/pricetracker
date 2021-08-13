@@ -5,9 +5,9 @@
 Check it out at http://sndvll.github.io/pricetracker from your phone/chrome dev tools phone view
 
 #### wat is it?
-Mobile focused PWA that tracks prices of various crypto assets and calculates total asset value in different fiat currencies. 
-Just a playground to create some cool components and Angular Material like stuff from scratch.
-Just a client, uses Dexie.js to save stuff locally in IndexedDB
+ - Mobile focused PWA that tracks prices of various crypto assets and calculates total asset value in different fiat currencies. 
+ - Playground to create some cool components and Angular Material like stuff from scratch.
+ - Just a client, uses Dexie.js to save stuff locally in IndexedDB. 
 
 ### Highlights
 A custom dynamic dialog engine created from scratch, that can insert any component on a given position on the page.

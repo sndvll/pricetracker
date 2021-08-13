@@ -152,12 +152,11 @@ export class PriceTrackerEffects {
   editList$ = createEffect(() => this.actions$.pipe(
     ofType(PriceTrackerActions.editList),
     withLatestFrom(this.store.select(selectLists)),
-    map(([{name, id, order}, lists]) => {
+    map(([{name, id}, lists]) => {
       const foundList = lists.find(list => list.id === id)!;
       const filteredLists = lists.filter(list => list.id !== id);
       const changedList = {
         ...foundList,
-        order,
         name
       }
       this.listDb.update(changedList, changedList.id);
@@ -230,6 +229,16 @@ export class PriceTrackerEffects {
         lists: [...filteredLists, changedList]
           .sort()
       })
+    })
+  ));
+
+  reorderList$ = createEffect(() => this.actions$.pipe(
+    ofType(PriceTrackerActions.reorderLists),
+    map(({lists}) => {
+      console.log(lists);
+      const newLists = lists.map(list => ({...list, order: lists.indexOf(list)}));
+      this.listDb.bulkPut(newLists);
+      return PriceTrackerActions.reorderListsDone({lists: newLists});
     })
   ));
 }

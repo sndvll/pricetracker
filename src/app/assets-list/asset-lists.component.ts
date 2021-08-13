@@ -2,34 +2,30 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AssetList, AssetModel, FiatCurrencyService, LanguageService, PriceTrackerStore} from '../core';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'asset-lists',
-  template: `
-    <asset-list *ngFor="let list of lists"
-                class="md:mx-2 mb-2 w-full md:w-50"
-                [list]="list"
-                [numberOfLists]="lists.length"
-                [displayCurrency]="displayCurrency"
-                [currentLanguage]="currentLanguage"
-                (deleteAsset)="deleteAsset($event)"
-                (deleteList)="deleteList($event)"
-                (editAsset)="editAsset($event)"
-                (editList)="editList($event)"
-                (expand)="expand($event)"
-    ></asset-list>`
+  templateUrl: './asset-lists.component.html'
 })
 export class AssetListsComponent implements OnInit, OnDestroy {
 
+  private _lists: AssetList[] = [];
+
   private _onDestroy = new Subject<void>();
 
-  public lists: AssetList[] = [];
+  set lists(lists: AssetList[]) {
+    this._lists = [...lists];
+  }
+  get lists() {
+    return this._lists;
+  }
+
   public displayCurrency = FiatCurrencyService.DisplayCurrency;
   public currentLanguage = LanguageService.currentLang;
 
   constructor(private store: PriceTrackerStore,
-              private language: LanguageService) {
-  }
+              private language: LanguageService) {}
 
   ngOnInit() {
     this.store.state$
@@ -49,8 +45,8 @@ export class AssetListsComponent implements OnInit, OnDestroy {
     this.store.editAsset(asset);
   }
 
-  public editList({name, id, order}: { name: string; id: string, order: number}) {
-    this.store.editList(name, id, order);
+  public editList({name, id}: { name: string; id: string}) {
+    this.store.editList(name, id);
   }
 
   public deleteAsset({assetId, listId}: { assetId: string; listId: string }) {
@@ -63,6 +59,13 @@ export class AssetListsComponent implements OnInit, OnDestroy {
 
   public expand({expanded, listId}: {expanded: boolean, listId: string}) {
     this.store.expandList(listId, expanded);
+  }
+
+  reorderLists(event: CdkDragDrop<AssetList[]>) {
+    if (this.lists.length > 1) {
+      moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
+      this.store.reorder(this.lists);
+    }
   }
 
   ngOnDestroy() {

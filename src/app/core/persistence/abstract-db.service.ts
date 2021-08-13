@@ -35,4 +35,8 @@ export abstract class AbstractDbService<T> {
   public bulkAdd(data: T[]) {
     this.table.bulkAdd(data);
   }
+
+  public bulkPut(data: T[]) {
+    this.table.bulkPut(data);
+  }
 }

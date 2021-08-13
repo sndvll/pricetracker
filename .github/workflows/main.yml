@@ -45,12 +45,7 @@ jobs:
       - name: Run tests
         run: |
           npm run test
-      - name: Create Version
-        uses: mydea/action-tag-date-version@v20
-        with:
-          prerelease: beta
-      - name: Build & Deploy application
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build app
         run: |
-          npm run deploy
+          npm run build

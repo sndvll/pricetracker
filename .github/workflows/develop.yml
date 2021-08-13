@@ -45,6 +45,14 @@ jobs:
         run: |
           npm run test
 
-      - name: Build
+      - name: Create dev release
+        uses: codaline-io/dev-version@0.1.2
+        with:
+          branch: develop
+          filePath: ./package.json
+          
+      - name: Build & Deploy application
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run build
+          npm run deploy

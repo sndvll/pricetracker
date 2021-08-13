@@ -2,7 +2,7 @@
 
 ### ‼️ WORK IN PROGRESS ‼️ 
 
-Check it out at http://sndvll.github.io/pricetracker
+Check it out at http://sndvll.github.io/pricetracker from your phone/chrome dev tools phone view
 
 #### wat is it?
 App that tracks prices of various crypto assets and calculates total asset value in different fiat currencies. 

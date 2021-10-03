@@ -9,8 +9,8 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "icons:build": "ng build icons",
-    "start:network": "ng serve --host 192.168.1.131",
-    "start:prod": "npm run build && serve -l tcp://192.168.1.131:4200 dist/pricetrckr",
+    "start:network": "ng serve --host 192.168.1.173",
+    "start:prod": "npm run build && serve -l tcp://192.168.1.173:4200 dist/pricetrckr",
     "deploy": "NODE_ENV=production ng -- deploy --base-href=/pricetracker/ --name=\"sndvll\" --email=\"emil@sndvll.com\" --no-silent",
     "generate:assets": "npx pwa-asset-generator trckr-logo.png src/assets -b black"
   },
@@ -56,6 +56,7 @@
     "karma-coverage": "~2.0.3",
     "ng-packagr": "^12.0.0",
     "postcss": "^8.3.6",
+    "serve": "^12.0.1",
     "tailwindcss": "^2.2.7",
     "typescript": "~4.2.3"
   },
@@ -68,7 +69,9 @@
       "<rootDir>/node_modules/",
       "<rootDir>/dist/"
     ],
-    "modulePathIgnorePatterns": ["<rootDir>/projects"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/projects"
+    ],
     "globals": {
       "ts-jest": {
         "tsconfig": "<rootDir>/tsconfig.spec.json",
@@ -77,4 +80,3 @@
     }
   }
 }
-

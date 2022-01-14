@@ -8,7 +8,13 @@
     "noImplicitReturns": true,
     "paths": {
       "@sndvll/icons": ["dist/sndvll-icons"],
-      "@sndvll/icons/*": ["dist/sndvll-icons/*"]
+      "@sndvll/icons/*": ["dist/sndvll-icons/*"],
+      "@sndvll/components": ["dist/sndvll-components"],
+      "@sndvll/components/*": ["dist/sndvll-components/*"],
+      "@sndvll/core": ["dist/sndvll-core"],
+      "@sndvll/core/*": ["dist/sndvll-core/*"],
+      "@sndvll/food-icons": ["dist/sndvll-food-icons"],
+      "@sndvll/food-icons/*": ["dist/sndvll-food-icons/*"]
     },
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,

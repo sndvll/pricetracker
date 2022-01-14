@@ -15,19 +15,23 @@ import {
   ModalConfig,
   ModalService,
   ModalType
-} from '@sndvll/components';
+} from '../../shared';
 import {filter} from 'rxjs/operators';
 import {
   AssetList,
   AssetModel,
   AvailableCryptoCurrency,
+  Color,
+  Colors,
+  DialogRef,
   FiatCurrencyService,
   getTotalAmount,
-  getTotalPriceChange
+  getTotalPriceChange, initialValueChangedValidator,
+  Language,
+  LanguageService
 } from '../../core';
 import {Observable} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Color, Colors, initialValueChangedValidator, LanguageService, OverlayRef} from '@sndvll/core';
 
 @Component({
   selector: 'asset-list',
@@ -36,8 +40,8 @@ import {Color, Colors, initialValueChangedValidator, LanguageService, OverlayRef
 })
 export class AssetListComponent implements OnInit {
 
-  private _contextMenuRef!: OverlayRef | null;
-  private _editModalRef!: OverlayRef<ModalComponent, ModalConfig> | null;
+  private _contextMenuRef!: DialogRef | null;
+  private _editModalRef!: DialogRef<ModalComponent, ModalConfig> | null;
   private _list!: AssetList;
 
   public options: AvailableCryptoCurrency[] = [];
@@ -47,7 +51,7 @@ export class AssetListComponent implements OnInit {
   }
 
   @Input() displayCurrency!: string;
-  @Input() currentLanguage!: string;
+  @Input() currentLanguage!: Language;
 
   @Output() deleteList = new EventEmitter<string>();
   @Output() editList = new EventEmitter<{ name: string, id: string }>();

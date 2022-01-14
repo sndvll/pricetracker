@@ -1,9 +1,8 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
-import {FiatCurrencyService, PriceTrackerStore} from '../core';
+import {FiatCurrencyService, Language, LanguageService, PriceTrackerStore} from '../core';
 import {filter, take, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
-import {LanguageService} from '@sndvll/core';
 
 @Component({
   selector: 'settings',
@@ -14,7 +13,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   private _onDestroy: Subject<void> = new Subject<void>();
 
   public availableCurrencies: string[] = [];
-  public availableLanguages: string[] = LanguageService.AvailableLanguages;
+  public availableLanguages: Language[] = LanguageService.AvailableLanguages;
   public displayCurrencyControl: FormControl = new FormControl(FiatCurrencyService.DisplayCurrency);
   public changeLanguageControl: FormControl = new FormControl(LanguageService.currentLang);
 

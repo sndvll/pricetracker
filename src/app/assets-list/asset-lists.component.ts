@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AssetList, AssetModel, FiatCurrencyService, PriceTrackerStore} from '../core';
+import {AssetList, AssetModel, FiatCurrencyService, LanguageService, PriceTrackerStore} from '../core';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {LanguageService} from '@sndvll/core';
 
 @Component({
   selector: 'asset-lists',

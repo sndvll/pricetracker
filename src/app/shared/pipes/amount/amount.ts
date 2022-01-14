@@ -1,3 +1,5 @@
+import {Language} from '../../../core';
+
 const Regexp = {
   FLOAT: /^-?\d+(\.\d+)?$/,
   FLOAT_COMMA: /^-?\d+(,\d+)?$/,
@@ -48,7 +50,7 @@ export class Amount {
   private readonly _pattern = '#';
   private readonly _negativePattern = '-#';
   private readonly _format: string;
-  private readonly _lang: string;
+  private readonly _lang: Language;
   private _isValid!: boolean;
 
   get value() {
@@ -65,13 +67,13 @@ export class Amount {
 
   constructor(
     v: any,
-    lang: string,
+    lang: Language,
     private options: Options = defaults,
     useRounding = true,
     decimalsIfEven = true) {
     // Set separators according to language
-    options.decimalSeparator = lang === 'sv' ? Separator.COMMA : Separator.PERIOD;
-    options.thousandSeparator = lang ==='sv' ? Separator.SPACE : Separator.COMMA;
+    options.decimalSeparator = lang === Language.SV ? Separator.COMMA : Separator.PERIOD;
+    options.thousandSeparator = lang === Language.SV ? Separator.SPACE : Separator.COMMA;
     this._lang = lang;
 
     this._settings = Object.assign({}, defaults, options);
@@ -113,7 +115,7 @@ export class Amount {
   }
 
   /**
-   * Transforms the input value to a formatted currency string with decimal and a thousand separators (collected from
+   * Transforms the input value to a formatted currency string with decimal and thousand separators (collected from
    * the settings object).
    */
   private _transform(value: number, decimalsIfEven: boolean): string {
@@ -124,7 +126,7 @@ export class Amount {
     const points = String(values[1]).match(Regexp.SINGLE_DIGIT) ? `${values[1]}0` : values[1];
 
     return (value >= 0 ? this._pattern : this._negativePattern)
-      // Replace all occurrences of groups (i.e. thousands) with the thousand separator.
+      // Replace all occurrences of groups (i.e thousands) with the thousand separator.
       .replace(this._pattern, `${integer.replace(groups, '$1' + thousandSeparator)}` +
         `${points ? `${decimalSeparator}${points}` : (decimalsIfEven ? `${decimalSeparator}00` : Separator.EMPTY)}`);
   }
@@ -141,8 +143,8 @@ export class Amount {
     value = value.match(Regexp.ENGLISH) ? value.replace(/,/g, Separator.EMPTY) : value;
 
     // If english format not validating, but language is english the user probably entered a value with comma as
-    // a thousand separator. We need a check for that and a correction, otherwise the output will not be correct.
-    if (!value.match(Regexp.ENGLISH) && this._lang === 'en' && value.match(Regexp.ENGLISH_INT)) {
+    // thousand separator. We need a check for that and a correction, otherwise the output will not be correct.
+    if (!value.match(Regexp.ENGLISH) && this._lang === Language.EN && value.match(Regexp.ENGLISH_INT)) {
       value = value.replace(/,/g, Separator.EMPTY);
     }
 
@@ -169,7 +171,7 @@ export class Amount {
       // convert any decimal values
       .replace(new RegExp('\\' + decimalSeparator, 'g'), '.') : value;
 
-    // We need to make sure that the input decimal separator matches the desired formatted output, if not the result will be bananas.
+    // We need to make sure that that the input decimal separator matches the desired formatted output, if not the result will be bananas.
     // Here we may have a string input in format either as 1000, 1000.01 or 1000,01 depending on what language is set and, because of that, which outcome we want.
     // If language is set to swedish we want a string with comma as decimal separator and the formatted result will be 1 000,01.
     // If language is set to english we want a string with period as decimal separator and the formatted result will be 1,000.01.

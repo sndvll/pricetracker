@@ -235,6 +235,7 @@ export class PriceTrackerEffects {
   reorderList$ = createEffect(() => this.actions$.pipe(
     ofType(PriceTrackerActions.reorderLists),
     map(({lists}) => {
+      console.log(lists);
       const newLists = lists.map(list => ({...list, order: lists.indexOf(list)}));
       this.listDb.bulkPut(newLists);
       return PriceTrackerActions.reorderListsDone({lists: newLists});

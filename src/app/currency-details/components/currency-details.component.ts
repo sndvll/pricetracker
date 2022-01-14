@@ -12,9 +12,10 @@ import {
   AvailableCryptoCurrency,
   CoingeckoApiDetailsResponse,
   CryptoCurrencyService,
+  DIALOG_REF,
+  DialogRef
 } from '../../core';
 import {Chart, ChartType, TimeSpan} from '../interfaces';
-import {OVERLAY_REF, OverlayRef} from '@sndvll/core';
 
 @Component({
   templateUrl: './currency-details.component.html',
@@ -48,10 +49,10 @@ export class CurrencyDetailsComponent implements OnInit {
 
   @HostBinding('class') classList = 'bg-gray-100 dark:bg-black text-black dark:text-white flex flex-col overflow-hidden pb-10';
 
-  constructor(@Inject(OVERLAY_REF) private overlayRef: OverlayRef<CurrencyDetailsComponent, AvailableCryptoCurrency>,
+  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<CurrencyDetailsComponent, AvailableCryptoCurrency>,
               private crypto: CryptoCurrencyService,
               private changeDetectorRef: ChangeDetectorRef) {
-    this.currency = overlayRef.config.data!;
+    this.currency = dialogRef.config.data!;
     this.daily = false;
   }
 
@@ -143,10 +144,10 @@ export class CurrencyDetailsComponent implements OnInit {
   }
 
   add() {
-    this.overlayRef.dismiss(this.currency);
+    this.dialogRef.dismiss(this.currency);
   }
 
   close() {
-    this.overlayRef.close();
+    this.dialogRef.close();
   }
 }

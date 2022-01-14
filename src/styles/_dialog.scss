@@ -1,0 +1,72 @@
+
+.connected-dialog-container {
+  @apply pointer-events-none fixed top-0 left-0 h-full w-full z-40;
+  > .connected-dialog {
+    @apply z-30 inline-block absolute;
+    >.dialog-component {
+      @apply z-30 pointer-events-auto block;
+    }
+  }
+}
+
+.dialog {
+  @apply absolute flex top-0 left-0 bottom-0 right-0 z-20 pointer-events-none;
+  > .dialog-content {
+    @apply z-30 pointer-events-none flex flex-col flex-none;
+    > .dialog-component {
+      @apply pointer-events-auto;
+    }
+  }
+
+  &.full {
+    >.dialog-content {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: none;
+      @apply flex-grow top-0 left-0 overflow-hidden;
+      > .dialog-component {
+        @apply flex flex-grow;
+      }
+    }
+  }
+
+  &.x-center {
+    @apply justify-center;
+  }
+
+  &.y-middle {
+    >.dialog-content {
+      @apply justify-center;
+    }
+  }
+
+  &.left {
+    @apply justify-start;
+  }
+
+  &.right {
+    @apply justify-end;
+  }
+
+  &.bottom {
+    >.dialog-content {
+      @apply justify-end;
+    }
+  }
+
+  &.top {
+    >.dialog-content {
+      @apply justify-start;
+    }
+  }
+
+  &.toast {
+    @apply z-40;
+  }
+}
+
+.backdrop {
+  @apply fixed top-0 left-0 z-10 w-screen h-screen;
+  &.connected {
+    @apply z-30;
+  }
+}

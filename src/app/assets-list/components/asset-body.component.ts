@@ -9,17 +9,18 @@ import {
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
+  AssetModel,
   Color,
   Colors,
-  OverlayRef,
-  initialValueChangedValidator,
+  DialogRef,
+  FiatCurrencyService,
+  initialValueChangedValidator, Language,
   LanguageService
-} from '@sndvll/core';
-import {AlertService, AlertType, ModalComponent, ModalConfig, ModalType, ModalService} from '@sndvll/components';
+} from '../../core';
+import {AlertService, AlertType, ModalComponent, ModalConfig, ModalType, ModalService} from '../../shared';
 import {filter, map} from 'rxjs/operators';
 import {CurrencyDetailsService} from '../../currency-details';
 import {Observable} from 'rxjs';
-import {AssetModel, FiatCurrencyService} from '../../core';
 
 @Component({
   selector: 'asset-body',
@@ -34,9 +35,9 @@ export class AssetBodyComponent implements OnInit {
   @Output() onDelete = new EventEmitter<string>();
 
   @Input() displayCurrency!: string;
-  @Input() currentLanguage!: string;
+  @Input() currentLanguage!: Language;
 
-  private _modalRef!: OverlayRef<ModalComponent, ModalConfig> | null;
+  private _modalRef!: DialogRef<ModalComponent, ModalConfig> | null;
 
   public editModalForm!: FormGroup;
 

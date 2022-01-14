@@ -38,7 +38,7 @@
                 header="{{'CURRENCY_DETAILS.CHART.HEADER.TOTAL_VOLUME' | translate}}"></chart-card>
 
     <ng-container *ngIf="details.description.en">
-      <sndvll-card class="px-3 mt-2 pb-2">
+      <card class="px-3 mt-2 pb-2">
         <div cardHeader>
           <h2 class="font-bold text-xl">{{'CURRENCY_DETAILS.HEADER.DESCRIPTION' | translate}}</h2>
         </div>
@@ -46,7 +46,7 @@
           <div [innerHTML]="details.description.en"
                class="break-normal w-full text-sm"></div>
         </div>
-      </sndvll-card>
+      </card>
     </ng-container>
   </div>
 </ng-container>

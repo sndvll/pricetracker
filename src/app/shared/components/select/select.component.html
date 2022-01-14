@@ -1,0 +1,25 @@
+<div class="select-label" [class]="size" (click)="open(dropdown)">
+  <ng-container *ngIf="selectedOption" [ngTemplateOutlet]="selectedOption.label.template"></ng-container>
+  <ng-container *ngIf="!selectedOption">
+    <span class="select-placeholder">{{placeholder}}</span>
+  </ng-container>
+  <ng-container *ngIf="clearable && selectedOption && !opened">
+    <button (click)="clear($event)" class="select-clear-button">
+      <icon name="x" weight="bold"></icon>
+    </button>
+  </ng-container>
+</div>
+<div class="select-chevron-container" [class]="size">
+  <button class="select-chevron focus:outline-none focus:cursor-pointer" [class]="size" (click)="open(dropdown)">
+    <icon [name]="opened ? 'chevron-up' : 'chevron-down'" [size]="'sm'" weight="bold"></icon>
+  </button>
+</div>
+<ng-template #dropdown>
+  <div class="rounded bg-white dark:bg-gray-900">
+    <ng-container *ngIf="options?.length">
+      <ng-container *ngFor="let option of options">
+        <ng-container [ngTemplateOutlet]="option.optionContent"></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>

@@ -1,11 +1,10 @@
 import {Component, HostBinding, OnInit, TemplateRef} from '@angular/core';
 import {Subject} from 'rxjs';
-import {AvailableCryptoCurrency, PriceTrackerStore} from './core';
+import {AvailableCryptoCurrency, Color, DialogRef, PriceTrackerStore, PullToRefreshService} from './core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {AddAssetService} from './add-asset';
 import {CurrencyDetailsService} from './currency-details';
-import {ModalService, ModalType} from '@sndvll/components';
-import {Color, OverlayRef, PullToRefreshService} from '@sndvll/core';
+import {ModalService, ModalType} from './shared';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,7 @@ export class AppComponent implements OnInit {
   private _onDestroy = new Subject<void>();
   public Color = Color;
 
-  public settingsModalRef!: OverlayRef;
+  public settingsModalRef!: DialogRef;
   public isLoading: boolean = true;
   public numberOfLists: number = 0;
 

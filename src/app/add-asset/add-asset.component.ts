@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inject, OnInit} from '@angular/core';
-import {AssetList, AvailableCryptoCurrency, PriceTrackerStore} from '../core';
+import {AssetList, AvailableCryptoCurrency, Color, Colors, DIALOG_REF, DialogRef, PriceTrackerStore} from '../core';
 import {take} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Color, Colors, OVERLAY_REF, OverlayRef} from '@sndvll/core';
 
 @Component({
   selector: 'add-asset',
@@ -21,11 +20,11 @@ export class AddAssetComponent implements OnInit {
 
   @HostBinding('class') classList = 'bg-gray-100 dark:bg-black dark:text-white flex flex-col overflow-hidden pb-10';
 
-  constructor(@Inject(OVERLAY_REF) private overlayRef: OverlayRef<AddAssetComponent, AvailableCryptoCurrency>,
+  constructor(@Inject(DIALOG_REF) private dialogRef: DialogRef<AddAssetComponent, AvailableCryptoCurrency>,
               private store: PriceTrackerStore,
               private formBuilder: FormBuilder,
               private changeDetectorRef: ChangeDetectorRef) {
-    this.asset = overlayRef.config.data!;
+    this.asset = dialogRef.config.data!;
   }
 
   ngOnInit() {
@@ -57,11 +56,11 @@ export class AddAssetComponent implements OnInit {
     this.createList ?
       this.store.createNewList(list, {quantity, color, ...this.asset}) :
       this.store.addNewAsset(list.id, {quantity, color, ...this.asset});
-    this.overlayRef.close();
+    this.dialogRef.close();
   }
 
   close() {
-    this.overlayRef.close();
+    this.dialogRef.close();
   }
 
   get noAvailableLists(): boolean {

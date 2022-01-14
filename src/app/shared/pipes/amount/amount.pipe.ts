@@ -1,9 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Amount} from './amount';
+import {Language} from '../../../core';
 
 @Pipe({name: 'amount'})
 export class AmountPipe implements PipeTransform {
-  transform(value: number | null, language: string, currency: string): string {
+  transform(value: number | null, language: Language, currency: string): string {
     if (value) {
       return AmountPipe.formatAmount(new Amount(value, language), currency);
     }

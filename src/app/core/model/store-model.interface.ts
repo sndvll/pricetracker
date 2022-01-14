@@ -1,5 +1,5 @@
+import {Color} from '../utils';
 import {CoinGeckoMarketDataResponse} from './api-response.interfaces';
-import {Color} from '@sndvll/core';
 
 export interface PriceTrackerState {
   lists: AssetList[];

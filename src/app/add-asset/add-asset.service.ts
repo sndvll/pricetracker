@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
-import {AvailableCryptoCurrency} from '../core';
+import {AvailableCryptoCurrency, DialogRef, DialogService, GlobalDialogConfigBuilder} from '../core';
 import {AddAssetComponent} from './add-asset.component';
-import {GlobalOverlayConfigBuilder, OverlayRef, OverlayService} from '@sndvll/core';
 
 @Injectable({providedIn: 'root'})
 export class AddAssetService {
 
-  constructor(private dialog: OverlayService) {}
+  constructor(private dialog: DialogService) {}
 
-  public open(currency: AvailableCryptoCurrency): OverlayRef {
-    const dialogConfig = GlobalOverlayConfigBuilder
+  public open(currency: AvailableCryptoCurrency): DialogRef {
+    const dialogConfig = GlobalDialogConfigBuilder
       .full<AddAssetComponent, AvailableCryptoCurrency>(AddAssetComponent)
       .withBackdrop(false)
       .data(currency)

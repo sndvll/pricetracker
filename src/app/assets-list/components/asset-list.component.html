@@ -1,4 +1,4 @@
-<sndvll-card class="px-2 py-2 mb-2">
+<card class="px-2 py-2 mb-2">
   <sndvll-accordion>
     <sndvll-accordion-item [expanded]="expanded" (onExpandedStateChanges)="onExpand($event)">
       <sndvll-accordion-item-header class="flex justify-between" cardHeader>
@@ -49,7 +49,7 @@
       </sndvll-accordion-item-content>
     </sndvll-accordion-item>
   </sndvll-accordion>
-</sndvll-card>
+</card>
 
 <ng-template #contextMenu>
   <button sndvll-dropdown-item (click)="openEditModal(editModal)" class="text-black dark:text-white">

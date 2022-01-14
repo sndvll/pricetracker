@@ -16,7 +16,7 @@
     "start:network": "ng serve --host 192.168.1.173",
     "start:prod": "npm run build && serve dist/pricetrckr",
     "deploy": "NODE_ENV=production ng -- deploy --base-href=/pricetracker/ --name=\"sndvll\" --email=\"emil@sndvll.com\" --no-silent",
-    "build:digital-ocean": "npm run lib:build && npm run build",
+    "build:digital-ocean": "git checkout https://github.com/sndvll/sndvll-lib.git && npm run lib:build && npm run build",
     "generate:assets": "npx pwa-asset-generator trckr-logo.png src/assets -b black"
   },
   "private": true,

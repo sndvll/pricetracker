@@ -1,12 +1,9 @@
 module.exports = {
   prefix: '',
-  purge: {
-    //enabled: false,
-    content: [
-      './src/**/*.{html,ts,scss}',
-      './purgecss-safelist.txt'
-    ],
-  },
+  content: [
+    './src/**/*.{html,ts,scss}',
+    './purgecss-safelist.txt'
+  ],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
     container: {

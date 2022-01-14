@@ -1,25 +1,28 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ToastModule} from './components';
 import {IconsModule} from './icons.module';
-import {ModalModule} from './components';
-import {ProgressBarModule} from './directives';
 import {ReactiveFormsModule} from '@angular/forms';
-import {InputModule} from './components';
-import {ToggleModule} from './components';
-import {DropdownMenuModule} from './components';
-import {TooltipModule} from './components';
-import {CardModule} from './components';
-import {AmountChangePipe,AmountPipe} from './pipes';
-import {AccordionModule} from './components';
-import {ButtonModule} from './directives';
-import {AlertModule} from './components';
-import {Select2Module} from './components';
-import {SearchbarModule} from './components';
 import {TranslateModule} from '@ngx-translate/core';
-import {LoaderModule} from './components/loader/loader.module';
-import {TruncatePipe} from './pipes/truncate/truncate.pipe';
-import {DragNDropModule} from './components/drag-drop/drag-drop.module';
+import {
+  ModalModule,
+  ToastModule,
+  ButtonModule,
+  ProgressBarModule,
+  AccordionModule,
+  AlertModule,
+  CardModule,
+  DragNDropModule,
+  DropdownMenuModule,
+  InputModule,
+  LoaderModule,
+  SearchbarModule,
+  ToggleModule,
+  TooltipModule,
+  SelectModule,
+  TruncatePipeModule,
+} from '@sndvll/components';
+import {AmountChangePipe, AmountPipe} from './pipes';
+
 
 @NgModule({
   imports: [
@@ -29,7 +32,6 @@ import {DragNDropModule} from './components/drag-drop/drag-drop.module';
     ModalModule,
     IconsModule,
     ProgressBarModule,
-    Select2Module,
     InputModule,
     ToggleModule,
     DropdownMenuModule,
@@ -40,12 +42,12 @@ import {DragNDropModule} from './components/drag-drop/drag-drop.module';
     AlertModule,
     SearchbarModule,
     LoaderModule,
-    DragNDropModule
+    DragNDropModule,
+    TruncatePipeModule
   ],
   declarations: [
     AmountChangePipe,
     AmountPipe,
-    TruncatePipe
   ],
   exports: [
     ReactiveFormsModule,
@@ -53,7 +55,7 @@ import {DragNDropModule} from './components/drag-drop/drag-drop.module';
     ModalModule,
     IconsModule,
     ProgressBarModule,
-    Select2Module,
+    SelectModule,
     InputModule,
     ToggleModule,
     DropdownMenuModule,
@@ -67,8 +69,9 @@ import {DragNDropModule} from './components/drag-drop/drag-drop.module';
     TranslateModule,
     LoaderModule,
     AmountPipe,
-    TruncatePipe,
-    DragNDropModule
+    DragNDropModule,
+    TruncatePipeModule
   ]
 })
-export class SharedModule {}
+export class SharedModule {
+}

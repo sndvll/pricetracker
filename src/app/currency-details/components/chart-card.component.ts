@@ -9,7 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {Chart, ChartType, TimeSpan} from '../interfaces';
-import {DropdownMenuService} from '../../shared';
+import {DropdownMenuService} from '@sndvll/components';
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';

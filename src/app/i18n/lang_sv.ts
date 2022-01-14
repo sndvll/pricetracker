@@ -36,10 +36,7 @@ export const LANG_SV = {
   ALERT: {
     DELETE_LIST: 'Vill du verkligen ta bort denna lista?',
     DELETE_ASSET: 'Vill du verkligen ta bort denna tillgång?',
-    WARNING_MESSAGE: 'Jag förstår att detta inte går att ångra!',
     BUTTON: {
-      OK: 'OK',
-      CLOSE:'Stäng',
       SAVE: 'Spara'
     }
   },

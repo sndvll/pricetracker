@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {FiatRatesDbService} from '../persistence';
 import {FreeCurrencyApiService} from '../api';
-import {DateUtils} from '../utils';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, NEVER, Observable, of, Subject} from 'rxjs';
 import {FiatCurrencyResponse, CurrencyModel} from '../model';
+import {DateUtils} from '@sndvll/core';
 
 @Injectable({providedIn: 'root'})
 export class FiatCurrencyService {
@@ -28,7 +28,7 @@ export class FiatCurrencyService {
         console.log(`Fetching fiat rates from db`);
         return this.db.find(DateUtils.today());
       }))
-      .subscribe(currency => this._currentRates.next(currency));
+      .subscribe(currency => this._currentRates.next(currency!));
   }
 
   public loadFiatRates(baseCurrency: string, date = DateUtils.today()): Observable<CurrencyModel> {

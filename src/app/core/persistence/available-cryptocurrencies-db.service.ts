@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {AbstractDbService} from './abstract-db.service';
-import {AppConfig} from '../../../app.config';
-import {DexieService} from './dexie.service';
 import {from} from 'rxjs';
 import {AvailableCryptoCurrency} from '../model';
 import {map, take} from 'rxjs/operators';
+import {AbstractDbService, DexieService} from '@sndvll/core';
+import {PersistenceConfig} from '../../app.module';
 
 export type AvailableSearchQuery = Partial<AvailableCryptoCurrency>;
 
@@ -12,7 +11,7 @@ export type AvailableSearchQuery = Partial<AvailableCryptoCurrency>;
 export class AvailableCryptocurrenciesDbService extends AbstractDbService<AvailableCryptoCurrency> {
 
   constructor(private dexieService: DexieService) {
-    super(dexieService.table<AvailableCryptoCurrency>(AppConfig.tables.available_crypto));
+    super(dexieService.table<AvailableCryptoCurrency>(PersistenceConfig.tables.available_crypto));
   }
 
   public search(phrase: string, limit: number) {

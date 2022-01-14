@@ -12,7 +12,7 @@
     "components:build": "ng build sndvll-components",
     "core:build": "ng build sndvll-core",
     "food-icons:build": "ng build sndvll-food-icons",
-    "lib:build": "npm run core:build && npm run icons:build && npm run food-icons:build && npm run components:build",
+    "lib:build": "npm run core:build && npm run icons:build && npm run components:build",
     "start:network": "ng serve --host 192.168.1.173",
     "start:prod": "npm run build && serve dist/pricetrckr",
     "deploy": "NODE_ENV=production ng -- deploy --base-href=/pricetracker/ --name=\"sndvll\" --email=\"emil@sndvll.com\" --no-silent",

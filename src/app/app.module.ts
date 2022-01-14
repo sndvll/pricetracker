@@ -23,22 +23,19 @@ import {
 import {SettingsModule} from './settings';
 import {LANG_EN, LANG_SV} from './i18n';
 import {LanguageModule, PersistenceModule} from '@sndvll/core';
-import {TRANSLATIONS_EN, TRANSLATIONS_SV} from '@sndvll/components';
 
 const LanguageConfig = {
   languages: [
     {
       key: 'en',
       translations: {
-        ...TRANSLATIONS_EN,
-        ...LANG_EN
+        ...LANG_EN,
       }
     },
     {
       key: 'sv',
       translations: {
-        ...TRANSLATIONS_SV,
-        ...LANG_SV
+        ...LANG_SV,
       }
     }
   ]

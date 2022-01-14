@@ -3,7 +3,7 @@ import {FiatRatesDbService} from '../persistence';
 import {FreeCurrencyApiService} from '../api';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, NEVER, Observable, of, Subject} from 'rxjs';
-import {FiatCurrencyResponse, CurrencyModel} from '../model';
+import {FiatCurrencyResponse, CurrencyModel, Currencies} from '../model';
 import {DateUtils} from '@sndvll/core';
 
 @Injectable({providedIn: 'root'})
@@ -34,20 +34,22 @@ export class FiatCurrencyService {
   public loadFiatRates(baseCurrency: string, date = DateUtils.today()): Observable<CurrencyModel> {
     console.log(`Fetching fiat rates, base: ${baseCurrency}, date: ${date}`);
     return this.api.getCurrencies(date, baseCurrency)
-      .pipe(catchError((err) => {
+      .pipe(
+        catchError((err) => {
           return this._handleError(err, baseCurrency, date);
         }),
         switchMap(res => {
           const data = res.data;
+          console.log(data);
           // The reason for this responseDate is because the api
           // can response with yesterdays-date, but to keep things sane
           // the key to lookup in the database should be today, when things got fetched.
           const dates = Object.keys(data);
           const responseDate = dates[dates.length - 1];
-          const currencyModel: CurrencyModel = {
+          const currencyModel: CurrencyModel = this.filterOutNonRelevantCurrencies({
             baseCurrency,
             currencies: data[responseDate]
-          }
+          });
           this.db.create(currencyModel, date);
           return of(currencyModel);
         }));
@@ -79,5 +81,28 @@ export class FiatCurrencyService {
   }
   public static set DisplayCurrency(currency: string) {
     localStorage.setItem('displayCurrency', currency);
+  }
+
+  private filterOutNonRelevantCurrencies(model: CurrencyModel): CurrencyModel {
+    // these are irrelevant either because they are cryptocurrencies or
+    // they are obsolete currencies that we are not interested in here.
+    const crypto = [
+      'XRP','LTC','ETH','BTC'
+    ];
+    const obsolete = [
+      'BIH', 'BYR', 'HRV',
+    ]
+    const nonRelevant = [
+      ...crypto, ...obsolete
+    ];
+    // and this became quite messy, but that's what you get with objects some times.
+    const filteredCurrencies = Object.keys(model.currencies)
+      .filter(symbol => !nonRelevant.includes(symbol))
+      .reduce((acc: Currencies, symbol) => {
+        acc[symbol] = model.currencies[symbol]
+        return acc;
+      }, {});
+
+    return {baseCurrency: model.baseCurrency, currencies: filteredCurrencies};
   }
 }

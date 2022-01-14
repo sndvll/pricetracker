@@ -37,7 +37,7 @@ jobs:
         run: |
           npm ci
       - name: Checkout lib
-        run |
+        run: |
           git clone https://github.com/sndvll/sndvll-lib.git
 
       - name: Build lib

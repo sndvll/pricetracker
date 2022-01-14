@@ -19,9 +19,41 @@ import {EffectsModule} from '@ngrx/effects';
 import {
   reducers,
   PriceTrackerEffects,
-  LanguageModule
 } from './core';
 import {SettingsModule} from './settings';
+import {LANG_EN, LANG_SV} from './i18n';
+import {LanguageModule, PersistenceModule} from '@sndvll/core';
+
+const LanguageConfig = {
+  languages: [
+    {
+      key: 'en',
+      translations: {
+        ...LANG_EN,
+      }
+    },
+    {
+      key: 'sv',
+      translations: {
+        ...LANG_SV,
+      }
+    }
+  ]
+};
+
+export const PersistenceConfig = {
+  database: 'pricetrckr',
+  tables: {
+    fiat_currency: 'fiat_currency',
+    available_crypto: 'available_crypto',
+    lists: 'lists'
+  },
+  schema: {
+    fiat_currency: '',
+    available_crypto: 'id,*name,*symbol',
+    lists: 'id'
+  }
+}
 
 @NgModule({
   declarations: [
@@ -44,7 +76,6 @@ import {SettingsModule} from './settings';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    LanguageModule,
     StoreModule.forRoot({
       priceTrackerState: reducers
     }, {
@@ -60,7 +91,9 @@ import {SettingsModule} from './settings';
 
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([PriceTrackerEffects])
+    EffectsModule.forRoot([PriceTrackerEffects]),
+    PersistenceModule.forRoot(PersistenceConfig),
+    LanguageModule.forRoot(LanguageConfig),
   ],
   providers: [],
   bootstrap: [AppComponent]

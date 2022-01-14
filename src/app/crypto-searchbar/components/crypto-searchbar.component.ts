@@ -1,13 +1,10 @@
 import {Component, EventEmitter, Output, TemplateRef, ViewChild} from '@angular/core';
 import {
   AvailableCryptoCurrency,
-  ConnectedDialogConfigBuilder,
   CryptoCurrencyService,
-  DialogConnectedPosition,
-  DialogRef,
-  DialogService
 } from '../../core';
-import {SearchbarComponent, SearchbarResultComponent, SearchbarResultConfig} from '../../shared';
+import {SearchbarComponent, SearchbarResultComponent, SearchbarResultConfig} from '@sndvll/components';
+import {ConnectedOverlayConfigBuilder, OverlayConnectedPosition, OverlayRef, OverlayService} from '@sndvll/core';
 
 @Component({
   selector: 'crypto-searchbar',
@@ -25,15 +22,15 @@ export class CryptoSearchbarComponent {
   public searchStatus: 'result' | 'noresult' | null = null;
   public isOpen: boolean = false;
 
-  private _dialogRef!: DialogRef;
+  private overlayRef!: OverlayRef;
 
-  constructor(private dialog: DialogService,
+  constructor(private dialog: OverlayService,
               private crypto: CryptoCurrencyService) {}
 
   public open() {
     const { nativeElement } = this.searchbar.elementRef;
-    const dialogConfig = new ConnectedDialogConfigBuilder<SearchbarResultComponent, SearchbarResultConfig>()
-      .preferredConnectedPosition(DialogConnectedPosition.BottomLeft)
+    const dialogConfig = new ConnectedOverlayConfigBuilder<SearchbarResultComponent, SearchbarResultConfig>()
+      .preferredConnectedPosition(OverlayConnectedPosition.BottomLeft)
       .origin(nativeElement)
       .component(SearchbarResultComponent)
       .backdropClass('bg-transparent')
@@ -43,8 +40,8 @@ export class CryptoSearchbarComponent {
       })
       .config;
     this.isOpen = true;
-    this._dialogRef = this.dialog.open(dialogConfig);
-    this._dialogRef.onClose$
+    this.overlayRef = this.dialog.open(dialogConfig);
+    this.overlayRef.onClose$
       .subscribe(() => {
         this.isOpen = false;
       })
@@ -89,8 +86,8 @@ export class CryptoSearchbarComponent {
   }
 
   private _close() {
-    if (this._dialogRef) {
-      this._dialogRef.close();
+    if (this.overlayRef) {
+      this.overlayRef.close();
     }
   }
 

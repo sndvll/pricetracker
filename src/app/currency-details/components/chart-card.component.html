@@ -1,4 +1,4 @@
-<card class="w-full my-2 chart">
+<sndvll-card class="w-full my-2 chart">
   <div class="justify-between px-3 items-center" cardHeader>
     <h1 class="font-bold text-xl">{{header}}</h1>
     <div class="py-2 flex flex-row items-center justify-end">
@@ -36,7 +36,7 @@
       [legend]="false">
     </ngx-charts-line-chart>
   </div>
-</card>
+</sndvll-card>
 <ng-template #contextMenu>
   <div class="py-2 px-3 bg-white dark:bg-black text-black dark:text-white">
     <sndvll-toggle [formControl]="formControl">{{'CURRENCY_DETAILS.CHART.CONTEXT_MENU.DAILY' | translate}}</sndvll-toggle>

@@ -1,8 +1,9 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "./styles/shared";
-@import "./styles/dialog";
+
+@import "dist/sndvll-components/styles";
+@import "dist/sndvll-core/styles";
 
 html, body {
   height: 100%;
@@ -21,35 +22,3 @@ body {
   //-webkit-user-select:none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
 }
 
-.overflow-touch {
-  -webkit-overflow-scrolling : touch !important;
-}
-
-.dragdrop-container {
-  overflow: hidden;
-}
-
-.dragdrop-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  cursor: move;
-}
-
-.cdk-drag-preview {
-  color: white;
-}
-
-.cdk-drag-placeholder {
-  opacity: 0;
-}
-
-.cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.dragdrop-container.cdk-drop-list-dragging.dragdrop-item:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}

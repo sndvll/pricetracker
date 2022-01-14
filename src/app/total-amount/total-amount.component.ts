@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FiatCurrencyService, Language, LanguageService, PriceTrackerStore} from '../core';
+import {FiatCurrencyService, PriceTrackerStore} from '../core';
 import {Subject} from 'rxjs';
 import {switchMap, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {LanguageService} from '@sndvll/core';
 
 @Component({
   selector: 'total-amount',
@@ -14,7 +15,7 @@ export class TotalAmountComponent implements OnInit, OnDestroy {
   public totalAmount: number = 0;
   public totalAverageMarketChange: number = 0;
   public displayCurrency: string = FiatCurrencyService.DisplayCurrency;
-  public currenLanguage: Language = LanguageService.currentLang;
+  public currenLanguage: string = LanguageService.currentLang;
 
   constructor(private store: PriceTrackerStore,
               private language: LanguageService,

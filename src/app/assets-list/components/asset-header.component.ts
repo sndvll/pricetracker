@@ -3,8 +3,9 @@ import {
   HostBinding,
   Input
 } from '@angular/core';
-import {AssetModel, Color, FiatCurrencyService, Language} from '../../core';
+import {AssetModel, FiatCurrencyService} from '../../core';
 import {Observable} from 'rxjs';
+import {Color} from '@sndvll/core';
 
 @Component({
   selector: 'asset-header',
@@ -17,7 +18,7 @@ export class AssetHeaderComponent {
   @Input() asset!: AssetModel;
 
   @Input() displayCurrency!: string;
-  @Input() currentLanguage!: Language;
+  @Input() currentLanguage!: string;
 
   constructor(private fiat: FiatCurrencyService) {}
 

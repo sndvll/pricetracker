@@ -37,14 +37,17 @@ jobs:
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: |
           npm ci
-
-      - name: Build icons lib
+      - name: Checkout lib
         run: |
-          npm run icons:build
+          git clone https://github.com/sndvll/sndvll-lib.git
 
-      - name: Run tests
+      - name: Build lib
         run: |
-          npm run test
+          npm run lib:build
+
+#      - name: Run tests
+#        run: |
+#          npm run test
 
       - name: Build app
         run: |

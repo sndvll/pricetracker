@@ -16,13 +16,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   public availableCurrencies: string[] = [];
   public availableLanguages: string[] = LanguageService.AvailableLanguages;
-  public displayCurrencyControl: FormControl = new FormControl(FiatCurrencyService.DisplayCurrency);
   public changeLanguageControl: FormControl = new FormControl(LanguageService.currentLang);
 
   public buildInfo = build;
 
-  @Output()
-  public onClose = new EventEmitter<void>();
+  @Output() onClose = new EventEmitter<void>();
 
   constructor(private store: PriceTrackerStore,
               private language: LanguageService,
@@ -30,22 +28,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.fiat.availableCurrencies
       .pipe(take(1))
       .subscribe(availableCurrencies => {
         this.availableCurrencies = availableCurrencies.sort();
-      });
-
-    this.displayCurrencyControl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        filter(currency => !!currency)
-      )
-      .subscribe(currency => {
-        if (currency != FiatCurrencyService.DisplayCurrency) {
-          this.store.changeDisplayCurrency(currency);
-        }
       });
 
     this.changeLanguageControl.valueChanges
@@ -56,7 +42,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
       .subscribe(language => {
         this.language.setLanguage(language);
       });
+  }
 
+  public selectDisplayCurrency(symbol: string) {
+    this.store.changeDisplayCurrency(symbol);
   }
 
   ngOnDestroy(): void {

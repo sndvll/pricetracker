@@ -263,7 +263,20 @@ export const LANG_SV = {
     PINK: 'Rosa',
     BLACK: 'Svart',
     WHITE: 'Vit',
-    TRANSPARENT: 'Transparent'
+    TRANSPARENT: 'Transparent',
+    SLATE: 'Skiffer',
+    ZINC: 'Zink',
+    STONE: 'Sten',
+    ORANGE: 'Orange',
+    AMBER: 'Bärnsten',
+    LIME: 'Lime',
+    EMERALD: 'Emerald',
+    TEAL: 'Teal',
+    CYAN: 'Cyan',
+    SKY: 'Himmel',
+    VIOLET: 'Violett',
+    FUCHSIA: 'Fuchsia',
+    ROSE: 'Ros'
   },
   SETTINGS: {
     HEADER: {

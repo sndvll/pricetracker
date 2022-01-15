@@ -263,7 +263,20 @@ export const LANG_EN = {
     PINK: 'Pink',
     BLACK: 'Black',
     WHITE: 'White',
-    TRANSPARENT: 'Transparent'
+    TRANSPARENT: 'Transparent',
+    SLATE: 'Slate',
+    ZINC: 'Zinc',
+    STONE: 'Stone',
+    ORANGE: 'Orange',
+    AMBER: 'Amber',
+    LIME: 'Lime',
+    EMERALD: 'Emerald',
+    TEAL: 'Teal',
+    CYAN: 'Cyan',
+    SKY: 'Sky',
+    VIOLET: 'Violet',
+    FUCHSIA: 'Fuchsia',
+    ROSE: 'Rose'
   },
   SETTINGS: {
     HEADER: {

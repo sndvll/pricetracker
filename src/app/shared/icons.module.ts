@@ -7,6 +7,7 @@ import {
   ChevronUp,
   Edit,
   ExternalLink,
+  Github,
   Globe,
   HelpCircle,
   Info,
@@ -41,7 +42,8 @@ const icons = {
   Globe,
   ExternalLink,
   Search,
-  RefreshCcw
+  RefreshCcw,
+  Github
 };
 
 @NgModule({

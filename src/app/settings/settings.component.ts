@@ -4,6 +4,7 @@ import {FiatCurrencyService, PriceTrackerStore} from '../core';
 import {filter, take, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {LanguageService} from '@sndvll/core';
+import build from '../../build';
 
 @Component({
   selector: 'settings',
@@ -17,6 +18,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public availableLanguages: string[] = LanguageService.AvailableLanguages;
   public displayCurrencyControl: FormControl = new FormControl(FiatCurrencyService.DisplayCurrency);
   public changeLanguageControl: FormControl = new FormControl(LanguageService.currentLang);
+
+  public buildInfo = build;
 
   @Output()
   public onClose = new EventEmitter<void>();

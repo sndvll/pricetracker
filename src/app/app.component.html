@@ -1,28 +1,30 @@
-<div class="sticky top-0 bg-white shadow-sm dark:bg-gray-900 px-2 pt-2 pb-1 ">
-  <div class="flex flex-row justify-between px-3 pb-3 pt-1">
-    <ng-container *ngIf="isLoading">
-      <div class="text-red-400">
-        <spinner></spinner>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="!isLoading">
-      <button sndvll-btn="icon" (click)="refresh()">
-        <icon name="refresh-ccw"></icon>
+<div class="w-full h-full flex flex-col">
+  <div class=" flex-none bg-white shadow-sm dark:bg-gray-900 px-2 pt-2 pb-1">
+    <div class="flex flex-row justify-between px-3 pb-3 pt-1">
+      <ng-container *ngIf="isLoading">
+        <div class="text-red-400">
+          <spinner></spinner>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!isLoading">
+        <button sndvll-btn="icon" (click)="refresh()">
+          <icon name="refresh-ccw"></icon>
+        </button>
+      </ng-container>
+      <img src="assets/logo.png" class="w-10 h-10 filter dark:invert" alt="logotype">
+      <button sndvll-btn="icon" (click)="openSettings(settings)">
+        <icon name="menu" weight="bold" size="1.5rem"></icon>
       </button>
+    </div>
+    <ng-container>
+      <total-amount *ngIf="numberOfLists > 0"></total-amount>
     </ng-container>
-    <img src="assets/logo.png" class="w-10 h-10 filter dark:invert" alt="logotype">
-    <button sndvll-btn="icon" (click)="openSettings(settings)">
-      <icon name="menu" weight="bold" size="1.5rem"></icon>
-    </button>
+    <crypto-searchbar (addCurrency)="addCurrency($event)"
+                      (openCurrencyDetails)="openDetails($event)"></crypto-searchbar>
   </div>
-  <ng-container>
-    <total-amount *ngIf="numberOfLists > 0"></total-amount>
-  </ng-container>
-  <crypto-searchbar (addCurrency)="addCurrency($event)"
-                    (openCurrencyDetails)="openDetails($event)"></crypto-searchbar>
-</div>
-<div class="px-2 pt-2 pb-5 flex flex-col md:flex-row justify-center">
-  <asset-lists></asset-lists>
+  <div class="overflow-y-auto px-2 pt-2">
+    <asset-lists></asset-lists>
+  </div>
 </div>
 
 <ng-template #settings>

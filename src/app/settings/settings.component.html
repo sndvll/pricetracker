@@ -1,10 +1,11 @@
-<div class="w-full items-center p-3">
-  <div class="flex flex-row justify-between">
-    <h1 class="text-xl font-bold">{{'SETTINGS.HEADER.SETTINGS' | translate}}</h1>
-    <button sndvll-btn="button" color="light" (click)="onClose.emit()">{{'SETTINGS.BUTTON.CLOSE' | translate}}</button>
+<div class="flex flex-col h-full">
+  <div class="w-full items-center p-3">
+    <div class="flex flex-row justify-between">
+      <h1 class="text-xl font-bold">{{'SETTINGS.HEADER.SETTINGS' | translate}}</h1>
+      <button sndvll-btn="button" color="light" (click)="onClose.emit()">{{'SETTINGS.BUTTON.CLOSE' | translate}}</button>
+    </div>
   </div>
-</div>
-<div class="p-3">
+  <div class="p-3 grow">
     <div class="text-xs font-bold">
       {{'SETTINGS.HEADER.CURRENCY' | translate}}
     </div>
@@ -17,16 +18,27 @@
         <div *selectLabel>{{'CURRENCY.' + currency.toUpperCase() | translate}} ({{currency}})</div>
       </sndvll-select-option>
     </sndvll-select>
-  <div class="text-xs font-bold mt-3">
-    {{'SETTINGS.HEADER.LANGUAGE' | translate}}
+    <div class="text-xs font-bold mt-3">
+      {{'SETTINGS.HEADER.LANGUAGE' | translate}}
+    </div>
+    <sndvll-select [formControl]="changeLanguageControl"
+                   [clearable]="false"
+                   placeholder="{{'SETTINGS.PLACEHOLDER.LANGUAGE' | translate}}"
+                   class="w-full my-1">
+      <sndvll-select-option *ngFor="let language of availableLanguages"
+                            [value]="language">
+        <div *selectLabel>{{'SETTINGS.LANGUAGE.' + language.toUpperCase() | translate}}</div>
+      </sndvll-select-option>
+    </sndvll-select>
   </div>
-  <sndvll-select [formControl]="changeLanguageControl"
-                 [clearable]="false"
-                 placeholder="{{'SETTINGS.PLACEHOLDER.LANGUAGE' | translate}}"
-                 class="w-full my-1">
-    <sndvll-select-option *ngFor="let language of availableLanguages"
-                          [value]="language">
-      <div *selectLabel>{{'SETTINGS.LANGUAGE.' + language.toUpperCase() | translate}}</div>
-    </sndvll-select-option>
-  </sndvll-select>
+  <div class="p-3 flex flex-col">
+    <span class="text-sm text-center">
+      <a sndvll-btn="link" href="https://github.com/sndvll/pricetracker" target="_blank" rel="noopener">
+        <icon name="github" size="lg"></icon>
+      </a>
+    </span>
+    <span class="text-sm text-center font-bold">Version: {{buildInfo.version}}</span>
+    <span class="text-xs text-center">Commit: {{buildInfo.git.hash}}</span>
+  </div>
 </div>
+

@@ -46,3 +46,4 @@ Thumbs.db
 
 /sndvll-lib
 /.angular
+/src/build.ts

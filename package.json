@@ -16,7 +16,7 @@
     "start:network": "ng serve --host 192.168.1.173",
     "start:prod": "npm run build && serve dist/pricetrckr",
     "deploy": "NODE_ENV=production ng -- deploy --base-href=/pricetracker/ --name=\"sndvll\" --email=\"emil@sndvll.com\" --no-silent",
-    "build:digital-ocean": "git clone https://github.com/sndvll/sndvll-lib.git && npm install && npm run lib:build && npm run build",
+    "build:digital-ocean": "git clone https://github.com/sndvll/sndvll-lib.git && npm run lib:build && npm run build",
     "generate:assets": "npx pwa-asset-generator trckr-logo.png src/assets -b black"
   },
   "private": true,
@@ -55,7 +55,7 @@
     "@types/d3-selection": "^3.0.2",
     "@types/jest": "^26.0.24",
     "@types/node": "^12.11.1",
-    "angular-cli-ghpages": "^1.0.0-rc.2",
+    "angular-build-info": "^2.0.1",
     "autoprefixer": "^10.2.5",
     "jest": "^27.0.6",
     "jest-preset-angular": "^9.0.5",

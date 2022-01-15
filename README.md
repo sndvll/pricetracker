@@ -2,18 +2,19 @@
 
 ### ‼️ WORK IN PROGRESS ‼️ 
 
-Check it out at http://sndvll.github.io/pricetracker from your phone/chrome dev tools phone view
+Check it out at http://pricetrckr.sndvll.dev from your phone/chrome dev tools phone view
 
 #### wat is it?
  - Mobile focused PWA that tracks prices of various crypto assets and calculates total asset value in different fiat currencies. 
  - Playground to create some cool components and Angular Material like stuff from scratch.
  - Just a client, uses Dexie.js to save stuff locally in IndexedDB. 
 
-### Highlights
-A custom dynamic dialog engine created from scratch, that can insert any component on a given position on the page.
-Inspired by Angular CDK/Material Overlay/Dialog. 
-For usage look at the toast and modal components, and for implementation look in `src/app/core/dialog`
+### Good to know
+Relies heavily on https://github.com/sndvll/sndvll-lib which in is a collection of angular libraries including components, icons and 
+a home cooked "clone" of Angular Materials Overlay/Popper.js.
 
-#### Note
-The Icon library is recreated from https://github.com/michaelbazos/angular-feather 🔥 
-(Which did not support Angular 12 at the moment of creation)
+### Set up development environment
+Clone this this repo.<br />
+run ```npm install```</br >
+In the root folder clone  https://github.com/sndvll/sndvll-lib and follow instructions in that repo.
+Checkout package.json for various scripts with different purposes.

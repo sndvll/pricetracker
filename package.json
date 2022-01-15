@@ -55,7 +55,7 @@
     "@types/d3-selection": "^3.0.2",
     "@types/jest": "^26.0.24",
     "@types/node": "^12.11.1",
-    "angular-cli-ghpages": "^1.0.0-rc.2",
+    "angular-build-info": "^2.0.1",
     "autoprefixer": "^10.2.5",
     "jest": "^27.0.6",
     "jest-preset-angular": "^9.0.5",

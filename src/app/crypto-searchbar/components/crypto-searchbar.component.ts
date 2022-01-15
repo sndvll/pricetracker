@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Output, TemplateRef, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {
   AvailableCryptoCurrency,
   CryptoCurrencyService,
 } from '../../core';
-import {SearchbarComponent, SearchbarResultComponent, SearchbarResultConfig} from '@sndvll/components';
-import {ConnectedOverlayConfigBuilder, OverlayConnectedPosition, OverlayRef, OverlayService} from '@sndvll/core';
+import {SearchComponent, SearchStatus} from '@sndvll/components';
 
 @Component({
   selector: 'crypto-searchbar',
@@ -12,45 +11,17 @@ import {ConnectedOverlayConfigBuilder, OverlayConnectedPosition, OverlayRef, Ove
 })
 export class CryptoSearchbarComponent {
 
-  @ViewChild(SearchbarComponent) searchbar!: SearchbarComponent;
-  @ViewChild('searchResultRef') searchResultRef!: TemplateRef<any>;
+  @ViewChild(SearchComponent) search!: SearchComponent;
 
   @Output() openCurrencyDetails = new EventEmitter<AvailableCryptoCurrency>();
   @Output() addCurrency = new EventEmitter<AvailableCryptoCurrency>();
 
+  public searchStatus: SearchStatus = null;
   public searchResult: AvailableCryptoCurrency[] = [];
-  public searchStatus: 'result' | 'noresult' | null = null;
-  public isOpen: boolean = false;
 
-  private overlayRef!: OverlayRef;
-
-  constructor(private dialog: OverlayService,
-              private crypto: CryptoCurrencyService) {}
-
-  public open() {
-    const { nativeElement } = this.searchbar.elementRef;
-    const dialogConfig = new ConnectedOverlayConfigBuilder<SearchbarResultComponent, SearchbarResultConfig>()
-      .preferredConnectedPosition(OverlayConnectedPosition.BottomLeft)
-      .origin(nativeElement)
-      .component(SearchbarResultComponent)
-      .backdropClass('bg-transparent')
-      .data({
-        templateRef: this.searchResultRef,
-        width: `${nativeElement.clientWidth}px`
-      })
-      .config;
-    this.isOpen = true;
-    this.overlayRef = this.dialog.open(dialogConfig);
-    this.overlayRef.onClose$
-      .subscribe(() => {
-        this.isOpen = false;
-      })
-  }
+  constructor(private crypto: CryptoCurrencyService) {}
 
   public onSearch(searchPhrase: string) {
-    if (!this.isOpen) {
-      this.open();
-    }
     if (searchPhrase) {
       this.crypto.search(searchPhrase, 75)
         .subscribe(searchResult => {
@@ -60,20 +31,20 @@ export class CryptoSearchbarComponent {
     } else {
       this.searchResult = [];
       this.searchStatus = null;
-      this._close();
+      this.search.close();
     }
   }
 
   public onOpenCurrencyDetails(currency: AvailableCryptoCurrency) {
     this.openCurrencyDetails.emit(currency);
-    this.searchbar.clear();
-    this._close();
+    this.search.clear();
+    this.search.close();
   }
 
   public add(currency: AvailableCryptoCurrency) {
     this.addCurrency.emit(currency);
-    this.searchbar.clear();
-    this._close();
+    this.search.clear();
+    this.search.close();
   }
 
   get count() {
@@ -81,14 +52,8 @@ export class CryptoSearchbarComponent {
   }
 
   public reloadCurrencyDatabase() {
-    this.crypto.loadAvailableCurrencies();
-    this._close();
-  }
-
-  private _close() {
-    if (this.overlayRef) {
-      this.overlayRef.close();
-    }
+    this.crypto.loadAvailableCurrencies(true);
+    this.search.close();
   }
 
 }

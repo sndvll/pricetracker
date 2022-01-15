@@ -9,15 +9,8 @@
     <div class="text-xs font-bold">
       {{'SETTINGS.HEADER.CURRENCY' | translate}}
     </div>
-    <sndvll-select [formControl]="displayCurrencyControl"
-                   [clearable]="false"
-                   placeholder="{{'SETTINGS.PLACEHOLDER.CURRENCY' | translate}}"
-                   class="w-full my-1">
-      <sndvll-select-option *ngFor="let currency of availableCurrencies"
-                            [value]="currency">
-        <div *selectLabel>{{'CURRENCY.' + currency.toUpperCase() | translate}} ({{currency}})</div>
-      </sndvll-select-option>
-    </sndvll-select>
+    <fiat-currency-search-bar [availableCurrencies]="availableCurrencies"
+                              (onSelect)="selectDisplayCurrency($event)"></fiat-currency-search-bar>
     <div class="text-xs font-bold mt-3">
       {{'SETTINGS.HEADER.LANGUAGE' | translate}}
     </div>
@@ -41,4 +34,3 @@
     <span class="text-xs text-center">Commit: {{buildInfo.git.hash}}</span>
   </div>
 </div>
-

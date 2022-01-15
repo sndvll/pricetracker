@@ -1,0 +1,19 @@
+<sndvll-search [searchResultRef]="searchResultRef"
+               (searchPhrase)="onSearch($event)"
+               [placeholder]="currentDisplayCurrencyLabel"></sndvll-search>
+
+<ng-template #searchResultRef>
+  <div class="w-full rounded bg-white dark:bg-gray-700">
+    <ng-container *ngIf="searchStatus === 'result'">
+      <search-result-item *ngFor="let symbol of searchResult" class="select-option" (click)="onSelectCurrency(symbol)">
+        {{'CURRENCY.' + symbol.toUpperCase() | translate}} ({{symbol}})
+      </search-result-item>
+    </ng-container>
+    <ng-container *ngIf="searchStatus === 'noresult'">
+      <div class="flex flex-col p-2 text-center">
+        <span>No currency with that symbol</span>
+        <span>available..</span>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

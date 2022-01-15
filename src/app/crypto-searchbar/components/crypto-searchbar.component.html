@@ -1,26 +1,28 @@
-<sndvll-searchbar class="mb-2"
-                  size="sm"
-                  placeholder="{{'CRYPTO_SEARCH_BAR.PLACEHOLDER' | translate}}"
-                  (valueChanges)="onSearch($event)" xmlns="http://www.w3.org/1999/html"></sndvll-searchbar>
+<sndvll-search size="sm"
+               (searchPhrase)="onSearch($event)"
+               [searchResultRef]="searchResultRef"
+               placeholder="{{'CRYPTO_SEARCH_BAR.PLACEHOLDER' | translate}}"></sndvll-search>
 
 <ng-template #searchResultRef>
-  <ng-container *ngIf="searchStatus === 'result'">
-    <searchbar-result-item *ngFor="let currency of searchResult"
-                           class="flex flex-row justify-between items-center py-1 px-2">
-      <div class="w-full h-8 hover:bg-gray-100 cursor-pointer rounded px-2 flex items-center"
-           (click)="onOpenCurrencyDetails(currency)">
-        {{currency.name}}
+  <div class="w-full rounded bg-white dark:bg-gray-700">
+    <ng-container *ngIf="searchStatus === 'result'">
+      <search-result-item *ngFor="let currency of searchResult"
+                          class="flex flex-row justify-between items-center py-1 px-2">
+        <div class="w-full h-8 hover:bg-gray-100 hover:dark:bg-gray-600 cursor-pointer rounded px-2 flex items-center"
+             (click)="onOpenCurrencyDetails(currency)">
+          {{currency.name}}
+        </div>
+        <button sndvll-btn="icon">
+          <icon name="plus-circle" (click)="add(currency)"></icon>
+        </button>
+      </search-result-item>
+    </ng-container>
+    <ng-container *ngIf="searchStatus === 'noresult'">
+      <div class="w-full text-center py-5">
+        <div>{{'CRYPTO_SEARCH_BAR.NO_RESULT' | translate}}</div>
+        <div>{{'CRYPTO_SEARCH_BAR.AVAILABLE' | translate : {count: count} }}</div>
+        <button sndvll-btn="link" (click)="reloadCurrencyDatabase()">{{'CRYPTO_SEARCH_BAR.RELOAD' | translate}}</button>
       </div>
-      <button sndvll-btn="icon">
-        <icon name="plus-circle" (click)="add(currency)"></icon>
-      </button>
-    </searchbar-result-item>
-  </ng-container>
-  <ng-container *ngIf="searchStatus === 'noresult'">
-    <div class="w-full text-center py-5">
-      <div>{{'CRYPTO_SEARCH_BAR.NO_RESULT' | translate}}</div>
-      <div>{{'CRYPTO_SEARCH_BAR.AVAILABLE' | translate : {count: count} }}</div>
-      <button sndvll-btn="link" (click)="reloadCurrencyDatabase()">{{'CRYPTO_SEARCH_BAR.RELOAD' | translate}}</button>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </ng-template>

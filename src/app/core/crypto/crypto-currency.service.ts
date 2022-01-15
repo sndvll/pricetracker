@@ -27,7 +27,7 @@ export class CryptoCurrencyService {
       .subscribe(() => this.loadAvailableCurrencies());
   }
 
-  public loadAvailableCurrencies() {
+  public loadAvailableCurrencies(reload: boolean = false) {
     console.log('loading coins into db');
     this.api.coins()
       .pipe(
@@ -37,7 +37,7 @@ export class CryptoCurrencyService {
           return filtered;
         })
       )
-      .subscribe(coins => this.available.bulkAdd(coins))
+      .subscribe(coins => reload ? this.available.bulkPut(coins) : this.available.bulkAdd(coins))
   }
 
   public search(phrase: string, limit: number) {

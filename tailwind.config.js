@@ -2,7 +2,7 @@ module.exports = {
   prefix: '',
   content: [
     './src/**/*.{html,ts,scss}',
-    './purgecss-safelist.txt'
+    './sndvll-lib/sndvll-core/purgecss-safelist.txt'
   ],
   darkMode: 'media', // or 'media' or 'class'
   theme: {

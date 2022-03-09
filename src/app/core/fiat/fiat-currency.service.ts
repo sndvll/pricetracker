@@ -33,36 +33,27 @@ export class FiatCurrencyService {
 
   public loadFiatRates(baseCurrency: string, date = DateUtils.today()): Observable<CurrencyModel> {
     console.log(`Fetching fiat rates, base: ${baseCurrency}, date: ${date}`);
-    return this.api.getCurrencies(date, baseCurrency)
+    return this.api.getCurrencies(baseCurrency)
       .pipe(
-        catchError((err) => {
-          return this._handleError(err, baseCurrency, date);
-        }),
+        catchError((err) => this._handleError(err)),
         switchMap(res => {
-          const data = res.data;
-          console.log(data);
-          // The reason for this responseDate is because the api
-          // can response with yesterdays-date, but to keep things sane
-          // the key to lookup in the database should be today, when things got fetched.
-          const dates = Object.keys(data);
-          const responseDate = dates[dates.length - 1];
+          const currencies = Object.values(res.data)
+            .reduce((acc: Currencies, current) => {
+              acc[current.code] = current.value;
+              return acc;
+            }, {});
           const currencyModel: CurrencyModel = this.filterOutNonRelevantCurrencies({
             baseCurrency,
-            currencies: data[responseDate]
+            currencies
           });
           this.db.create(currencyModel, date);
           return of(currencyModel);
         }));
   }
 
-  private _handleError(error: any, baseCurrency: string, date: string): Observable<FiatCurrencyResponse> {
-    console.log('Caught error fetching fiat rates', error.error.data.error);
-    if (error.error.data.error === 'no data available for this date.') {
-      console.log('No data available for this date. Fetching some historic data and taking the last day available');
-      const fromDate = DateUtils.daysAgo(date, 7);
-      const toDate = DateUtils.today();
-      return this.api.getHistoric(fromDate, toDate, baseCurrency);
-    }
+  private _handleError(error: any): Observable<FiatCurrencyResponse> {
+    console.log('Caught error fetching fiat rates', error);
+    // todo handle this error, maybe get the latest rates in the db???
     return NEVER;
   }
 

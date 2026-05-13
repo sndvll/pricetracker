@@ -26,13 +26,14 @@ import {
   getTotalPriceChange
 } from '../../core';
 import {Observable} from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Color, Colors, initialValueChangedValidator, LanguageService, OverlayRef} from '@sndvll/core';
 
 @Component({
-  selector: 'asset-list',
-  templateUrl: './asset-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'asset-list',
+    templateUrl: './asset-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AssetListComponent implements OnInit {
 
@@ -55,12 +56,12 @@ export class AssetListComponent implements OnInit {
   @Output() deleteAsset = new EventEmitter<{ assetId: string, listId: string }>();
   @Output() expand = new EventEmitter<{listId: string, expanded: boolean}>();
 
-  public editModalForm!: FormGroup;
+  public editModalForm!: UntypedFormGroup;
 
   constructor(private dropdown: DropdownMenuService,
               private alert: AlertService,
               private modal: ModalService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private fiat: FiatCurrencyService,
               private language: LanguageService) {
   }

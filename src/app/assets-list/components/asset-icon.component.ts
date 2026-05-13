@@ -1,8 +1,9 @@
 import {Component, HostBinding, Input} from '@angular/core';
 
 @Component({
-  selector: 'asset-icon',
-  template: `<i class="cf {{symbol}}"></i>`
+    selector: 'asset-icon',
+    template: `<i class="cf {{symbol}}"></i>`,
+    standalone: false
 })
 export class AssetIconComponent {
 

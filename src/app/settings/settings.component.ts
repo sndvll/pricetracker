@@ -2,14 +2,15 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {Subject} from 'rxjs';
 import {DataExportService, FiatCurrencyService, PriceTrackerStore} from '../core';
 import {filter, take, takeUntil} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {LanguageService} from '@sndvll/core';
 import {environment} from '../../environments/environment';
 import build from '../../build';
 
 @Component({
-  selector: 'settings',
-  templateUrl: './settings.component.html'
+    selector: 'settings',
+    templateUrl: './settings.component.html',
+    standalone: false
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 
@@ -17,7 +18,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   public availableCurrencies: string[] = [];
   public availableLanguages: string[] = LanguageService.AvailableLanguages;
-  public changeLanguageControl: FormControl = new FormControl(LanguageService.currentLang);
+  public changeLanguageControl: UntypedFormControl = new UntypedFormControl(LanguageService.currentLang);
 
   public buildInfo = build;
   public environment = environment;

@@ -2,11 +2,12 @@ import {Component, HostBinding, Inject, TemplateRef} from '@angular/core';
 import {OVERLAY_REF, OverlayRef} from '@sndvll/core';
 
 @Component({
-  template: `
+    template: `
     <div class="first:rounded-t first:border-b last:rounded-b last:border-t">
       <ng-container *ngTemplateOutlet="templateRef"></ng-container>
     </div>
   `,
+    standalone: false
 })
 export class DropdownMenuComponent {
 

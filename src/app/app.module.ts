@@ -1,15 +1,15 @@
-import {Inject, NgModule} from '@angular/core';
+import {Inject, NgModule, DOCUMENT} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from './shared';
-import {HttpClientModule} from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {TotalAmountModule} from './total-amount';
 import {CryptoSearchbarModule} from './crypto-searchbar';
 import {AssetListModule} from './assets-list';
 import {DeviceDetectorService} from 'ngx-device-detector';
-import {DOCUMENT} from '@angular/common';
+
 import {AddAssetModule} from './add-asset';
 import {CurrencyDetailsModule} from './currency-details';
 import {StoreModule} from '@ngrx/store';
@@ -54,43 +54,34 @@ export const PersistenceConfig = {
   }
 }
 
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    SharedModule,
-    TotalAmountModule,
-    AssetListModule,
-    AddAssetModule,
-    SettingsModule,
-    CurrencyDetailsModule,
-    CryptoSearchbarModule,
-    HttpClientModule,
-    StoreModule.forRoot({
-      priceTrackerState: reducers
-    }, {
-
-      runtimeChecks: {
-        strictActionImmutability: true,
-        strictActionSerializability: true,
-        strictStateImmutability: true,
-        strictStateSerializability: true,
-        strictActionWithinNgZone: true,
-        strictActionTypeUniqueness: true
-      }
-
-    }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([PriceTrackerEffects]),
-    PersistenceModule.forRoot(PersistenceConfig),
-    LanguageModule.forRoot(LanguageConfig),
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
+        AppRoutingModule,
+        SharedModule,
+        TotalAmountModule,
+        AssetListModule,
+        AddAssetModule,
+        SettingsModule,
+        CurrencyDetailsModule,
+        CryptoSearchbarModule,
+        StoreModule.forRoot({
+            priceTrackerState: reducers
+        }, {
+            runtimeChecks: {
+                strictActionImmutability: true,
+                strictActionSerializability: true,
+                strictStateImmutability: true,
+                strictStateSerializability: true,
+                strictActionWithinNgZone: true,
+                strictActionTypeUniqueness: true
+            }
+        }),
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+        EffectsModule.forRoot([PriceTrackerEffects]),
+        PersistenceModule.forRoot(PersistenceConfig),
+        LanguageModule.forRoot(LanguageConfig)], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
 
   constructor(private device: DeviceDetectorService,

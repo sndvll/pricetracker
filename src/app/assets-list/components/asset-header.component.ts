@@ -8,8 +8,9 @@ import {Observable} from 'rxjs';
 import {Color} from '@sndvll/core';
 
 @Component({
-  selector: 'asset-header',
-  templateUrl: './asset-header.component.html',
+    selector: 'asset-header',
+    templateUrl: './asset-header.component.html',
+    standalone: false
 })
 export class AssetHeaderComponent {
 

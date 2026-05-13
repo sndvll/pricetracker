@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inject, OnInit} from '@angular/core';
 import {AssetList, AvailableCryptoCurrency, PriceTrackerStore} from '../core';
 import {take} from 'rxjs/operators';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Color, Colors, OVERLAY_REF, OverlayRef} from '@sndvll/core';
 
 @Component({
-  selector: 'add-asset',
-  templateUrl: './add-asset.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'add-asset',
+    templateUrl: './add-asset.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AddAssetComponent implements OnInit {
 
@@ -15,7 +16,7 @@ export class AddAssetComponent implements OnInit {
   public availableLists: Omit<AssetList, 'assets'>[] = [];
   public colors: Color[] = Colors;
 
-  public addAssetForm!: FormGroup;
+  public addAssetForm!: UntypedFormGroup;
 
   public createList = false;
 
@@ -23,7 +24,7 @@ export class AddAssetComponent implements OnInit {
 
   constructor(@Inject(OVERLAY_REF) private overlayRef: OverlayRef<AddAssetComponent, AvailableCryptoCurrency>,
               private store: PriceTrackerStore,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private changeDetectorRef: ChangeDetectorRef) {
     this.asset = overlayRef.config.data!;
   }

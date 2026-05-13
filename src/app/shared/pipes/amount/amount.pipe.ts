@@ -1,7 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Amount} from './amount';
 
-@Pipe({name: 'amount'})
+@Pipe({
+    name: 'amount',
+    standalone: false
+})
 export class AmountPipe implements PipeTransform {
   transform(value: number | null, language: string, currency: string): string {
     if (value) {

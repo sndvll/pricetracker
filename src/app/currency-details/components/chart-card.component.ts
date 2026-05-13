@@ -10,20 +10,21 @@ import {
 } from '@angular/core';
 import {Chart, ChartType, TimeSpan} from '../interfaces';
 import {DropdownMenuService} from '@sndvll/components';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-  selector: 'chart-card',
-  templateUrl: './chart-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'chart-card',
+    templateUrl: './chart-card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ChartCardComponent implements OnInit, OnDestroy {
 
   private _onDestroy: Subject<void> = new Subject<void>();
 
-  public formControl!: FormControl;
+  public formControl!: UntypedFormControl;
 
   @ViewChild('chartContainer') chartsContainer!: ElementRef;
 
@@ -45,7 +46,7 @@ export class ChartCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.formControl = new FormControl(this.daily);
+    this.formControl = new UntypedFormControl(this.daily);
     this.formControl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe((daily: boolean) => this.onDailyToggle.emit({

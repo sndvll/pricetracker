@@ -1,7 +1,8 @@
 import {Directive, HostBinding, HostListener} from '@angular/core';
 
 @Directive({
-  selector: '[dragItem]'
+    selector: '[dragItem]',
+    standalone: false
 })
 export class DragItem {
 
@@ -19,7 +20,8 @@ export class DragItem {
 }
 
 @Directive({
-  selector: '[dragContainer]'
+    selector: '[dragContainer]',
+    standalone: false
 })
 export class DragContainer {
 

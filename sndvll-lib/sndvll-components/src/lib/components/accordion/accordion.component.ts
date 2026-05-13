@@ -20,25 +20,27 @@ type ExpandedState = 'expanded' | 'collapsed';
 let uniqueItemId = 0;
 
 @Component({
-  selector: 'sndvll-accordion-item-header',
-  template: `
+    selector: 'sndvll-accordion-item-header',
+    template: `
     <ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AccordionItemHeaderComponent {}
 
 @Component({
-  selector: 'sndvll-accordion-item-content',
-  template: `
+    selector: 'sndvll-accordion-item-content',
+    template: `
     <ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AccordionItemContentComponent {}
 
 
 @Component({
-  selector: 'sndvll-accordion-item',
-  template: `
+    selector: 'sndvll-accordion-item',
+    template: `
     <div class="accordion-header" (click)="toggle()">
       <ng-content select="sndvll-accordion-item-header"></ng-content>
     </div>
@@ -47,8 +49,9 @@ export class AccordionItemContentComponent {}
       <ng-content select="sndvll-accordion-item-content"></ng-content>
     </div>
   `,
-  animations: [expansionAnimations.contentExpansion],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    animations: [expansionAnimations.contentExpansion],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AccordionItemComponent {
 
@@ -95,9 +98,10 @@ export class AccordionItemComponent {
 }
 
 @Component({
-  selector: 'sndvll-accordion',
-  template: `<ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sndvll-accordion',
+    template: `<ng-content></ng-content>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AccordionComponent implements AfterViewInit,  OnDestroy {
 

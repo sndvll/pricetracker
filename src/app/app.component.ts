@@ -8,9 +8,10 @@ import {ModalService, ModalType} from '@sndvll/components';
 import {Color, OverlayRef, PullToRefreshService} from '@sndvll/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
 

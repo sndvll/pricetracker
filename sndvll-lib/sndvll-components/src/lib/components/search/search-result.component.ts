@@ -8,7 +8,8 @@ export interface SearchResultConfig<T = any> {
 }
 
 @Component({
-  template: `<ng-container *ngTemplateOutlet="templateRef"></ng-container>`
+    template: `<ng-container *ngTemplateOutlet="templateRef"></ng-container>`,
+    standalone: false
 })
 export class SearchResultComponent {
 
@@ -25,8 +26,9 @@ export class SearchResultComponent {
 }
 
 @Component({
-  selector: 'search-result-item',
-  template: '<ng-content></ng-content>'
+    selector: 'search-result-item',
+    template: '<ng-content></ng-content>',
+    standalone: false
 })
 export class SearchResultItemComponent {
   @HostBinding('class') classList = 'flex flex-row items-center py-1 px-2';

@@ -17,10 +17,11 @@ export const TOGGLE_VALUE_ACCESSOR = {
 }
 
 @Component({
-  selector: 'sndvll-toggle',
-  templateUrl: './toggle.component.html',
-  providers: [TOGGLE_VALUE_ACCESSOR],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'sndvll-toggle',
+    templateUrl: './toggle.component.html',
+    providers: [TOGGLE_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ToggleComponent implements ControlValueAccessor {
 

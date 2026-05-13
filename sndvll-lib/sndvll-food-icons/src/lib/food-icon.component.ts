@@ -13,8 +13,9 @@ import {uppercamelcase} from './utils';
 import {IconSize, IconWeight, iconWeights, pixelSizes} from '@sndvll/core';
 
 @Component({
-  selector: 'food-icon',
-  template: '<ng-content></ng-content>'
+    selector: 'food-icon',
+    template: '<ng-content></ng-content>',
+    standalone: false
 })
 export class FoodIconComponent implements OnChanges {
 

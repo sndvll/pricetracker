@@ -4,8 +4,9 @@ import {TranslateService} from '@ngx-translate/core';
 import {SearchComponent, SearchStatus} from '@sndvll/components';
 
 @Component({
-  selector: 'fiat-currency-search-bar',
-  templateUrl: './fiat-currency-search-bar.component.html'
+    selector: 'fiat-currency-search-bar',
+    templateUrl: './fiat-currency-search-bar.component.html',
+    standalone: false
 })
 export class FiatCurrencySearchBarComponent implements OnInit {
 

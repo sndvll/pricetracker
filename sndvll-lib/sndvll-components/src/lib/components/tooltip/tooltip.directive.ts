@@ -8,7 +8,8 @@ import {
 import {TooltipComponent} from './tooltip.component';
 
 @Directive({
-  selector: '[tooltip]'
+    selector: '[tooltip]',
+    standalone: false
 })
 export class TooltipDirective {
 

@@ -6,8 +6,9 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {LanguageService} from '@sndvll/core';
 
 @Component({
-  selector: 'asset-lists',
-  templateUrl: './asset-lists.component.html'
+    selector: 'asset-lists',
+    templateUrl: './asset-lists.component.html',
+    standalone: false
 })
 export class AssetListsComponent implements OnInit, OnDestroy {
 

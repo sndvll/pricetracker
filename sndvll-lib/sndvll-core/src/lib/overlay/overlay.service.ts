@@ -7,10 +7,11 @@ import {
   Injector,
   Renderer2,
   RendererFactory2,
-  Type
+  Type,
+  DOCUMENT
 } from '@angular/core';
 import {ConnectedOverlay, OverlayBackdrop, GlobalOverlay} from './overlay';
-import {DOCUMENT, Location} from '@angular/common';
+import {Location} from '@angular/common';
 import {OverlayRef} from './overlay.ref';
 import {
   OVERLAY_REF,

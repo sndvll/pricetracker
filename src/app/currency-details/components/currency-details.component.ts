@@ -17,8 +17,9 @@ import {Chart, ChartType, TimeSpan} from '../interfaces';
 import {OVERLAY_REF, OverlayRef} from '@sndvll/core';
 
 @Component({
-  templateUrl: './currency-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './currency-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CurrencyDetailsComponent implements OnInit {
 

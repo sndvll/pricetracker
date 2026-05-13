@@ -1,13 +1,14 @@
 import {Component, ElementRef, EventEmitter, HostBinding, Input, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 @Component({
-  selector: 'sndvll-searchbar',
-  templateUrl: './searchbar.component.html'
+    selector: 'sndvll-searchbar',
+    templateUrl: './searchbar.component.html',
+    standalone: false
 })
 export class SearchbarComponent {
 
-  public inputFormControl = new FormControl('');
+  public inputFormControl = new UntypedFormControl('');
 
   @Output() valueChanges = this.inputFormControl.valueChanges;
   @Output() focus = new EventEmitter<void>();

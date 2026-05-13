@@ -28,10 +28,11 @@ export const SELECT_VALUE_ACCESSOR = {
 let nextUniqueId = 0;
 
 @Component({
-  selector: 'sndvll-select',
-  templateUrl: './select.component.html',
-  providers: [SELECT_VALUE_ACCESSOR],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sndvll-select',
+    templateUrl: './select.component.html',
+    providers: [SELECT_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SelectComponent<T = any> implements ControlValueAccessor, AfterContentChecked, OnDestroy {
 

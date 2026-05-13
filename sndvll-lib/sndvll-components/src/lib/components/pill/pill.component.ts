@@ -2,8 +2,9 @@ import {Component, HostBinding, Input} from '@angular/core';
 import {Color, ColorHue, ColorUtils} from '@sndvll/core';
 
 @Component({
-  selector: 'sndvll-pill',
-  templateUrl: './pill.component.html'
+    selector: 'sndvll-pill',
+    templateUrl: './pill.component.html',
+    standalone: false
 })
 export class PillComponent {
 

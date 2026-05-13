@@ -5,7 +5,8 @@ export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 export type ButtonColor = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'light' | 'dark';
 
 @Directive({
-  selector: 'button[sndvll-btn], a[sndvll-btn]',
+    selector: 'button[sndvll-btn], a[sndvll-btn]',
+    standalone: false
 })
 export class ButtonDirective implements OnInit {
 

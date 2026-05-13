@@ -19,10 +19,11 @@ export const INPUT_VALUE_ACCESSOR = {
 }
 
 @Component({
-  selector: 'sndvll-input',
-  templateUrl: './input.component.html',
-  providers: [INPUT_VALUE_ACCESSOR],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sndvll-input',
+    templateUrl: './input.component.html',
+    providers: [INPUT_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class InputComponent implements ControlValueAccessor {
 

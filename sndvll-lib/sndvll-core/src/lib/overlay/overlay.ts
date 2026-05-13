@@ -10,18 +10,22 @@ import {OverlayRef} from './overlay.ref';
 import {OVERLAY_REF, OverlayConnectedPosition, OverlayType, OverlayXPosition, OverlayYPosition} from './overlay.config';
 
 @Component({
-  template: '',
+    template: '',
+    standalone: false
 })
 export class OverlayBackdrop {
+
+  public overlayRef!: OverlayRef;
+
+  constructor(@Inject(OVERLAY_REF) overlayRef: OverlayRef) {
+    this.overlayRef = overlayRef;
+    this.classList = `backdrop ${this.overlayRef.config.backdropClass ?? 'bg-black'} opacity-${this.overlayRef.config.backdropOpacity ?? '50'}`;
+  }
 
   @HostBinding('class') classList = '';
   @HostBinding('class.connected') isConnected = this.overlayRef.config.type === OverlayType.Connected;
   @HostBinding('class.pointer-events-none') pointerEventsNone = this.overlayRef.config.backdropClickThrough;
   @HostBinding('class.pointer-events-auto') pointerEventsAuto = !this.overlayRef.config.backdropClickThrough;
-
-  constructor(@Inject(OVERLAY_REF) public overlayRef: OverlayRef) {
-    this.classList = `backdrop ${this.overlayRef.config.backdropClass ?? 'bg-black'} opacity-${this.overlayRef.config.backdropOpacity ?? '50'}`;
-  }
 
   @HostListener('click') onBackdropClick() {
     if (this.overlayRef.config.closeOnBackdropClick) {
@@ -41,13 +45,21 @@ export class OverlayBackdrop {
 }
 
 @Component({
-  template: `
+    template: `
     <div class="overlay-content" [class]="overlayRef?.config?.classes">
       <ng-content></ng-content>
     </div>
-  `
+  `,
+    standalone: false
 })
 export class GlobalOverlay {
+
+  public overlayRef!: OverlayRef;
+
+  constructor(@Inject(OVERLAY_REF) overlayRef: OverlayRef) {
+    this.overlayRef = overlayRef;
+    this.role = overlayRef.config.type!;
+  }
 
   @HostBinding('class') classList = 'overlay';
   @HostBinding('class.toast') isToast = this.overlayRef.config.type === OverlayType.Toast;
@@ -61,14 +73,11 @@ export class GlobalOverlay {
   @HostBinding('class.full-width') fullWidth = this.overlayRef.config.fullWidth;
   @HostBinding('class.full-height') fullHeight = this.overlayRef.config.fullHeight;
   @HostBinding('role') role: OverlayType = OverlayType.Modal;
-
-  constructor(@Inject(OVERLAY_REF) public overlayRef: OverlayRef) {
-    this.role = overlayRef.config.type!;
-  }
 }
 
 @Component({
-  template: '<ng-content></ng-content>'
+    template: '<ng-content></ng-content>',
+    standalone: false
 })
 export class ConnectedOverlay implements AfterViewInit {
 

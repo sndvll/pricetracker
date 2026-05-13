@@ -11,7 +11,8 @@ import {interval} from 'rxjs';
 import {filter, map, take} from 'rxjs/operators';
 
 @Directive({
-  selector: 'div[progress-bar]',
+    selector: 'div[progress-bar]',
+    standalone: false
 })
 export class ProgressBarDirective implements OnInit {
 

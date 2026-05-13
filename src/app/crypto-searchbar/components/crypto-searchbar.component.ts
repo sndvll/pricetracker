@@ -6,8 +6,9 @@ import {
 import {SearchComponent, SearchStatus} from '@sndvll/components';
 
 @Component({
-  selector: 'crypto-searchbar',
-  templateUrl: './crypto-searchbar.component.html'
+    selector: 'crypto-searchbar',
+    templateUrl: './crypto-searchbar.component.html',
+    standalone: false
 })
 export class CryptoSearchbarComponent {
 

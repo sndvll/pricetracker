@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApiKeys} from '../../../api-keys';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {FiatCurrencyResponse} from '../model';
 import {tap} from 'rxjs/operators';

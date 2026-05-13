@@ -5,8 +5,9 @@ import {switchMap, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {LanguageService} from '@sndvll/core';
 
 @Component({
-  selector: 'total-amount',
-  templateUrl: './total-amount.component.html'
+    selector: 'total-amount',
+    templateUrl: './total-amount.component.html',
+    standalone: false
 })
 export class TotalAmountComponent implements OnInit, OnDestroy {
 

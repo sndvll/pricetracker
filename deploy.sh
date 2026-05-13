@@ -52,6 +52,9 @@ npm run lib:build 2>/dev/null || echo "(ibland redan byggda)"
 echo "→ Kör npm run build -- --configuration production --base-href=\"$BASE_HREF\"..."
 npm run build -- --configuration production --base-href="$BASE_HREF"
 
+# Restore environment.prod.ts — återställ VERSION_PLACEHOLDER för nästa bygge
+git checkout -- src/environments/environment.prod.ts
+
 DEPLOY_DIR=$(mktemp -d)
 echo "→ Förbereder deploy-katalog: $DEPLOY_DIR"
 

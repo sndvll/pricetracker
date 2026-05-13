@@ -53,7 +53,7 @@
     "@types/body-scroll-lock": "^2.6.2",
     "@types/d3-scale": "^4.0.2",
     "@types/d3-selection": "^3.0.2",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.0",
     "@types/node": "^12.11.1",
     "angular-build-info": "^2.0.1",
     "autoprefixer": "^10.2.6",

@@ -23,7 +23,7 @@ export class OverlayBackdrop {
   constructor(@Inject(OVERLAY_REF) public overlayRef: OverlayRef) {
     this.classList = `backdrop ${this.overlayRef.config.backdropClass ?? 'bg-black'} opacity-${this.overlayRef.config.backdropOpacity ?? '50'}`;
     this.isConnected = this.overlayRef.config.type === OverlayType.Connected;
-    this.pointerEventsNone = this.overlayRef.config.backdropClickThrough;
+    this.pointerEventsNone = !!this.overlayRef.config.backdropClickThrough;
     this.pointerEventsAuto = !this.overlayRef.config.backdropClickThrough;
   }
 

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  version: 'VERSION_PLACEHOLDER',
-  commitHash: 'COMMIT_HASH',
+  version: '1.2.3-dev',
+  commitHash: '13fb350',
 };

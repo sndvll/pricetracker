@@ -4,6 +4,7 @@ import {DataExportService, FiatCurrencyService, PriceTrackerStore} from '../core
 import {filter, take, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {LanguageService} from '@sndvll/core';
+import {environment} from '../../environments/environment';
 import build from '../../build';
 
 @Component({
@@ -19,6 +20,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public changeLanguageControl: FormControl = new FormControl(LanguageService.currentLang);
 
   public buildInfo = build;
+  public environment = environment;
   public importStatus: string | null = null;
 
   @Output() onClose = new EventEmitter<void>();

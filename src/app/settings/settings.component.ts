@@ -74,7 +74,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     reader.onload = async () => {
       try {
         const result = await this.dataExport.importFromJson(reader.result as string);
-        this.importStatus = `Importerade ${result.imported} rader. Ladda om sidan.`;
+        this.store.reload();
+        this.importStatus = `Importerade ${result.imported} rader. ✔️`;
       } catch (e) {
         this.importStatus = 'Import misslyckades: ' + (e as Error).message;
       }

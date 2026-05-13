@@ -1,79 +1,100 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {Observable} from 'rxjs';
-import {AssetList, AssetModel, IPriceTrackerStore, NewAssetModel2, PriceTrackerState} from '../model';
-import {Store} from '@ngrx/store';
-import {
-  selectLists,
-  selectTotalAverageMarketChangePercentage,
-  selectTotalAmount,
-  selectIsLoading, selectDisplayCurrency, selectState, selectNumberOfLists
-} from './price-tracker.selectors';
-import {PriceTrackerActions} from './price-tracker.actions';
+import {map} from 'rxjs/operators';
 
+import {AssetList, AssetModel, NewAssetModel2} from '../model';
+import {PriceTrackerSignalStore} from './price-tracker-signal.store';
+
+/**
+ * Facade — same Observable API as before, backed by signalStore internally.
+ * Components keep injecting this and subscribing via | async as before.
+ */
 @Injectable({providedIn: 'root'})
 export class PriceTrackerStore {
 
-  public state$: Observable<PriceTrackerState>;
-  public lists$: Observable<AssetList[]>;
-  public totalAmount$: Observable<number>;
-  public totalAverageMarketChangePercentage$: Observable<number>;
-  public isLoading$: Observable<boolean>;
-  public displayCurrency$: Observable<string>
-  public numberOfLists$: Observable<number>
+  private signalStore = inject(PriceTrackerSignalStore);
 
-  constructor(private store: Store<IPriceTrackerStore>) {
-    this.state$ = this.store.select(selectState);
-    this.lists$ = this.store.select(selectLists);
-    this.totalAmount$ = this.store.select(selectTotalAmount);
-    this.totalAverageMarketChangePercentage$ = this.store.select(selectTotalAverageMarketChangePercentage);
-    this.isLoading$ = this.store.select(selectIsLoading);
-    this.displayCurrency$ = this.store.select(selectDisplayCurrency);
-    this.numberOfLists$ = this.store.select(selectNumberOfLists);
-    this.store.dispatch(PriceTrackerActions.initializeStarted());
-  }
+  // ── Public Observables (bridged from signals) ─────────────────────────
 
-  public createNewList(name: string, asset: NewAssetModel2) {
-    this.store.dispatch(PriceTrackerActions.createNewList({name, asset}));
-  }
+  readonly lists$: Observable<AssetList[]>;
+  readonly totalAmount$: Observable<number>;
+  readonly totalAverageMarketChangePercentage$: Observable<number>;
+  readonly isLoading$: Observable<boolean>;
+  readonly displayCurrency$: Observable<string>;
+  readonly numberOfLists$: Observable<number>;
+  readonly state$: Observable<{lists: AssetList[]; isLoading: boolean; displayCurrency: string}>;
 
-  public addNewAsset(listId: string, asset: NewAssetModel2) {
-    this.store.dispatch(PriceTrackerActions.addNewAsset({listId, asset}));
-  }
+  constructor() {
+    const s = this.signalStore;
 
-  public editList(name: string, id: string) {
-    this.store.dispatch(PriceTrackerActions.editList({name, id}));
-  }
-  public editAsset(asset: AssetModel) {
-    this.store.dispatch(PriceTrackerActions.editAsset({asset}));
-  }
-  public deleteAsset(id: string, listId: string) {
-    this.store.dispatch(PriceTrackerActions.deleteAsset({id, listId}));
-  }
-  public deleteList(id: string) {
-    this.store.dispatch(PriceTrackerActions.deleteList({id}));
+    this.lists$ = toObservable(s.lists);
+    this.isLoading$ = toObservable(s.isLoading);
+    this.displayCurrency$ = toObservable(s.displayCurrency);
+    this.totalAmount$ = toObservable(s.totalAmount);
+    this.totalAverageMarketChangePercentage$ = toObservable(s.totalPriceChange);
+    this.numberOfLists$ = toObservable(s.numberOfLists);
+
+    this.state$ = toObservable(s.lists).pipe(
+      map(() => ({
+        lists: s.lists(),
+        isLoading: s.isLoading(),
+        displayCurrency: s.displayCurrency(),
+      }))
+    );
   }
 
-  public refreshPrices() {
-    this.store.dispatch(PriceTrackerActions.refreshPrices());
+  // ── Public Methods (delegated to signalStore) ─────────────────────────
+
+  createNewList(name: string, asset: NewAssetModel2) {
+    this.signalStore.createNewList(name, asset);
   }
 
-  public startPricePolling(){
-    this.store.dispatch(PriceTrackerActions.startPricePolling());
-  }
-  public stopPricePolling() {
-    this.store.dispatch(PriceTrackerActions.stopPricePolling());
+  addNewAsset(listId: string, asset: NewAssetModel2) {
+    this.signalStore.addNewAsset(listId, asset);
   }
 
-  public changeDisplayCurrency(currency: string) {
-    this.store.dispatch(PriceTrackerActions.changeDisplayCurrency({currency}))
+  editList(name: string, id: string) {
+    this.signalStore.editList(name, id);
   }
 
-  public expandList(listId: string, expanded: boolean) {
-    this.store.dispatch(PriceTrackerActions.expandList({listId, expanded}))
+  editAsset(asset: AssetModel) {
+    this.signalStore.editAsset(asset);
   }
 
-  public reorder(lists: AssetList[]) {
-    this.store.dispatch(PriceTrackerActions.reorderLists({lists}));
+  deleteAsset(id: string, listId: string) {
+    this.signalStore.deleteAsset(id, listId);
+  }
+
+  deleteList(id: string) {
+    this.signalStore.deleteList(id);
+  }
+
+  refreshPrices() {
+    this.signalStore.refreshPrices();
+  }
+
+  startPricePolling() {
+    this.signalStore.startPricePolling();
+  }
+
+  stopPricePolling() {
+    this.signalStore.stopPricePolling();
+  }
+
+  changeDisplayCurrency(currency: string) {
+    this.signalStore.changeDisplayCurrency(currency);
+  }
+
+  expandList(listId: string, expanded: boolean) {
+    this.signalStore.expandList(listId, expanded);
+  }
+
+  reorder(lists: AssetList[]) {
+    this.signalStore.reorderLists(lists);
+  }
+
+  reload() {
+    this.signalStore.initialize();
   }
 }
-

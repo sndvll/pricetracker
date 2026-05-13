@@ -7,12 +7,15 @@ import {last, map, repeat, switchMap, takeUntil, takeWhile, tap} from 'rxjs/oper
 export class PullToRefreshService {
 
   private document!: Document;
-  private touchStart$ = fromEvent<TouchEvent>(this.document, 'touchstart');
-  private touchEnd$ = fromEvent<TouchEvent>(this.document, 'touchend');
-  private touchMove$ = fromEvent<TouchEvent>(this.document, 'touchmove');
+  private touchStart$!: ReturnType<typeof fromEvent<TouchEvent>>;
+  private touchEnd$!: ReturnType<typeof fromEvent<TouchEvent>>;
+  private touchMove$!: ReturnType<typeof fromEvent<TouchEvent>>;
 
   constructor(@Inject(DOCUMENT) doc: Document) {
     this.document = doc;
+    this.touchStart$ = fromEvent<TouchEvent>(this.document, 'touchstart');
+    this.touchEnd$ = fromEvent<TouchEvent>(this.document, 'touchend');
+    this.touchMove$ = fromEvent<TouchEvent>(this.document, 'touchmove');
   }
 
   public get onDrag$() {

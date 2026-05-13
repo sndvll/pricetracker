@@ -4,9 +4,9 @@ Mobile-focused PWA för att tracka krypto/tillgångspriser. Använder CoinGecko 
 
 ## Tech Stack
 
-- **Angular 13** (ska migreras → 20+)
-- **NgRx store/effects** (ska migreras → @ngrx/signals)
-- **NgModules** (ska migreras → standalone)
+- **Angular 20**
+- **@ngrx/signals** (migrerat från NgRx store/effects)
+- **Standalone components** (migrerat från NgModules)
 - **sndvll-lib** — eget komponent/ikon-bibliotek (absorberat i repot)
 - **Tailwind CSS**
 - **Dexie.js** (IndexedDB)
@@ -15,7 +15,7 @@ Mobile-focused PWA för att tracka krypto/tillgångspriser. Använder CoinGecko 
 - **FreeCurrencyAPI** — fiat-valutor
 - **@swimlane/ngx-charts** — diagram
 - **Jest** — tester
-- **PWA** — service worker (ngsw-config.json)
+- **GitHub Pages** — hosting
 
 ## Projektstruktur
 
@@ -33,7 +33,7 @@ pricetracker/
 │   │   │   ├── crypto/         ← CryptoCurrencyService
 │   │   │   ├── fiat/           ← FiatCurrencyService
 │   │   │   ├── persistence/    ← ListDbService, DataExportService, m.fl.
-│   │   │   ├── store/          ← NgRx store, effects, actions, selectors, reducer
+│   │   │   ├── store/          ← GameStore (signalStore)
 │   │   │   └── model/          ← Interfaces: AssetList, AssetModel, PriceTrackerState
 │   │   ├── assets-list/        ← Huvudvyn — listor med tillgångar
 │   │   ├── add-asset/          ← Lägg till tillgång
@@ -46,35 +46,39 @@ pricetracker/
 │   ├── environments/           ← environment.ts / environment.prod.ts
 │   └── assets/                 ← Statiska filer
 ├── angular.json                ← Mono-repo config (app + 4 library-projekt)
-└── tailwind.config.js
+├── tailwind.config.js
+└── .github/workflows/
+    ├── deploy.yml              ← GH Actions deploy till GH Pages (push main)
+    └── ci.yml                  ← PR-tester mot main
 ```
 
-## Migration Plan
+## Migration Plan — slutförd ✅
 
-### Fas 1: Förberedelse ✅
-- [x] Absorbera sndvll-lib i repot (ta bort separat .git, ta bort från .gitignore)
-- [x] Dataexport/import — backup/återställning av Dexie-data (Settings → Data)
-- [x] VERSION_PLACEHOLDER i environment.prod.ts (för CalVer-releases)
+Alla migrationsfaser är klara. Appen är fullt migrerad till Angular 20, standalone components, @ngrx/signals och hostas på GitHub Pages.
 
-### Fas 2: Angular 13 → 20 ✅
+### Fas 1: Förberedelse
+- [x] Absorbera sndvll-lib i repot
+- [x] Dataexport/import
+- [x] VERSION_PLACEHOLDER i environment.prod.ts
+
+### Fas 2: Angular 13 → 20
 - [x] Uppgradera Angular major-version i taget (13→14→...→20)
-- [x] Uppgradera sndvll-lib-biblioteken parallellt (ng-packagr)
-- [ ] shortid → nanoid
-- [ ] @ngx-translate — behåll (fungerar, wrap:as av sndvll-core)
+- [x] Uppgradera sndvll-lib-biblioteken parallellt
+- [x] shortid → nanoid
+- [x] @ngx-translate — behåll (fungerar)
 - [x] Tailwind — behåll
-- [ ] Jest — behåll, uppgradera versioner
+- [x] Jest-uppgradering
 
-### Fas 3: NgRx → @ngrx/signals + Standalone ✅
+### Fas 3: NgRx → @ngrx/signals + Standalone
 - [x] Konvertera NgRx store/effects → signalStore
 - [x] Konvertera alla NgModules → standalone components
-- [x] Rensa bort gamla NgRx-deps (actions/effects/reducers/selectors/moduler)
-- [x] shortid → nanoid
-- [x] Jest-uppgradering (ts-jest, @types/jest ^29)
-### Fas 4: Produktionssättning 🚧
-- [x] Sätt upp GH Actions + GH Pages-deploy (deploy.yml + ci.yml)
-- [ ] Stäng ner DO-deploy
-- [ ] Peka om domän (pricetrckr.sndvll.dev) från DO → GH Pages
-- [ ] Exportera data → deploy → importera data på nya domänen
+- [x] Rensa bort gamla NgRx-deps
+- [x] Rensa bort FontAwesome → Lucide-icons (i sndvll-lib)
+
+### Fas 4: Produktionssättning
+- [x] Sätt upp GH Actions + GH Pages-deploy
+- [x] Stäng ner DigitalOcean-deploy
+- [x] Peka om domän (pricetrckr.sndvll.dev → GH Pages)
 - [x] CalVer-releases via GH Actions (YYYY.MM.RUN_NUMBER)
 
 ## Commands
@@ -82,21 +86,31 @@ pricetracker/
 ```bash
 npm start           # ng serve — local dev
 npm run build       # angular-build-info && ng build
-npm test            # Jest — enhetstester
 npm run lib:build   # Bygg alla sndvll-lib-bibliotek
-npm run start:prod  # Build + serve lokalt (för test)
+npm test            # Jest — enhetstester
 ```
 
 ## Deploy
 
-### Nuvarande
-Deployad på DigitalOcean via `angular-cli-ghpages` (historiskt).
+### Production (GitHub Pages)
+Automatisk vid merge till `main` via GitHub Actions-workflow:
+1. Bygger sndvll-lib-bibliotek (`npm run lib:build`)
+2. Kör tester (`npm test`)
+3. Injecterar CalVer-version + commit hash i `environment.prod.ts`
+4. Bygger med `--configuration production --base-href /`
+5. Skapar git-tagg + GitHub Release
+6. Deployar till GitHub Pages
 
-### Mål
-GitHub Actions vid merge till `main` → GH Pages, CalVer-tagg + release.
+Domän: **pricetrckr.sndvll.dev**
+
+### Stage (svc.orb.local)
+```bash
+./deploy.sh stage
+```
+Bygger med `--configuration production --base-href=/pricetracker/` och rsynkar till svc.orb.local. Branch guard: stage endast från feature-branches.
 
 ## Data Export/Import
 
 Settings → Data → **Exportera data**: laddar ner all IndexedDB-data som JSON.
 Settings → Data → **Importera data**: ersätter befintlig data med JSON-fil.
-Använd före domänbyte eller större migrationer.
+Använd före större migrationer.

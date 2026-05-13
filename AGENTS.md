@@ -57,20 +57,20 @@ pricetracker/
 - [x] VERSION_PLACEHOLDER i environment.prod.ts (för CalVer-releases)
 - [ ] Sätt upp GH Actions + GH Pages-deploy (samma mönster som openkcal/yatylappen)
 
-### Fas 2: Angular 13 → 20
-- [ ] Uppgradera Angular major-version i taget (13→14→...→20)
-- [ ] Uppgradera sndvll-lib-biblioteken parallellt (ng-packagr)
+### Fas 2: Angular 13 → 20 ✅
+- [x] Uppgradera Angular major-version i taget (13→14→...→20)
+- [x] Uppgradera sndvll-lib-biblioteken parallellt (ng-packagr)
 - [ ] shortid → nanoid
 - [ ] @ngx-translate — behåll (fungerar, wrap:as av sndvll-core)
-- [ ] Tailwind — behåll
+- [x] Tailwind — behåll
 - [ ] Jest — behåll, uppgradera versioner
 
-### Fas 3: NgRx → @ngrx/signals + Standalone
-- [ ] Konvertera NgRx store/effects → signalStore
+### Fas 3: NgRx → @ngrx/signals + Standalone 🏗️
+- [x] Konvertera NgRx store/effects → signalStore
 - [ ] Konvertera alla NgModules → standalone components
 - [ ] Rensa bort gamla NgRx-deps
 
-### Fas 4: Produktionssättning
+### Fas 4: Produktionssättning ❌
 - [ ] Stäng ner DO-deploy
 - [ ] Peka om domän (pricetrckr.sndvll.dev) från DO → GH Pages
 - [ ] Exportera data → deploy → importera data på nya domänen

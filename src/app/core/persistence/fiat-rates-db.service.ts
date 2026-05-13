@@ -3,7 +3,7 @@ import {from, Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {CurrencyModel} from '../model';
 import {AbstractDbService, DexieService} from '@sndvll/core';
-import {PersistenceConfig} from '../../app.module';
+import {PersistenceConfig} from './persistence.config';
 
 @Injectable({providedIn: 'root'})
 export class FiatRatesDbService extends AbstractDbService<CurrencyModel> {

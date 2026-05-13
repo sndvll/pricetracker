@@ -3,7 +3,7 @@ import {from} from 'rxjs';
 import {AvailableCryptoCurrency} from '../model';
 import {map, take} from 'rxjs/operators';
 import {AbstractDbService, DexieService} from '@sndvll/core';
-import {PersistenceConfig} from '../../app.module';
+import {PersistenceConfig} from './persistence.config';
 
 export type AvailableSearchQuery = Partial<AvailableCryptoCurrency>;
 

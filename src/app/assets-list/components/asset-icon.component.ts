@@ -1,8 +1,13 @@
 import {Component, HostBinding, Input} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Color, Colors} from '@sndvll/core';
+import {IconsModule} from '../../shared';
 
 @Component({
-  selector: 'asset-icon',
-  template: `<i class="cf {{symbol}}"></i>`
+    selector: 'asset-icon',
+    template: `<i class="cf {{symbol}}"></i>`,
+    standalone: true,
+    imports: [CommonModule, IconsModule]
 })
 export class AssetIconComponent {
 

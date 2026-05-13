@@ -3,13 +3,18 @@ import {
   HostBinding,
   Input
 } from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {AssetModel, FiatCurrencyService} from '../../core';
 import {Observable} from 'rxjs';
 import {Color} from '@sndvll/core';
+import {AssetIconComponent} from './asset-icon.component';
+import {AmountPipe, AmountChangePipe} from '../../shared';
 
 @Component({
-  selector: 'asset-header',
-  templateUrl: './asset-header.component.html',
+    selector: 'asset-header',
+    templateUrl: './asset-header.component.html',
+    standalone: true,
+    imports: [CommonModule, AssetIconComponent, AmountPipe, AmountChangePipe]
 })
 export class AssetHeaderComponent {
 

@@ -1,13 +1,18 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {
   AvailableCryptoCurrency,
   CryptoCurrencyService,
 } from '../../core';
-import {SearchComponent, SearchStatus} from '@sndvll/components';
+import {SearchComponent, SearchModule, SearchStatus} from '@sndvll/components';
+import {TranslateModule} from '@ngx-translate/core';
+import {IconsModule} from '../../shared';
 
 @Component({
-  selector: 'crypto-searchbar',
-  templateUrl: './crypto-searchbar.component.html'
+    selector: 'crypto-searchbar',
+    templateUrl: './crypto-searchbar.component.html',
+    standalone: true,
+    imports: [CommonModule, SearchModule, TranslateModule, IconsModule]
 })
 export class CryptoSearchbarComponent {
 

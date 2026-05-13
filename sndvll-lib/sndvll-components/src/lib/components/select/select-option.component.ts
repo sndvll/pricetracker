@@ -6,15 +6,16 @@ import {SelectLabelDirective} from './select-label.directive';
 let nextUniqueId = 0;
 
 @Component({
-  selector: 'sndvll-select-option',
-  template: `
+    selector: 'sndvll-select-option',
+    template: `
     <ng-template>
       <div class="select-option" (click)="select()">
         <ng-container *ngIf="label" [ngTemplateOutlet]="label.template"></ng-container>
       </div>
     </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SelectOptionComponent<T> {
 

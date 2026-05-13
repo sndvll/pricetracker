@@ -55,26 +55,27 @@ pricetracker/
 - [x] Absorbera sndvll-lib i repot (ta bort separat .git, ta bort från .gitignore)
 - [x] Dataexport/import — backup/återställning av Dexie-data (Settings → Data)
 - [x] VERSION_PLACEHOLDER i environment.prod.ts (för CalVer-releases)
-- [ ] Sätt upp GH Actions + GH Pages-deploy (samma mönster som openkcal/yatylappen)
 
-### Fas 2: Angular 13 → 20
-- [ ] Uppgradera Angular major-version i taget (13→14→...→20)
-- [ ] Uppgradera sndvll-lib-biblioteken parallellt (ng-packagr)
+### Fas 2: Angular 13 → 20 ✅
+- [x] Uppgradera Angular major-version i taget (13→14→...→20)
+- [x] Uppgradera sndvll-lib-biblioteken parallellt (ng-packagr)
 - [ ] shortid → nanoid
 - [ ] @ngx-translate — behåll (fungerar, wrap:as av sndvll-core)
-- [ ] Tailwind — behåll
+- [x] Tailwind — behåll
 - [ ] Jest — behåll, uppgradera versioner
 
-### Fas 3: NgRx → @ngrx/signals + Standalone
-- [ ] Konvertera NgRx store/effects → signalStore
-- [ ] Konvertera alla NgModules → standalone components
-- [ ] Rensa bort gamla NgRx-deps
-
-### Fas 4: Produktionssättning
+### Fas 3: NgRx → @ngrx/signals + Standalone ✅
+- [x] Konvertera NgRx store/effects → signalStore
+- [x] Konvertera alla NgModules → standalone components
+- [x] Rensa bort gamla NgRx-deps (actions/effects/reducers/selectors/moduler)
+- [x] shortid → nanoid
+- [x] Jest-uppgradering (ts-jest, @types/jest ^29)
+### Fas 4: Produktionssättning 🚧
+- [x] Sätt upp GH Actions + GH Pages-deploy (deploy.yml + ci.yml)
 - [ ] Stäng ner DO-deploy
 - [ ] Peka om domän (pricetrckr.sndvll.dev) från DO → GH Pages
 - [ ] Exportera data → deploy → importera data på nya domänen
-- [ ] CalVer-releases via GH Actions (YYYY.MM.RUN_NUMBER)
+- [x] CalVer-releases via GH Actions (YYYY.MM.RUN_NUMBER)
 
 ## Commands
 

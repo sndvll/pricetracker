@@ -9,20 +9,21 @@ import {
 } from '@angular/core';
 import {OVERLAY_REF, OverlayRef, Color} from '@sndvll/core';
 import {AlertConfig, AlertType} from './alert.config';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-  templateUrl: './alert.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './alert.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AlertComponent<D = any> implements OnInit, OnDestroy {
 
   private _onDestroy = new Subject<void>();
   private _disabledButton = true;
 
-  public toggleControl: FormControl;
+  public toggleControl: UntypedFormControl;
   public alertConfig!: AlertConfig;
 
   public Color = Color;
@@ -55,7 +56,7 @@ export class AlertComponent<D = any> implements OnInit, OnDestroy {
   constructor(@Inject(OVERLAY_REF) private overlayRef: OverlayRef<AlertComponent<D>, AlertConfig>,
               private changeDetectorRef: ChangeDetectorRef) {
     this.alertConfig = overlayRef.config.data!;
-    this.toggleControl = new FormControl(false);
+    this.toggleControl = new UntypedFormControl(false);
   }
 
   public ngOnInit() {

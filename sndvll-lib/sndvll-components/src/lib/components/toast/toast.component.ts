@@ -3,8 +3,9 @@ import {OVERLAY_REF, OverlayRef} from '@sndvll/core';
 import {ToastConfig, ToastType} from './toast.config';
 
 @Component({
-  templateUrl: './toast.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './toast.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ToastComponent {
 

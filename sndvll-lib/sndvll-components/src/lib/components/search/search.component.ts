@@ -6,8 +6,9 @@ import {SearchResultComponent, SearchResultConfig} from './search-result.compone
 export type SearchStatus = 'result' | 'noresult' | null;
 
 @Component({
-  selector: 'sndvll-search',
-  templateUrl: './search.component.html'
+    selector: 'sndvll-search',
+    templateUrl: './search.component.html',
+    standalone: false
 })
 export class SearchComponent {
 

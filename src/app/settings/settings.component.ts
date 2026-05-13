@@ -1,15 +1,23 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {DataExportService, FiatCurrencyService, PriceTrackerStore} from '../core';
 import {filter, take, takeUntil} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {LanguageService} from '@sndvll/core';
 import {environment} from '../../environments/environment';
 import build from '../../build';
+import {SelectModule, ButtonModule} from '@sndvll/components';
+import {IconsModule} from '../shared';
+import {TranslateModule} from '@ngx-translate/core';
+import {FiatCurrencySearchBarComponent} from './components/fiat-currency-search-bar.component';
 
 @Component({
-  selector: 'settings',
-  templateUrl: './settings.component.html'
+    selector: 'settings',
+    templateUrl: './settings.component.html',
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, ButtonModule, IconsModule, SelectModule, FiatCurrencySearchBarComponent]
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 
@@ -17,7 +25,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   public availableCurrencies: string[] = [];
   public availableLanguages: string[] = LanguageService.AvailableLanguages;
-  public changeLanguageControl: FormControl = new FormControl(LanguageService.currentLang);
+  public changeLanguageControl: UntypedFormControl = new UntypedFormControl(LanguageService.currentLang);
 
   public buildInfo = build;
   public environment = environment;
@@ -73,7 +81,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     reader.onload = async () => {
       try {
         const result = await this.dataExport.importFromJson(reader.result as string);
-        this.importStatus = `Importerade ${result.imported} rader. Ladda om sidan.`;
+        this.store.reload();
+        this.importStatus = `Importerade ${result.imported} rader. ✔️`;
       } catch (e) {
         this.importStatus = 'Import misslyckades: ' + (e as Error).message;
       }

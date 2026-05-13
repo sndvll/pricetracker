@@ -7,14 +7,12 @@ import {AssetListsComponent} from './asset-lists.component';
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
-  ],
-  declarations: [
+    SharedModule,
     AssetListsComponent,
     AssetListComponent,
     AssetBodyComponent,
     AssetHeaderComponent,
-    AssetIconComponent
+    AssetIconComponent,
   ],
   exports: [
     AssetListsComponent

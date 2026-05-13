@@ -2,8 +2,9 @@ import {ChangeDetectionStrategy, Component, HostBinding, Inject, TemplateRef} fr
 import {OVERLAY_REF, OverlayRef} from '@sndvll/core';
 
 @Component({
-  template: `<ng-container [ngTemplateOutlet]="template"></ng-container>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    template: `<ng-container [ngTemplateOutlet]="template"></ng-container>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SelectDropdownComponent {
 

@@ -43,11 +43,9 @@ import {AmountChangePipe, AmountPipe} from './pipes';
     SearchModule,
     LoaderModule,
     DragNDropModule,
-    TruncatePipeModule
-  ],
-  declarations: [
+    TruncatePipeModule,
     AmountChangePipe,
-    AmountPipe,
+    AmountPipe
   ],
   exports: [
     ReactiveFormsModule,

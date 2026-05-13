@@ -1,13 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {AssetList, AssetModel, FiatCurrencyService, PriceTrackerStore} from '../core';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
 import {LanguageService} from '@sndvll/core';
+import {DragNDropModule} from '@sndvll/components';
+import {AssetListComponent} from './components';
 
 @Component({
-  selector: 'asset-lists',
-  templateUrl: './asset-lists.component.html'
+    selector: 'asset-lists',
+    templateUrl: './asset-lists.component.html',
+    standalone: true,
+    imports: [CommonModule, DragDropModule, DragNDropModule, AssetListComponent]
 })
 export class AssetListsComponent implements OnInit, OnDestroy {
 

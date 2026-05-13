@@ -8,6 +8,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {
   AvailableCryptoCurrency,
   CoingeckoApiDetailsResponse,
@@ -15,10 +16,16 @@ import {
 } from '../../core';
 import {Chart, ChartType, TimeSpan} from '../interfaces';
 import {OVERLAY_REF, OverlayRef} from '@sndvll/core';
+import {CardModule, ButtonModule, LoaderModule, TruncatePipeModule} from '@sndvll/components';
+import {TranslateModule} from '@ngx-translate/core';
+import {IconsModule} from '../../shared';
+import {ChartCardComponent} from './chart-card.component';
 
 @Component({
-  templateUrl: './currency-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './currency-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [CommonModule, CardModule, ButtonModule, LoaderModule, TruncatePipeModule, TranslateModule, IconsModule, ChartCardComponent]
 })
 export class CurrencyDetailsComponent implements OnInit {
 

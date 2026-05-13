@@ -1,11 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FiatCurrencyService} from '../../core';
-import {TranslateService} from '@ngx-translate/core';
-import {SearchComponent, SearchStatus} from '@sndvll/components';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {SearchComponent, SearchModule, SearchStatus} from '@sndvll/components';
 
 @Component({
-  selector: 'fiat-currency-search-bar',
-  templateUrl: './fiat-currency-search-bar.component.html'
+    selector: 'fiat-currency-search-bar',
+    templateUrl: './fiat-currency-search-bar.component.html',
+    standalone: true,
+    imports: [CommonModule, TranslateModule, SearchModule]
 })
 export class FiatCurrencySearchBarComponent implements OnInit {
 

@@ -1,3 +1,4 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -7,29 +8,52 @@
     "strict": true,
     "noImplicitReturns": true,
     "paths": {
-      "@sndvll/icons": ["dist/sndvll-icons"],
-      "@sndvll/icons/*": ["dist/sndvll-icons/*"],
-      "@sndvll/components": ["dist/sndvll-components"],
-      "@sndvll/components/*": ["dist/sndvll-components/*"],
-      "@sndvll/core": ["dist/sndvll-core"],
-      "@sndvll/core/*": ["dist/sndvll-core/*"],
-      "@sndvll/food-icons": ["dist/sndvll-food-icons"],
-      "@sndvll/food-icons/*": ["dist/sndvll-food-icons/*"]
+      "rxjs": [
+        "node_modules/rxjs/dist/types"
+      ],
+      "rxjs/*": [
+        "node_modules/rxjs/dist/types/*"
+      ],
+      "@sndvll/icons": [
+        "dist/sndvll-icons"
+      ],
+      "@sndvll/icons/*": [
+        "dist/sndvll-icons/*"
+      ],
+      "@sndvll/components": [
+        "dist/sndvll-components"
+      ],
+      "@sndvll/components/*": [
+        "dist/sndvll-components/*"
+      ],
+      "@sndvll/core": [
+        "dist/sndvll-core"
+      ],
+      "@sndvll/core/*": [
+        "dist/sndvll-core/*"
+      ],
+      "@sndvll/food-icons": [
+        "dist/sndvll-food-icons"
+      ],
+      "@sndvll/food-icons/*": [
+        "dist/sndvll-food-icons/*"
+      ]
     },
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "es2017",
+    "target": "es2020",
     "module": "es2020",
     "lib": [
       "es2018",
       "dom"
     ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

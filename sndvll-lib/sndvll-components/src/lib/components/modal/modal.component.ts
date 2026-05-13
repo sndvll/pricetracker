@@ -3,28 +3,32 @@ import {OVERLAY_REF, OverlayRef} from '@sndvll/core';
 import {ModalConfig, ModalType} from './modal.config';
 
 @Directive({
-  selector: 'div[modalContent]'
+    selector: 'div[modalContent]',
+    standalone: false
 })
 export class ModalContentDirective {
   @HostBinding('class') classList = 'modal-content';
 }
 
 @Directive({
-  selector: 'div[modalHeader]'
+    selector: 'div[modalHeader]',
+    standalone: false
 })
 export class ModalHeaderDirective {
   @HostBinding('class') classList = 'modal-header';
 }
 
 @Directive({
-  selector: 'div[modalFooter]'
+    selector: 'div[modalFooter]',
+    standalone: false
 })
 export class ModalFooterDirective {
   @HostBinding('class') classList = 'modal-footer';
 }
 
 @Component({
-  template: `<ng-container *ngTemplateOutlet="templateRef"></ng-container>`,
+    template: `<ng-container *ngTemplateOutlet="templateRef"></ng-container>`,
+    standalone: false
 })
 export class ModalComponent implements OnInit {
 

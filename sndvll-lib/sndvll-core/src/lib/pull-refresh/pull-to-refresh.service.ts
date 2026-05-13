@@ -1,16 +1,22 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, DOCUMENT} from '@angular/core';
 import {fromEvent} from 'rxjs';
-import {DOCUMENT} from '@angular/common';
+
 import {last, map, repeat, switchMap, takeUntil, takeWhile, tap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class PullToRefreshService {
 
-  private touchStart$ = fromEvent<TouchEvent>(this.document, 'touchstart');
-  private touchEnd$ = fromEvent<TouchEvent>(this.document, 'touchend');
-  private touchMove$ = fromEvent<TouchEvent>(this.document, 'touchmove');
+  private document!: Document;
+  private touchStart$!: ReturnType<typeof fromEvent<TouchEvent>>;
+  private touchEnd$!: ReturnType<typeof fromEvent<TouchEvent>>;
+  private touchMove$!: ReturnType<typeof fromEvent<TouchEvent>>;
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(@Inject(DOCUMENT) doc: Document) {
+    this.document = doc;
+    this.touchStart$ = fromEvent<TouchEvent>(this.document, 'touchstart');
+    this.touchEnd$ = fromEvent<TouchEvent>(this.document, 'touchend');
+    this.touchMove$ = fromEvent<TouchEvent>(this.document, 'touchmove');
+  }
 
   public get onDrag$() {
     return this.touchStart$

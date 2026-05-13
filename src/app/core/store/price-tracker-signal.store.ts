@@ -2,21 +2,13 @@ import {signalStore, withState, withComputed, withMethods, withHooks, patchState
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {computed, inject} from '@angular/core';
 import {pipe, switchMap, tap, of, Subscription, interval} from 'rxjs';
-import * as shortid from 'shortid';
+import {nanoid} from 'nanoid';
 
 import {ListDbService} from '../persistence';
 import {CryptoCurrencyService} from '../crypto';
 import {FiatCurrencyService} from '../fiat';
 import {getTotalAmount, getTotalPriceChange} from '../utils';
-import {AssetList, AssetModel, AssetPrice, AssetsType, NewAssetModel2} from '../model';
-
-// ─── State ───────────────────────────────────────────────────────────────
-
-export interface PriceTrackerState {
-  lists: AssetList[];
-  isLoading: boolean;
-  displayCurrency: string;
-}
+import {AssetList, AssetModel, AssetPrice, AssetsType, NewAssetModel2, PriceTrackerState} from '../model';
 
 const initialState: PriceTrackerState = {
   lists: [],
@@ -135,7 +127,7 @@ export const PriceTrackerSignalStore = signalStore(
               patchState(store, {isLoading: false});
               return;
             }
-            const id = shortid.generate();
+            const id = nanoid();
             const list: AssetList = {
               name,
               id,

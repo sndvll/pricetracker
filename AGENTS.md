@@ -68,7 +68,9 @@ pricetracker/
 ### Fas 3: NgRx → @ngrx/signals + Standalone ✅
 - [x] Konvertera NgRx store/effects → signalStore
 - [x] Konvertera alla NgModules → standalone components
-- [ ] Rensa bort gamla NgRx-deps (actions/effects/reducers/selectors/moduler)
+- [x] Rensa bort gamla NgRx-deps (actions/effects/reducers/selectors/moduler)
+- [x] shortid → nanoid
+- [x] Jest-uppgradering (ts-jest, @types/jest ^29)
 
 ### Fas 4: Produktionssättning ❌
 - [ ] Stäng ner DO-deploy

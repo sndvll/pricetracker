@@ -34,11 +34,12 @@
     "@ngrx/signals": "^20.1.0",
     "@ngx-translate/core": "^14.0.0",
     "@swimlane/ngx-charts": "^20.1.0",
-    "@types/shortid": "^0.0.29",
     "body-scroll-lock": "^3.1.5",
     "dexie": "^3.2.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "nanoid": "^3.3.12",
     "rxjs": "^7.8.2",
-    "shortid": "^2.2.16",
+    "ts-jest": "^29.4.9",
     "tslib": "^2.3.1",
     "zone.js": "~0.15.1"
   },
@@ -46,19 +47,15 @@
     "@angular-devkit/build-angular": "^20.3.26",
     "@angular/cli": "^20.3.26",
     "@angular/compiler-cli": "^20.3.21",
-    "@ngrx/effects": "^20.1.0",
-    "@ngrx/store": "^20.1.0",
-    "@ngrx/store-devtools": "^20.1.0",
     "@tailwindcss/typography": "^0.5.2",
     "@types/body-scroll-lock": "^2.6.2",
     "@types/d3-scale": "^4.0.2",
     "@types/d3-selection": "^3.0.2",
-    "@types/jest": "^27.0.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^12.11.1",
     "angular-build-info": "^2.0.1",
     "autoprefixer": "^10.2.6",
     "jest": "^29.7.0",
-    "jest-preset-angular": "^9.0.7",
     "karma-coverage": "~2.0.3",
     "ng-packagr": "^20.3.2",
     "ngx-device-detector": "^6.0.2",
@@ -68,22 +65,16 @@
     "typescript": "~5.8.3"
   },
   "jest": {
-    "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": [
-      "<rootDir>/setup-jest.ts"
+    "testMatch": [
+      "<rootDir>/src/**/*.spec.js"
     ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
-      "<rootDir>/dist/"
+      "<rootDir>/dist/",
+      "<rootDir>/sndvll-lib/"
     ],
     "modulePathIgnorePatterns": [
       "<rootDir>/projects"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "<rootDir>/tsconfig.spec.json",
-        "stringifyContentPathRegex": "\\.html$"
-      }
-    }
+    ]
   }
 }

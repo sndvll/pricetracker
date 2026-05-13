@@ -40,17 +40,7 @@ esac
 echo "→ Bygger $APP för $ENV..."
 
 HASH=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
-PKG_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
-# Stage-version får -dev suffix
-if [[ "$ENV" == "stage" ]]; then
-  if [[ "$PKG_VERSION" != *-dev ]]; then
-    DEPLOY_VERSION="${PKG_VERSION}-dev"
-  else
-    DEPLOY_VERSION="$PKG_VERSION"
-  fi
-else
-  DEPLOY_VERSION="$PKG_VERSION"
-fi
+DEPLOY_VERSION=$(date +'%Y.%m')-dev
 
 # Inject version + commit hash
 sed -i "s/VERSION_PLACEHOLDER/$DEPLOY_VERSION/" src/environments/environment.prod.ts
@@ -75,16 +65,7 @@ ln -s dist/pricetrckr "$DEPLOY_DIR/static"
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
 GIT_COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 GIT_MSG=$(git log -1 --pretty=%s 2>/dev/null || echo "")
-PKG_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
-if [[ "$ENV" == "stage" ]]; then
-  if [[ "$PKG_VERSION" != *-dev ]]; then
-    DEPLOY_VERSION="${PKG_VERSION}-dev"
-  else
-    DEPLOY_VERSION="$PKG_VERSION"
-  fi
-else
-  DEPLOY_VERSION="$PKG_VERSION"
-fi
+DEPLOY_VERSION=$(date +'%Y.%m')-dev
 cat > "$DEPLOY_DIR/deploy.json" <<EOF
 {
   "branch": "$GIT_BRANCH",

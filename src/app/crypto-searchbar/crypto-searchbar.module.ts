@@ -6,9 +6,7 @@ import {CryptoSearchbarComponent} from './components';
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
-  ],
-  declarations: [
+    SharedModule,
     CryptoSearchbarComponent
   ],
   exports: [

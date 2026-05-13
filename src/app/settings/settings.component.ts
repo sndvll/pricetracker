@@ -1,4 +1,6 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {DataExportService, FiatCurrencyService, PriceTrackerStore} from '../core';
 import {filter, take, takeUntil} from 'rxjs/operators';
@@ -6,11 +8,16 @@ import {UntypedFormControl} from '@angular/forms';
 import {LanguageService} from '@sndvll/core';
 import {environment} from '../../environments/environment';
 import build from '../../build';
+import {SelectModule, ButtonModule} from '@sndvll/components';
+import {IconsModule} from '../shared';
+import {TranslateModule} from '@ngx-translate/core';
+import {FiatCurrencySearchBarComponent} from './components/fiat-currency-search-bar.component';
 
 @Component({
     selector: 'settings',
     templateUrl: './settings.component.html',
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, ButtonModule, IconsModule, SelectModule, FiatCurrencySearchBarComponent]
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 

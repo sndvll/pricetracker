@@ -7,8 +7,6 @@ import {AddAssetComponent} from './add-asset.component';
   imports: [
     CommonModule,
     SharedModule,
-  ],
-  declarations: [
     AddAssetComponent
   ]
 })

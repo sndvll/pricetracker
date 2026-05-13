@@ -6,9 +6,7 @@ import {TotalAmountComponent} from './total-amount.component';
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
-  ],
-  declarations: [
+    SharedModule,
     TotalAmountComponent
   ],
   exports: [

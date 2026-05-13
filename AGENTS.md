@@ -65,10 +65,10 @@ pricetracker/
 - [x] Tailwind — behåll
 - [ ] Jest — behåll, uppgradera versioner
 
-### Fas 3: NgRx → @ngrx/signals + Standalone 🏗️
+### Fas 3: NgRx → @ngrx/signals + Standalone ✅
 - [x] Konvertera NgRx store/effects → signalStore
-- [ ] Konvertera alla NgModules → standalone components
-- [ ] Rensa bort gamla NgRx-deps
+- [x] Konvertera alla NgModules → standalone components
+- [ ] Rensa bort gamla NgRx-deps (actions/effects/reducers/selectors/moduler)
 
 ### Fas 4: Produktionssättning ❌
 - [ ] Stäng ner DO-deploy

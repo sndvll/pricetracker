@@ -1,13 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FiatCurrencyService, PriceTrackerStore} from '../core';
 import {Subject} from 'rxjs';
 import {switchMap, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {LanguageService} from '@sndvll/core';
+import {AmountPipe, AmountChangePipe} from '../shared';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
     selector: 'total-amount',
     templateUrl: './total-amount.component.html',
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, AmountPipe, AmountChangePipe, TranslateModule]
 })
 export class TotalAmountComponent implements OnInit, OnDestroy {
 

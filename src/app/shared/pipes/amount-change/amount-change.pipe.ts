@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
     name: 'change',
-    standalone: false
+    standalone: true
 })
 export class AmountChangePipe implements PipeTransform{
   transform(value: string | null): string {

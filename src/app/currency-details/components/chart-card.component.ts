@@ -8,17 +8,23 @@ import {
   Output, TemplateRef,
   ViewChild
 } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {Chart, ChartType, TimeSpan} from '../interfaces';
-import {DropdownMenuService} from '@sndvll/components';
+import {DropdownMenuService, CardModule, ButtonModule, ToggleModule} from '@sndvll/components';
 import {UntypedFormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {IconsModule} from '../../shared';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
     selector: 'chart-card',
     templateUrl: './chart-card.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, ToggleModule, IconsModule, NgxChartsModule, TranslateModule]
 })
 export class ChartCardComponent implements OnInit, OnDestroy {
 

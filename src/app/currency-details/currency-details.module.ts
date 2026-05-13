@@ -8,9 +8,7 @@ import {ChartCardComponent, CurrencyDetailsComponent} from './components';
   imports: [
     CommonModule,
     SharedModule,
-    NgxChartsModule
-  ],
-  declarations: [
+    NgxChartsModule,
     CurrencyDetailsComponent,
     ChartCardComponent
   ]

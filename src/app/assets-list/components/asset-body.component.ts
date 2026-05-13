@@ -7,7 +7,8 @@ import {
   Output,
   TemplateRef
 } from '@angular/core';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {
   Color,
   Colors,
@@ -15,17 +16,21 @@ import {
   initialValueChangedValidator,
   LanguageService
 } from '@sndvll/core';
-import {AlertService, AlertType, ModalComponent, ModalConfig, ModalType, ModalService} from '@sndvll/components';
+import {AlertService, AlertType, ButtonModule, InputModule, ModalComponent, ModalConfig, ModalModule, ModalService, ModalType, SelectModule} from '@sndvll/components';
 import {filter, map} from 'rxjs/operators';
 import {CurrencyDetailsService} from '../../currency-details';
 import {Observable} from 'rxjs';
 import {AssetModel, FiatCurrencyService} from '../../core';
+import {AmountPipe} from '../../shared';
+import {IconsModule} from '../../shared';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
     selector: 'asset-body',
     templateUrl: './asset-body.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, AmountPipe, InputModule, SelectModule, IconsModule, ButtonModule, ModalModule]
 })
 export class AssetBodyComponent implements OnInit {
 

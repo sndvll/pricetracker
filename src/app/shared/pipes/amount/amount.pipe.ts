@@ -3,7 +3,7 @@ import {Amount} from './amount';
 
 @Pipe({
     name: 'amount',
-    standalone: false
+    standalone: true
 })
 export class AmountPipe implements PipeTransform {
   transform(value: number | null, language: string, currency: string): string {

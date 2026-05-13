@@ -1,12 +1,30 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {enableProdMode, importProvidersFrom} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {LanguageModule, PersistenceModule} from '@sndvll/core';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import {AppComponent} from './app/app.component';
+import {environment} from './environments/environment';
+import {LANG_EN, LANG_SV} from './app/i18n';
+import {PersistenceConfig} from './app/core/persistence/persistence.config';
+
+const LanguageConfig = {
+  languages: [
+    {key: 'en', translations: {...LANG_EN}},
+    {key: 'sv', translations: {...LANG_SV}},
+  ]
+};
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(BrowserAnimationsModule),
+    importProvidersFrom(PersistenceModule.forRoot(PersistenceConfig)),
+    importProvidersFrom(LanguageModule.forRoot(LanguageConfig)),
+    provideHttpClient(withInterceptorsFromDi()),
+  ]
+}).catch(err => console.error(err));

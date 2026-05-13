@@ -1,14 +1,19 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inject, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {AssetList, AvailableCryptoCurrency, PriceTrackerStore} from '../core';
 import {take} from 'rxjs/operators';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Color, Colors, OVERLAY_REF, OverlayRef} from '@sndvll/core';
+import {CardModule, SelectModule, InputModule, ButtonModule} from '@sndvll/components';
+import {IconsModule} from '../shared';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
     selector: 'add-asset',
     templateUrl: './add-asset.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, CardModule, SelectModule, InputModule, ButtonModule, IconsModule, TranslateModule]
 })
 export class AddAssetComponent implements OnInit {
 

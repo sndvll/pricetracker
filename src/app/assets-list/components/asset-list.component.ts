@@ -7,15 +7,20 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {
   AlertService,
   AlertType,
+  DropdownMenuModule,
   DropdownMenuService,
   ModalComponent,
   ModalConfig,
+  ModalModule,
   ModalService,
   ModalType
 } from '@sndvll/components';
+import {AccordionModule, CardModule, InputModule, ButtonModule} from '@sndvll/components';
 import {filter} from 'rxjs/operators';
 import {
   AssetList,
@@ -26,14 +31,18 @@ import {
   getTotalPriceChange
 } from '../../core';
 import {Observable} from 'rxjs';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Color, Colors, initialValueChangedValidator, LanguageService, OverlayRef} from '@sndvll/core';
+import {AmountPipe, AmountChangePipe, IconsModule} from '../../shared';
+import {TranslateModule} from '@ngx-translate/core';
+import {AssetBodyComponent} from './asset-body.component';
+import {AssetHeaderComponent} from './asset-header.component';
 
 @Component({
     selector: 'asset-list',
     templateUrl: './asset-list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, CardModule, AccordionModule, ModalModule, InputModule, IconsModule, ButtonModule, DropdownMenuModule, AmountPipe, AmountChangePipe, TranslateModule, AssetBodyComponent, AssetHeaderComponent]
 })
 export class AssetListComponent implements OnInit {
 

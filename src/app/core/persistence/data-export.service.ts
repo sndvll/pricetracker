@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {DexieService, PERSISTENCE_CONFIG_INJECTION_TOKEN, PersistenceConfig} from '@sndvll/core';
 import {PersistenceConfig as AppPersistenceConfig} from '../../app.module';
 import {from} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 export interface ExportedData {
   version: number;
@@ -17,28 +17,27 @@ export class DataExportService {
 
   private tableNames: string[];
 
+  // Tabeller som innehåller användardata (resten är API-cache som kan återskapas)
+  private userTables = ['lists'];
+
   constructor(private dexieService: DexieService,
               @Inject(PERSISTENCE_CONFIG_INJECTION_TOKEN) config: PersistenceConfig) {
     this.tableNames = Object.keys(config.schema);
   }
 
   /**
-   * Läs alla tabeller och returnera som JSON-sträng.
+   * Exportera enbart användardata (lists).
+   * Kryptokatalog och valutakurser är API-cache som återskapas.
    */
   public exportToJson() {
-    const tableReads = this.tableNames.map(name =>
-      from(this.dexieService.table(name).toArray())
-    );
-
-    // RxJS forkJoin-fason — vänta på alla tabeller
     return from(Promise.all(
-      this.tableNames.map(name =>
+      this.userTables.map(name =>
         this.dexieService.table(name).toArray()
       )
     )).pipe(
       map(results => {
         const tables: ExportedData['tables'] = {};
-        this.tableNames.forEach((name, i) => {
+        this.userTables.forEach((name, i) => {
           tables[name] = results[i];
         });
         const data: ExportedData = {
@@ -59,7 +58,7 @@ export class DataExportService {
     const data: ExportedData = JSON.parse(json);
 
     let total = 0;
-    for (const tableName of this.tableNames) {
+    for (const tableName of this.userTables) {
       const rows = data.tables[tableName];
       if (!rows || !rows.length) continue;
 

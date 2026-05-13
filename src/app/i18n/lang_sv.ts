@@ -282,7 +282,8 @@ export const LANG_SV = {
     HEADER: {
       SETTINGS: 'Inställningar',
       LANGUAGE: 'Språk',
-      CURRENCY: 'Valuta'
+      CURRENCY: 'Valuta',
+      DATA: 'Data'
     },
     PLACEHOLDER: {
       LANGUAGE: 'Språk',
@@ -293,7 +294,9 @@ export const LANG_SV = {
       SV: 'Svenska'
     },
     BUTTON: {
-      CLOSE: 'Stäng'
+      CLOSE: 'Stäng',
+      EXPORT: 'Exportera data',
+      IMPORT: 'Importera data'
     }
   }
   /*

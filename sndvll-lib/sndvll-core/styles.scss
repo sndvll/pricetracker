@@ -1,0 +1,71 @@
+.connected-overlay-container {
+  @apply pointer-events-none fixed top-0 left-0 h-full w-full z-40;
+  > .connected-overlay {
+    @apply z-30 inline-block absolute;
+    >.overlay-component {
+      @apply z-30 pointer-events-auto block;
+    }
+  }
+}
+
+.overlay {
+  @apply absolute flex top-0 left-0 bottom-0 right-0 z-20 pointer-events-none;
+  > .overlay-content {
+    @apply z-30 pointer-events-none flex flex-col flex-none;
+    > .overlay-component {
+      @apply pointer-events-auto;
+    }
+  }
+
+  &.full {
+    >.overlay-content {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: none;
+      @apply flex-grow top-0 left-0 overflow-hidden;
+      > .overlay-component {
+        @apply flex flex-grow;
+      }
+    }
+  }
+
+  &.x-center {
+    @apply justify-center;
+  }
+
+  &.y-middle {
+    >.overlay-content {
+      @apply justify-center;
+    }
+  }
+
+  &.left {
+    @apply justify-start;
+  }
+
+  &.right {
+    @apply justify-end;
+  }
+
+  &.bottom {
+    >.overlay-content {
+      @apply justify-end;
+    }
+  }
+
+  &.top {
+    >.overlay-content {
+      @apply justify-start;
+    }
+  }
+
+  &.toast {
+    @apply z-40;
+  }
+}
+
+.backdrop {
+  @apply fixed top-0 left-0 z-10 w-screen h-screen;
+  &.connected {
+    @apply z-30;
+  }
+}

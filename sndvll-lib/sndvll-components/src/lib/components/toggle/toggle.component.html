@@ -1,0 +1,19 @@
+<label class="toggle" [class.disabled]="disabled">
+  <span class="toggle-container">
+    <span class="toggle-bg"></span>
+    <ng-container *ngIf="!disabled && (checked$ | async); else unchecked">
+      <span class="toggle-button checked"
+            [class]="checkedColor">
+        <input class="toggle-checkbox" type="checkbox"/>
+      </span>
+    </ng-container>
+  </span>
+  <span class="toggle-label">
+    <ng-content></ng-content>
+  </span>
+</label>
+<ng-template #unchecked>
+<span class="toggle-button unchecked" [class.disabled]="disabled" >
+    <input class="toggle-checkbox" type="checkbox"/>
+  </span>
+</ng-template>

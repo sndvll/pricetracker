@@ -1,9 +1,10 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
-import {FiatCurrencyService, PriceTrackerStore} from '../core';
+import {DataExportService, FiatCurrencyService, PriceTrackerStore} from '../core';
 import {filter, take, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {LanguageService} from '@sndvll/core';
+import {environment} from '../../environments/environment';
 import build from '../../build';
 
 @Component({
@@ -19,12 +20,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public changeLanguageControl: FormControl = new FormControl(LanguageService.currentLang);
 
   public buildInfo = build;
+  public environment = environment;
+  public importStatus: string | null = null;
 
   @Output() onClose = new EventEmitter<void>();
 
   constructor(private store: PriceTrackerStore,
               private language: LanguageService,
-              private fiat: FiatCurrencyService) {
+              private fiat: FiatCurrencyService,
+              private dataExport: DataExportService) {
   }
 
   ngOnInit(): void {
@@ -46,6 +50,37 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   public selectDisplayCurrency(symbol: string) {
     this.store.changeDisplayCurrency(symbol);
+  }
+
+  public exportData() {
+    this.dataExport.exportToJson().subscribe(json => {
+      const blob = new Blob([json], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pricetracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  public onImportFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const result = await this.dataExport.importFromJson(reader.result as string);
+        this.importStatus = `Importerade ${result.imported} rader. Ladda om sidan.`;
+      } catch (e) {
+        this.importStatus = 'Import misslyckades: ' + (e as Error).message;
+      }
+    };
+    reader.readAsText(file);
+    // Återställ input så samma fil kan väljas igen
+    input.value = '';
   }
 
   ngOnDestroy(): void {

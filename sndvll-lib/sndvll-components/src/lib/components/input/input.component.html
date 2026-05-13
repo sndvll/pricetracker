@@ -1,0 +1,14 @@
+<input [value]="(value$ | async)" (keyup)="change(input.value)"
+       [placeholder]="placeholder"
+       class="focus:outline-none focus:border-hidden focus:ring-0"
+       [class]="size"
+       [type]="type" #input>
+<div [class.w-6]="size == 'sm'"
+     [class.w-8]="size == 'md'"
+     [class.w-10]="size == 'lg'">
+  <ng-container *ngIf="showClearButton">
+    <button (click)="clear()" class="input-clear-button {{size}}">
+      <icon name="x" weight="bold"></icon>
+    </button>
+  </ng-container>
+</div>

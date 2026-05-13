@@ -1,0 +1,25 @@
+<div class="toast-content"
+     [class.pb-4]="!config.time"
+     [class.pb-3]="config.time">
+  <icon [name]="icon" size="lg"></icon>
+  <span class="ml-3">{{this.config.message}}</span>
+</div>
+<ng-container *ngIf="config.time">
+  <div class="rounded-b h-2 block"
+       [class.bg-red-500]="this.error"
+       [class.bg-gray-300]="this.info"
+       [class.bg-green-500]="this.success"
+       [class.bg-yellow-500]="this.warning">
+    <div progress-bar
+         class="rounded-bl h-2 block"
+         [class.rounded-br]="timerEnded"
+         [class.bg-red-400]="this.error"
+         [class.bg-gray-200]="this.info"
+         [class.bg-green-400]="this.success"
+         [class.bg-yellow-400]="this.warning"
+         [timer]="true"
+         [time]="config.time"
+         (onTimeout)="close()">
+    </div>
+  </div>
+</ng-container>

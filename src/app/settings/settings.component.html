@@ -23,6 +23,23 @@
         <div *selectLabel>{{'SETTINGS.LANGUAGE.' + language.toUpperCase() | translate}}</div>
       </sndvll-select-option>
     </sndvll-select>
+
+    <!-- Export / Import -->
+    <div class="mt-6 pt-4 border-t border-gray-600">
+      <div class="text-xs font-bold mb-2">{{'SETTINGS.HEADER.DATA' | translate}}</div>
+      <div class="flex flex-col gap-2">
+        <button sndvll-btn="button" color="primary" (click)="exportData()">
+          {{'SETTINGS.BUTTON.EXPORT' | translate}}
+        </button>
+        <button sndvll-btn="button" color="light" (click)="importFileInput.click()">
+          {{'SETTINGS.BUTTON.IMPORT' | translate}}
+        </button>
+        <input #importFileInput type="file" accept=".json" class="hidden" (change)="onImportFileSelected($event)">
+      </div>
+      <div *ngIf="importStatus" class="text-sm mt-2 text-center">
+        {{ importStatus }}
+      </div>
+    </div>
   </div>
   <div class="p-3 flex flex-col">
     <span class="text-sm text-center">
@@ -30,7 +47,7 @@
         <icon name="github" size="lg"></icon>
       </a>
     </span>
-    <span class="text-sm text-center font-bold">Version: {{buildInfo.version}}</span>
-    <span class="text-xs text-center">Commit: {{buildInfo.git.hash}}</span>
+    <span class="text-sm text-center font-bold">{{environment.version}}</span>
+    <span class="text-xs text-center">{{buildInfo.git.hash}}</span>
   </div>
 </div>

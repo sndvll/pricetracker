@@ -44,7 +44,7 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^20.3.26",
+    "@angular-devkit/build-angular": "^22.1.2",
     "@angular/cli": "^20.3.26",
     "@angular/compiler-cli": "^20.3.21",
     "@tailwindcss/typography": "^0.5.2",
@@ -59,7 +59,7 @@
     "karma-coverage": "~2.0.3",
     "ng-packagr": "^20.3.2",
     "ngx-device-detector": "^10.0.0",
-    "postcss": "^8.4.12",
+    "postcss": "^8.5.19",
     "serve": "^14.2.6",
     "tailwindcss": "^3.0.23",
     "typescript": "~5.8.3"
